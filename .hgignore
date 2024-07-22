@@ -1,0 +1,12 @@
+
+syntax: regexp
+target
+glob:.idea/**
+glob:*.iml
+glob:target/**
+glob:.project
+glob:.settings/**
+glob:.classpath
+glob:out/**
+glob:bin/**
+glob:stacktrace.log
