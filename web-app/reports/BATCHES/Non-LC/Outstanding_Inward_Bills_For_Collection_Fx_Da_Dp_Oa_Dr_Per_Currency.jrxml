@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Outstanding_Inward_Bills_For_Collection_Fx_Da_Dp_Oa_Dr_Per_Currency" language="groovy" pageWidth="1008" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="968" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="0.9090909090909095"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="brUnitCode" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["909"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitName" class="java.lang.String"/>
+	<parameter name="dateNow" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DateToday" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[--OUTSTANDING INWARD BILLS FOR COLLECTION - FX DA/ DP/ OA/ DR  PER CURRENCY
+SELECT TP.DOCUMENTNUMBER,
+	  TP.producttype AS DOCUMENTCLASS,
+	  MIN(DP.outstandingamount) AS DPAMT,
+	  MIN(DR.outstandingamount) AS DRAMT,
+	  MIN(DA.outstandingamount) AS DAAMT,
+	  MIN(OA.outstandingamount) AS OAAMT,
+	  coalesce(DP.importername,DR.importername,DA.importername,OA.importername,'') AS CLIENTIMPORTER,
+	  TP.currency,
+	  TP.DOCUMENTNUMBER,
+	  DP.processdate AS DPBOOKINGDATE,
+	  DR.processdate AS DRBOOKINGDATE,
+	  DA.processdate AS DABOOKINGDATE,
+	  OA.processdate AS OABOOKINGDATE,
+	  DP.maturitydate AS DPMATDATE,
+	  DR.maturitydate AS DRMATDATE,
+	  DA.maturitydate AS DAMATDATE,
+	  OA.maturitydate AS OAMATDATE
+
+
+FROM TRADEPRODUCT AS TP
+
+LEFT JOIN DIRECTREMITTANCE AS DR
+ON TP.DOCUMENTNUMBER = DR.DOCUMENTNUMBER
+
+LEFT JOIN DOCUMENTAGAINSTPAYMENT AS DP
+ON TP.DOCUMENTNUMBER = DP.DOCUMENTNUMBER
+
+LEFT JOIN DOCUMENTAGAINSTACCEPTANCE AS DA
+ON TP.DOCUMENTNUMBER = DA.DOCUMENTNUMBER
+
+LEFT JOIN OPENACCOUNT AS OA
+ON TP.DOCUMENTNUMBER = OA.DOCUMENTNUMBER
+
+
+WHERE (TP.producttype = 'DP' OR
+	  TP.producttype = 'DA' OR
+	  TP.producttype = 'OA' OR
+	  TP.producttype = 'DR' )
+AND (DA.documenttype = 'FOREIGN' OR
+	DP.documenttype = 'FOREIGN' OR
+	DR.documenttype = 'FOREIGN' OR
+	OA.documenttype = 'FOREIGN' )
+AND (TP.status = 'NEGOTIATED' OR TP.status ='ACCEPTED')
+AND (DATE(DA.processdate) <= $P{DateToday} OR
+	DATE(DP.processdate) <= $P{DateToday} OR
+	DATE(DR.processdate) <= $P{DateToday} OR
+	DATE(OA.processdate) <= $P{DateToday})
+
+GROUP BY TP.DOCUMENTNUMBER,
+	    TP.producttype,
+	    DP.outstandingamount,
+	    DR.outstandingamount,
+	    DA.outstandingamount,
+	    OA.outstandingamount,
+	    DP.importername,
+	    DR.importername,
+	    DA.importername,
+	    OA.importername,
+	    TP.currency,
+	    TP.DOCUMENTNUMBER,
+	    DP.processdate,
+	    DR.processdate,
+	    DA.processdate,
+	    OA.processdate,
+	    DP.maturitydate,
+	    DR.maturitydate,
+	    DA.maturitydate,
+	    OA.maturitydate,
+	    DP.documenttype,
+	    DR.documenttype,
+	    DA.documenttype,
+	    OA.documenttype
+
+ORDER BY TP.currency]]>
+	</queryString>
+	<field name="DOCUMENTNUMBER" class="java.lang.String"/>
+	<field name="DOCUMENTCLASS" class="java.lang.String"/>
+	<field name="DPAMT" class="java.math.BigDecimal"/>
+	<field name="DRAMT" class="java.math.BigDecimal"/>
+	<field name="DAAMT" class="java.math.BigDecimal"/>
+	<field name="OAAMT" class="java.math.BigDecimal"/>
+	<field name="CLIENTIMPORTER" class="java.lang.String"/>
+	<field name="CURRENCY" class="java.lang.String"/>
+	<field name="DPBOOKINGDATE" class="java.sql.Timestamp"/>
+	<field name="DRBOOKINGDATE" class="java.sql.Timestamp"/>
+	<field name="DABOOKINGDATE" class="java.sql.Timestamp"/>
+	<field name="OABOOKINGDATE" class="java.sql.Timestamp"/>
+	<field name="DPMATDATE" class="java.sql.Timestamp"/>
+	<field name="DRMATDATE" class="java.sql.Timestamp"/>
+	<field name="DAMATDATE" class="java.sql.Timestamp"/>
+	<field name="OAMATDATE" class="java.sql.Timestamp"/>
+	<variable name="currency" class="java.lang.String">
+		<variableExpression><![CDATA["Currency: "]]></variableExpression>
+		<initialValueExpression><![CDATA["Currency: " + $F{CURRENCY}.toUpperCase()]]></initialValueExpression>
+	</variable>
+	<variable name="daTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="currency" calculation="Sum">
+		<variableExpression><![CDATA[$F{DAAMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{DAAMT}]]></initialValueExpression>
+	</variable>
+	<variable name="oaTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="currency" calculation="Sum">
+		<variableExpression><![CDATA[$F{OAAMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{OAAMT}]]></initialValueExpression>
+	</variable>
+	<variable name="drTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="currency" calculation="Sum">
+		<variableExpression><![CDATA[$F{DRAMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{DRAMT}]]></initialValueExpression>
+	</variable>
+	<variable name="dpTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="currency" calculation="Sum">
+		<variableExpression><![CDATA[$F{DPAMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{DPAMT}]]></initialValueExpression>
+	</variable>
+	<variable name="dp" class="java.lang.String">
+		<variableExpression><![CDATA[($F{DOCUMENTCLASS} == "DP") ? (new DecimalFormat("#,##0.00").format($F{DPAMT})):"0.00"]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{DOCUMENTCLASS} == "DP") ? (new DecimalFormat("#,##0.00").format($F{DPAMT})):"0.00"]]></initialValueExpression>
+	</variable>
+	<variable name="oa" class="java.lang.String">
+		<variableExpression><![CDATA[($F{DOCUMENTCLASS} == "OA") ? (new DecimalFormat("#,##0.00").format($F{OAAMT})) :"0.00"]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{DOCUMENTCLASS} == "OA") ? (new DecimalFormat("#,##0.00").format($F{OAAMT})) :"0.00"]]></initialValueExpression>
+	</variable>
+	<variable name="dr" class="java.lang.String">
+		<variableExpression><![CDATA[($F{DOCUMENTCLASS} == "DR") ? (new DecimalFormat("#,##0.00").format($F{DRAMT})) :"0.00"]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{DOCUMENTCLASS} == "DR") ? (new DecimalFormat("#,##0.00").format($F{DRAMT})) :"0.00"]]></initialValueExpression>
+	</variable>
+	<variable name="da" class="java.lang.String">
+		<variableExpression><![CDATA[($F{DOCUMENTCLASS} == "DA") ?(new DecimalFormat("#,##0.00").format( $F{DAAMT})) :"0.00"]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{DOCUMENTCLASS} == "DA") ?(new DecimalFormat("#,##0.00").format( $F{DAAMT})) :"0.00"]]></initialValueExpression>
+	</variable>
+	<variable name="bookingDate" class="java.lang.String">
+		<variableExpression><![CDATA[($F{DOCUMENTCLASS} == "DP")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{DPBOOKINGDATE}):
+($F{DOCUMENTCLASS} == "DR")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{DRBOOKINGDATE}):
+($F{DOCUMENTCLASS} == "OA")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{OABOOKINGDATE}):
+($F{DOCUMENTCLASS} == "DA")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{DABOOKINGDATE}):""]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{DOCUMENTCLASS} == "DP")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{DPBOOKINGDATE}):
+($F{DOCUMENTCLASS} == "DR")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{DRBOOKINGDATE}):
+($F{DOCUMENTCLASS} == "OA")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{OABOOKINGDATE}):
+($F{DOCUMENTCLASS} == "DA")?$F{DABOOKINGDATE}:""]]></initialValueExpression>
+	</variable>
+	<variable name="maturityDate" class="java.lang.String">
+		<variableExpression><![CDATA[($F{DOCUMENTCLASS} == "DP")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{DPMATDATE}):
+($F{DOCUMENTCLASS} == "DR")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{DRMATDATE}):
+($F{DOCUMENTCLASS} == "OA")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{OAMATDATE}):
+($F{DOCUMENTCLASS} == "DA")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{DAMATDATE}):""]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{DOCUMENTCLASS} == "DP")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{DPMATDATE}):
+($F{DOCUMENTCLASS} == "DR")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{DRMATDATE}):
+($F{DOCUMENTCLASS} == "OA")?
+new SimpleDateFormat("MM/dd/yyyy").format($F{OAMATDATE}):
+($F{DOCUMENTCLASS} == "DA")?$F{DAMATDATE}:""]]></initialValueExpression>
+	</variable>
+	<variable name="brUnitName" class="java.lang.String">
+		<variableExpression><![CDATA[($P{brUnitCode}=="909")? "Trade Services Department":$P{brUnitName}]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{brUnitCode}=="909")? "Trade Services Department":$P{brUnitName}]]></initialValueExpression>
+	</variable>
+	<variable name="variable1" class="java.lang.String"/>
+	<group name="currency">
+		<groupExpression><![CDATA[$F{CURRENCY}]]></groupExpression>
+		<groupHeader>
+			<band height="21">
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="100" height="20"/>
+					<box leftPadding="3" rightPadding="3">
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA["CURRENCY: " + $F{CURRENCY}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="25">
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="475" y="0" width="100" height="20"/>
+					<box leftPadding="3" rightPadding="3">
+						<topPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{daTotal}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="575" y="0" width="100" height="20"/>
+					<box leftPadding="3" rightPadding="3">
+						<topPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{oaTotal}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="675" y="0" width="100" height="20"/>
+					<box leftPadding="3" rightPadding="3">
+						<topPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{drTotal}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="250" height="20"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[TOTAL]]></text>
+				</staticText>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="375" y="0" width="100" height="20"/>
+					<box leftPadding="3" rightPadding="3">
+						<topPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{dpTotal}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="375" y="20" width="400" height="1"/>
+				</line>
+				<line>
+					<reportElement x="375" y="24" width="400" height="1"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="120">
+			<textField isStretchWithOverflow="true" pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="875" y="0" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="65" height="30"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT NAME:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="15" width="150" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportId}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="45" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{brUnitCode}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="150" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="875" y="15" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPORT ID:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="65" y="60" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{brUnitName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="284" y="30" width="400" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["AS OF " + (new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{DateToday}))).toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="284" y="0" width="400" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="825" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PAGE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="15" width="400" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OUTSTANDING INWARD BILLS FOR COLLECTION - FX DA/ DP/ OA/ DR  PER CURRENCY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="825" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN TIME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="90" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="250" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CLIENT / IMPORTER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="675" y="90" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="575" y="90" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="775" y="90" width="75" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[BOOKING
+DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="850" y="90" width="75" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[MATURITY
+DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="90" width="125" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DOCUMENT
+NUMBER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="475" y="90" width="100" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DA]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="250" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DOCUMENTNUMBER}.toUpperCase().replaceAll("-", "")]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="375" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{dp}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="575" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{oa}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="675" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{dr}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="775" y="0" width="75" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{bookingDate}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="850" y="0" width="75" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{maturityDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="475" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{da}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="250" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CLIENTIMPORTER}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

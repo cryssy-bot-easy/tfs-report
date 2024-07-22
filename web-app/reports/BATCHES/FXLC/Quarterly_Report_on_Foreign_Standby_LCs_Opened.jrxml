@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Quarterly_Report_on_Foreign_Standby_LCs_Opened" language="groovy" pageWidth="612" pageHeight="1008" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5026296018031553"/>
+	<property name="ireport.x" value="21"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="brUnitCode" class="java.lang.String"/>
+	<parameter name="brUnitName" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\ucpb-tfs\\workspace\\tfs-report\\web-app\\reports\\BATCHES\\FXLC\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentQuarterYear" class="java.lang.String"/>
+	<parameter name="MonthQuarter" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[--QUARTERLY REPORT ON FOREIGN LCS STANBY OPENED
+SELECT tp.cifname,
+	  COUNT(tp.cifname) AS cifname_count,
+	  SUM(tp.amount) AS amount_sum,
+	  tp.currency
+
+FROM letterofcredit lc
+
+INNER JOIN tradeservice ts
+ON lc.documentnumber = ts.documentnumber
+
+INNER JOIN tradeproduct tp
+ON lc.documentnumber = tp.documentnumber
+
+WHERE lc.type = 'STANDBY'
+AND ts.documenttype = 'FOREIGN'
+AND ts.servicetype = 'OPENING'
+AND QUARTER(lc.processdate) = (SELECT QUARTER(TO_DATE($P{currentQuarterYear}, 'yyyy-MM-dd')) FROM SYSIBM.SYSDUMMY1)
+AND ts.processingunitcode = $P{brUnitCode}
+
+GROUP BY tp.cifname,
+	    tp.currency
+ORDER BY tp.currency,
+	    tp.cifname]]>
+	</queryString>
+	<field name="CIFNAME" class="java.lang.String"/>
+	<field name="CIFNAME_COUNT" class="java.lang.Integer"/>
+	<field name="AMOUNT_SUM" class="java.math.BigDecimal"/>
+	<field name="CURRENCY" class="java.lang.String"/>
+	<variable name="subTotalLcAmount" class="java.math.BigDecimal" resetType="Group" resetGroup="lcCurrency" calculation="Sum">
+		<variableExpression><![CDATA[$F{AMOUNT_SUM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{AMOUNT_SUM}]]></initialValueExpression>
+	</variable>
+	<variable name="subTotalNoOfTransactions" class="java.lang.Integer" resetType="Group" resetGroup="lcCurrency" calculation="Sum">
+		<variableExpression><![CDATA[$F{CIFNAME_COUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{CIFNAME_COUNT}]]></initialValueExpression>
+	</variable>
+	<variable name="reportId" class="java.lang.String">
+		<variableExpression><![CDATA[$P{reportId}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{reportId}]]></initialValueExpression>
+	</variable>
+	<group name="lcCurrency">
+		<groupExpression><![CDATA[$F{CURRENCY}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="247" height="20"/>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA["LC CURRENCY: " + $F{CURRENCY}.toUpperCase()]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="25">
+				<staticText>
+					<reportElement x="0" y="10" width="247" height="15"/>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[Sub - Total :]]></text>
+				</staticText>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="247" y="10" width="200" height="15"/>
+					<box leftPadding="5" rightPadding="5">
+						<topPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{subTotalLcAmount}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="447" y="10" width="125" height="15"/>
+					<box leftPadding="5" rightPadding="5">
+						<topPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{subTotalNoOfTransactions}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<pageHeader>
+		<band height="110">
+			<staticText>
+				<reportElement x="477" y="14" width="45" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PAGE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="45" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{brUnitCode}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="15" width="75" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{reportId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="161" y="15" width="250" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[QUARTERLY REPORT ON FOREIGN STANDBY LCs OPENED
+]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="161" y="30" width="250" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["FOR THE QUARTER OF: " + $P{MonthQuarter}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="75" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="65" height="30"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT NAME:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="522" y="15" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPORT ID:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="65" y="60" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{brUnitCode}=="909" ? "Trade Services Department" : $P{brUnitName}).toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="161" y="0" width="250" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="522" y="0" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="247" y="90" width="200" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[LC AMOUNT IN ORIG. CURRENCY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="447" y="90" width="125" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[NO. OF TRANSACTIONS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="247" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CLIENT / IMPORTER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="477" y="0" width="45" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN TIME:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="247" height="15"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIFNAME}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="447" y="0" width="125" height="15"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIFNAME_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="247" y="0" width="200" height="15"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AMOUNT_SUM}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="20" width="572" height="30"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitCode">
+					<subreportParameterExpression><![CDATA[$P{brUnitCode}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="currentQuarterYear">
+					<subreportParameterExpression><![CDATA[$P{currentQuarterYear}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitName">
+					<subreportParameterExpression><![CDATA[$P{brUnitName}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="reportId">
+					<subreportParameterExpression><![CDATA[$P{reportId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Quarterly_Report_on_Foreign_Standby_LCs_Opened_subreport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

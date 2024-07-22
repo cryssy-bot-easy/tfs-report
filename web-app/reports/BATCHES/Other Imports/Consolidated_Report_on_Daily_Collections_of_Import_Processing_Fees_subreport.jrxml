@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_subreport" language="groovy" pageWidth="572" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dateOfRemittancePopup" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--CONSOLIDATED REPORT ON DAILY COLLECTIONS OF IMPORT PROCESSING FEES (IPF) _SUBREPORT
+SELECT SUM(CDP.IPF) AS AMOUNT,
+	  DATE(CDP.DATE_SENT) AS DATE_SENT,
+	  CDR.TRANSACTIONCODE,
+	  DATE(CDR.REMITTANCEDATE) AS REMITTANCEDATE
+
+FROM CDTREMITTANCE AS CDR
+
+LEFT JOIN CDTPAYMENTREQUEST AS CDP
+ON DATE(CDP.DATE_SENT) BETWEEN CDR.COLLECTIONFROM AND CDR.COLLECTIONTO
+
+WHERE DATE(CDR.REMITTANCEDATE) = $P{dateOfRemittancePopup}
+AND IPF > 0
+
+GROUP BY DATE(CDP.DATE_SENT),
+	    CDR.TRANSACTIONCODE,
+	    DATE(CDR.REMITTANCEDATE)
+
+ORDER BY DATE_SENT]]>
+	</queryString>
+	<field name="AMOUNT" class="java.math.BigDecimal"/>
+	<field name="DATE_SENT" class="java.sql.Date"/>
+	<field name="TRANSACTIONCODE" class="java.lang.String"/>
+	<field name="REMITTANCEDATE" class="java.sql.Date"/>
+	<variable name="totalAmountToBeCredited" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{AMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{AMOUNT}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="224" y="0" width="125" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="99" y="0" width="125" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DATE OF COLLECTION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="349" y="0" width="125" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TRANSACTION CODE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="224" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="349" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TRANSACTIONCODE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="99" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATE_SENT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="224" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<topPen lineWidth="0.5" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalAmountToBeCredited}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="74" y="0" width="150" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TOTAL AMOUNT TO BE CREDITED]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="100" splitType="Stretch">
+			<staticText>
+				<reportElement x="99" y="80" width="375" height="20"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[(SIGNATURE/DESIGNATION OF AUTHORIZED OFFICIALS)]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

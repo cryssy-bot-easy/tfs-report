@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD_Subreport_Advising_Bank" language="groovy" pageWidth="968" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="968" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="0.9075000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dateNow" class="java.lang.String">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("MM").format(new Date())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitCode" class="java.lang.String"/>
+	<parameter name="yearNow" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--YTD REPORT ON DOMESTIC LCs OPENED CLASSIFIED BY TOP 30 IMPORTER AND ADVISING LOCAL BANK (in PHP) _OTHERS
+SELECT
+	  tab_f.GROUPNAME,
+	  SUM(tab_f.cashLcAmount) AS cashLcAmount,
+	  SUM(tab_f.regularLcAmount) AS regularLcAmount,
+	  SUM(tab_f.standbyLcAmount) AS standbyLcAmount,
+	  SUM(tab_f.cashTransactions) AS cashTransactions,
+	  SUM(tab_f.regularTransactions) AS regularTransactions,
+	  SUM(tab_f.standbyTransactions) AS standbyTransactions,
+	  SUM(tab_f.totalLcAmount) AS totalLcAmount,
+	  SUM(tab_f.totalNoOfTransactions) AS totalNoOfTransactions
+
+FROM (SELECT tab_e.*
+
+	 FROM (SELECT row_number() over () as RN,
+	  		    tab_d.clientImporter,
+	  		    SUM(tab_d.cashLcAmount) AS cashLcAmount,
+	  		    SUM(tab_d.regularLcAmount) AS regularLcAmount,
+	  		    SUM(tab_d.standbyLcAmount) AS standbyLcAmount,
+	  		    SUM(tab_d.totalNoOfTransactionsCash) AS cashTransactions,
+	  		    SUM(tab_d.totalNoOfTransactionsRegular) AS regularTransactions,
+	  		    SUM(tab_d.totalNoOfTransactionsStandby) AS standbyTransactions,
+	  		    SUM(tab_d.totalLcAmount) AS totalLcAmount,
+	  		    SUM(tab_d.totalNoOfTransactions) AS totalNoOfTransactions,
+	  		    'GROUPED' as GROUPNAME
+
+		  FROM (SELECT tab_c.*,
+		   			(tab_c.cashLcAmount + tab_c.regularLcAmount + tab_c.standbyLcAmount) AS totalLcAmount ,
+		   			(tab_c.totalNoOfTransactionsCash + tab_c.totalNoOfTransactionsRegular + tab_c.totalNoOfTransactionsStandby) AS totalNoOfTransactions
+
+	 		   FROM (SELECT tab_b.clientImporter,
+			   			 SUM(tab_b.cashLcAmount) AS cashLcAmount,
+			    			 0 AS regularLcAmount,
+			    			 0 AS standbyLcAmount,
+			    			 COUNT(*) AS totalNoOfTransactionsCash,
+			    			 0 AS totalNoOfTransactionsRegular,
+			    			 0 AS totalNoOfTransactionsStandby
+
+		  		    FROM (SELECT tab_a.clientImporter,
+							  (CASE WHEN tab_a.currency = 'USD' THEN tab_a.amount * tab_a.specialrateusdtophp
+						 		   WHEN tab_a.currency = 'PHP' THEN tab_a.amount
+					 	 		   ELSE (tab_a.amount * tab_a.specialratethirdtousd) * tab_a.specialrateusdtophp
+					 		   END) AS cashLcAmount
+
+			   			FROM (SELECT tp.cifname AS clientImporter,
+			   			 		   tp.amount,
+			   			 		   tp.currency,
+			   			 		   ts.specialratethirdtousd,
+			   			 		   ts.specialrateusdtophp
+
+				    			 FROM tradeproduct tp,
+				    	    			 tradeservice ts,
+				   	   			 letterofcredit lc
+
+				    			 WHERE tp.documentnumber = ts.documentnumber
+								 AND lc.documentnumber = ts.documentnumber
+				    			 AND tp.status = 'OPEN'
+				    			 AND ts.servicetype = 'OPENING'
+				    			 AND ts.documenttype = 'DOMESTIC'
+				    			 AND ts.documentsubtype1 = 'CASH'
+				    			 AND ts.processingunitcode = $P{brUnitCode}
+				    			 and YEAR(lc.processdate)= $P{yearNow}
+				    			 --AND TS.STATUS IN ('APPROVED', 'POST_APPROVED', 'POSTED')
+
+				    		 ) tab_a
+
+			   		 ) tab_b
+
+		  		 GROUP BY tab_b.clientImporter
+
+		  		 UNION
+
+		  		 SELECT tab_b.clientImporter,
+			    		   0 AS cashLcAmount,
+			    		   SUM(tab_b.regularLcAmount) AS regularLcAmount,
+			    		   0 AS standbyLcAmount,
+			    		   0 AS totalNoOfTransactionsCash,
+			    		   COUNT(*) AS totalNoOfTransactionsRegular,
+			    		   0 AS totalNoOfTransactionsStandby
+
+		  		 FROM (SELECT tab_a.clientImporter,
+						    (CASE WHEN tab_a.currency = 'USD' THEN tab_a.amount * tab_a.specialrateusdtophp
+						 		WHEN tab_a.currency = 'PHP' THEN tab_a.amount
+						 		ELSE (tab_a.amount * tab_a.specialratethirdtousd) * tab_a.specialrateusdtophp
+					 		END) AS regularLcAmount
+
+			   		  FROM (SELECT tp.cifname AS clientImporter,
+			   			 		tp.amount,
+			   			 		tp.currency,
+			   			 		ts.specialratethirdtousd,
+			   			 		ts.specialrateusdtophp
+
+				    		   FROM tradeproduct tp,
+				    	    		   tradeservice ts,
+				   	   		   letterofcredit lc
+
+				    		   WHERE tp.documentnumber = ts.documentnumber
+							   AND lc.documentnumber = ts.documentnumber
+				    		   AND tp.status = 'OPEN'
+				    		   AND ts.servicetype = 'OPENING'
+				    		   AND ts.documenttype = 'DOMESTIC'
+				    		   AND ts.documentsubtype1 = 'REGULAR'
+				    		   AND ts.processingunitcode = $P{brUnitCode}
+				    		   and YEAR(lc.processdate)= $P{yearNow}
+				    		   --AND TS.STATUS IN ('APPROVED', 'POST_APPROVED', 'POSTED')
+
+				   		  ) tab_a
+
+			   		 ) tab_b
+
+		  		 GROUP BY tab_b.clientImporter
+
+		  		 UNION
+
+		  		 SELECT tab_b.clientImporter,
+					   0 AS cashLcAmount,
+					   0 AS regularLcAmount,
+					   SUM(tab_b.standbyLcAmount) AS standbyLcAmount,
+					   0 AS totalNoOfTransactionsCash,
+					   0 AS totalNoOfTransactionsRegular,
+					   COUNT(*) AS totalNoOfTransactionsStandby
+
+		  	      FROM (SELECT tab_a.clientImporter,
+						    (CASE WHEN tab_a.currency = 'USD' THEN tab_a.amount * tab_a.specialrateusdtophp
+						 		WHEN  tab_a.currency = 'PHP' THEN tab_a.amount
+					 	 		ELSE (tab_a.amount * tab_a.specialratethirdtousd) * tab_a.specialrateusdtophp
+					 		END)AS standbyLcAmount
+
+			   		  FROM (SELECT tp.cifname AS clientImporter,
+			   			 		tp.amount,
+			   			 		tp.currency,
+			   			 		ts.specialratethirdtousd,
+			   			 		ts.specialrateusdtophp
+
+				    		   FROM tradeproduct tp,
+				    	    		   tradeservice ts,
+				   	   		   letterofcredit lc
+
+				    		   WHERE tp.documentnumber = ts.documentnumber
+							   AND lc.documentnumber = ts.documentnumber
+ 				    		   AND tp.status = 'OPEN'
+				    		   AND ts.servicetype = 'OPENING'
+				    		   AND ts.documenttype = 'DOMESTIC'
+				    		   AND ts.documentsubtype1 = 'STANDBY'
+				    		   AND ts.processingunitcode = $P{brUnitCode}
+				    		   and YEAR(lc.processdate)= $P{yearNow}
+				    		   --AND TS.STATUS IN ('APPROVED', 'POST_APPROVED', 'POSTED')
+
+				   		   )tab_a
+
+			   		  ) tab_b
+
+		  		 GROUP BY tab_b.clientImporter
+
+		 		   )tab_c
+
+  			  )tab_d
+
+		  GROUP BY tab_d.CLIENTIMPORTER
+		  ORDER BY totalLcAmount DESC
+
+		 ) AS tab_e
+
+	  WHERE tab_e.RN > 30
+
+	  ORDER BY tab_e.RN
+
+	 ) AS tab_f
+
+GROUP BY tab_f.GROUPNAME]]>
+	</queryString>
+	<field name="GROUPNAME" class="java.lang.String"/>
+	<field name="CASHLCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="REGULARLCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="STANDBYLCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="CASHTRANSACTIONS" class="java.lang.Integer"/>
+	<field name="REGULARTRANSACTIONS" class="java.lang.Integer"/>
+	<field name="STANDBYTRANSACTIONS" class="java.lang.Integer"/>
+	<field name="TOTALLCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="TOTALNOOFTRANSACTIONS" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="5" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="168" y="0" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REGULARLCAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="293" y="0" width="75" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REGULARTRANSACTIONS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="493" y="0" width="75" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CASHTRANSACTIONS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="693" y="0" width="75" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{STANDBYTRANSACTIONS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="893" y="0" width="75" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALNOOFTRANSACTIONS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="368" y="0" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CASHLCAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="568" y="0" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{STANDBYLCAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="768" y="0" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALLCAMOUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="168" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[OTHERS]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<summary>
+		<band height="5" splitType="Stretch"/>
+	</summary>
+</jasperReport>

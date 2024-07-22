@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bidding_Security_I" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="504" leftMargin="54" rightMargin="54" topMargin="54" bottomMargin="54">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="com.ibm.icu.*"/>
+	<import value="report.utils.ReportUtility"/>
+	<import value="apache.commons.lang.*"/>
+	<parameter name="documentNumber" class="java.lang.String"/>
+	<parameter name="tradeServiceId" class="java.lang.String"/>
+	<parameter name="processDate" class="java.lang.String"/>
+	<parameter name="beneficiaryName" class="java.lang.String"/>
+	<parameter name="beneficiaryAddress" class="java.lang.String"/>
+	<parameter name="biddingDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="bidInvitationNumber" class="java.lang.String"/>
+	<parameter name="bidInvitationDate" class="java.lang.String"/>
+	<parameter name="attentionName" class="java.lang.String"/>
+	<parameter name="attentionNamePosition" class="java.lang.String"/>
+	<parameter name="applicantName" class="java.lang.String"/>
+	<parameter name="applicantAddress" class="java.lang.String"/>
+	<parameter name="purposeOfStandby" class="java.lang.String"/>
+	<parameter name="contractLocation" class="java.lang.String"/>
+	<parameter name="bank" class="java.lang.String"/>
+	<parameter name="bankAddress" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="amount" class="java.lang.String"/>
+	<parameter name="expiryPeriod" class="java.lang.String"/>
+	<parameter name="expiryDate" class="java.lang.String"/>
+	<parameter name="authorizedSignatory1" class="java.lang.String"/>
+	<parameter name="authorizedSignatoryPosition1" class="java.lang.String"/>
+	<parameter name="authorizedSignatory2" class="java.lang.String"/>
+	<parameter name="authorizedSignatoryPosition2" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select currency, amount from tradeservice where tradeserviceid=$P{tradeServiceId}]]>
+	</queryString>
+	<field name="CURRENCY" class="java.lang.String"/>
+	<field name="AMOUNT" class="java.math.BigDecimal"/>
+	<variable name="AMOUNT_IN_WORDS" class="java.lang.String">
+		<variableExpression><![CDATA[ReportUtility.convert($F{AMOUNT}, $F{CURRENCY}).toUpperCase() + " ONLY "]]></variableExpression>
+		<initialValueExpression><![CDATA[ReportUtility.convert($F{AMOUNT}, $F{CURRENCY}).toUpperCase() + " ONLY "]]></initialValueExpression>
+	</variable>
+	<variable name="BIDDING_DATE" class="java.lang.String">
+		<variableExpression><![CDATA[($P{biddingDate}=="" || $P{biddingDate}=="undefined" || $P{biddingDate}==null) ? "" : new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{biddingDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{biddingDate}=="" || $P{biddingDate}=="undefined" || $P{biddingDate}==null) ? "" : new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{biddingDate}))]]></initialValueExpression>
+	</variable>
+	<variable name="BID_INVITATION_DATE" class="java.lang.String">
+		<variableExpression><![CDATA[($P{bidInvitationDate}=="" || $P{bidInvitationDate}=="undefined" || $P{bidInvitationDate}==null) ? "" : new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{bidInvitationDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{bidInvitationDate}=="" || $P{bidInvitationDate}=="undefined" || $P{bidInvitationDate}==null) ? "" : new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{bidInvitationDate}))]]></initialValueExpression>
+	</variable>
+	<variable name="PROCESS_DATE" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{processDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{processDate}))]]></initialValueExpression>
+	</variable>
+	<variable name="PROCESS_DATE2" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("dd'th Day Of' MMMMM, yyyy").format(new Date($P{processDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[new SimpleDateFormat("dd'th Day Of' MMMMM, yyyy").format(new Date($P{processDate}))]]></initialValueExpression>
+	</variable>
+	<variable name="EXPIRY_DATE" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{expiryDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{expiryDate}))]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="674">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="504" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PMD Form – BID SECURITY<br/>(Bank Guarantee)"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="205" width="504" height="165"/>
+				<box topPadding="5">
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Justified" markup="html">
+					<font size="9" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Gentlemen:"+
+"<br/><br/>"+
+"We have been informed that " + $P{applicantName} + ", hereinafter called the \"Bidder\" with principal business address " + $P{applicantAddress} + " submitted its Bid on " + $P{biddingDate} + " under your bid invitation No. " + $P{bidInvitationNumber} + " dated " + $P{bidInvitationDate} + " for the afformentioned Project, hereinafter called \"Bid\" and according to the tender conditions, a bid bond has to be supplied."+
+"<br/><br/>"+
+"This being stated, we " + $P{bank} + ", with principal business address " + $P{bankAddress} + ", hereinafter called the \"Bank\" Irrespective of the validity and the legal effects of the above-mentioned bid and waiving all rights of objection and defense arising thereto, hereby irrevocably undertake to pay the " + $P{beneficiaryName} + ", hereinafter called the \"Beneficiary\" on your first demand, the above-mentioned maximum sum of " + $V{AMOUNT_IN_WORDS} + " (" + $P{currency} + $P{amount} + ") upon receipt of your duly signed demand for payment stating that the Bidder committed any of the following acts or conditions, which form part of this Guarantee:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="370" width="33" height="160"/>
+				<textElement markup="html">
+					<font size="9" pdfFontName="Times-Roman"/>
+					<paragraph leftIndent="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA["1.<br/>"+
+"2.<br/>"+
+"3.<br/>"+
+"4.<br/>"+
+"5.<br/><br/>"+
+"6.<br/><br/>"+
+"7.<br/><br/>"+
+"8.<br/>"+
+"9.<br/>"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="530" width="504" height="65"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Justified" markup="html">
+					<font size="9" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Our guarantee is valid for a period of " + $P{expiryPeriod} + " days commencing on the date the Bid was submitted to the Beneficiary. Your written demand for payment should reach the Bank at the above-stated address not beyond the said validity period. Payment/Drawing under this Guarantee shall be made at the Bank's principal address stated above, in case of local Bank; or at its Philippine Branch, in case of a foreign bank with a branch licensed to do business in the Philippines, by your demand draft accompanied by the following documents:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="40" width="252" height="30"/>
+				<textElement>
+					<font size="8" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bank Guarantee No.: " + $P{documentNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="252" y="40" width="252" height="30"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman"/>
+					<paragraph rightIndent="100"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Date: " + $V{PROCESS_DATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="85" width="175" height="50"/>
+				<textElement markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{beneficiaryAddress}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="70" width="504" height="15"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{beneficiaryName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="135" width="454" height="30"/>
+				<textElement>
+					<font size="8" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{AMOUNT_IN_WORDS} + " (" + $P{currency} + $P{amount} + ")"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="165" width="40" height="15"/>
+				<textElement>
+					<font size="9" isBold="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Project]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="165" width="10" height="15"/>
+				<textElement>
+					<font size="9" isBold="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="50" y="165" width="454" height="40"/>
+				<textElement>
+					<font size="8" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{purposeOfStandby}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="40" y="135" width="10" height="15"/>
+				<textElement>
+					<font size="9" isBold="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="135" width="40" height="15"/>
+				<textElement>
+					<font size="9" isBold="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="33" y="370" width="471" height="160"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font size="9" pdfFontName="Times-Roman"/>
+					<paragraph leftIndent="1" rightIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA["The Bidder has withdrawn its Bid after bid opening or prior to its expiry-date;<br/>"+
+"The Bidder did not accept the correction of the Bid Price;<br/>"+
+"The Bidder failed to sign the contract awarded to him;<br/>"+
+"The Bidder failed to provide the required performance security;<br/>"+
+"The Bidder submitted a Bid that contains false information, falsified documents, or concealed such information in the Bid at any stage of the bidding in order to influence the outcome thereof;<br/>"+
+"The Bidder, without proper authority, allowed the use of one's name or used the name of another person for purposes of the bidding;<br/>"+
+"The Bidder refused to enter into contract with the Beneficiary without justifiable cause after being adjudged to have submitted the lowest and responsive Bid;<br/>"+
+"The Bidder attempted to unduly influence the outcome of the Bidding to his favour/advantage; or<br/>"+
+"The Bidder failed to perform and observe all due terms, conditions, and provisions stipulated in the Bid Documents and the amendments thereto.<br/>"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="33" y="595" width="471" height="79"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font size="9" pdfFontName="Times-Roman"/>
+					<paragraph leftIndent="1" rightIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA["The Original Copy of this Guarantee; and<br/>"+
+"A Certificate from the " + $P{beneficiaryName} + " signed by its authorized official stating that the Bidder committed any of the foregoing acts or conditions."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="595" width="33" height="79"/>
+				<textElement markup="html">
+					<font size="9" pdfFontName="Times-Roman"/>
+					<paragraph leftIndent="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA["1.<br/>"+
+"2.<br/>"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

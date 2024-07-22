@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Settlement_Amount_Total_SubReport" language="groovy" pageWidth="125" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="125" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="2.5937424601000023"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="documentNumber" class="java.lang.String"/>
+	<parameter name="tradeServiceId" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+	pd.currency as settlementCurrency,
+	sum(pd.amount) as totalSettlementAmount
+from tradeservice ts
+
+join payment pay on ts.tradeserviceid=pay.tradeserviceid
+join paymentdetail pd on pay.id=pd.paymentid
+
+where pay.tradeserviceid=$P{tradeServiceId} and pay.chargetype='PRODUCT'
+group by pd.currency]]>
+	</queryString>
+	<field name="SETTLEMENTCURRENCY" class="java.lang.String"/>
+	<field name="TOTALSETTLEMENTAMOUNT" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="15">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="35" height="15"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SETTLEMENTCURRENCY}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="35" y="0" width="90" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALSETTLEMENTAMOUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Quarterly_Report_on_Foreign_Standby_LCs_Opened_subreport" language="groovy" pageWidth="899" pageHeight="555" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="899" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dateNow" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("MM").format(new Date())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitCode" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="noOfTransactions" class="java.lang.Integer"/>
+	<field name="lcCurrency" class="java.lang.String"/>
+	<field name="lcAmountInOrigCurrency" class="java.math.BigDecimal"/>
+	<variable name="grandTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="LCCURRENCY" calculation="Sum">
+		<variableExpression><![CDATA[$F{lcAmountInOrigCurrency}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{lcAmountInOrigCurrency}]]></initialValueExpression>
+	</variable>
+	<group name="LCCURRENCY">
+		<groupExpression><![CDATA[$F{lcCurrency}]]></groupExpression>
+		<groupFooter>
+			<band height="19">
+				<staticText>
+					<reportElement x="5" y="0" width="86" height="15"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[GRAND TOTAL]]></text>
+				</staticText>
+				<line>
+					<reportElement x="815" y="16" width="84" height="1"/>
+				</line>
+				<line>
+					<reportElement x="815" y="16" width="84" height="1"/>
+				</line>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="778" y="0" width="108" height="15"/>
+					<box leftPadding="3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{grandTotal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<columnHeader>
+		<band height="38" splitType="Stretch"/>
+	</columnHeader>
+</jasperReport>

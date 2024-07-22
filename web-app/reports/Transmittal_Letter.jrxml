@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Transmittal_Letter" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="504" leftMargin="54" rightMargin="54" topMargin="54" bottomMargin="54">
+	<property name="ireport.zoom" value="1.2396694214876032"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="44"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FFF5EE">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFDABF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#FFF5EF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="documentNumber" class="java.lang.String"/>
+	<parameter name="tradeServiceId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="lcNumber" class="java.lang.String"/>
+	<parameter name="documentType" class="java.lang.String"/>
+	<parameter name="serviceType" class="java.lang.String"/>
+	<parameter name="applicantName" class="java.lang.String"/>
+	<parameter name="applicantAddress" class="java.lang.String"/>
+	<parameter name="importerName" class="java.lang.String"/>
+	<parameter name="importerAddress" class="java.lang.String"/>
+	<parameter name="importerNameTo" class="java.lang.String"/>
+	<parameter name="importerAddressTo" class="java.lang.String"/>
+	<parameter name="longName" class="java.lang.String"/>
+	<parameter name="address1" class="java.lang.String"/>
+	<parameter name="address2" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="amount" class="java.lang.String"/>
+	<parameter name="outstandingBalance" class="java.lang.String"/>
+	<parameter name="issueDate" class="java.lang.String"/>
+	<parameter name="authorizedSign" class="java.lang.String"/>
+	<parameter name="authorizedSignPosition" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	TS.SERVICETYPE,
+	TS.CURRENCY AS LCCURRENCY,
+	TS.AMOUNT AS LCAMOUNT,
+	TP.AMOUNT AS TRADEPRODUCTAMOUNT,
+	LC.ISSUEDATE,
+	LC.IMPORTERNAME,
+	LC.IMPORTERADDRESS
+
+FROM TRADESERVICE TS
+
+LEFT JOIN TRADEPRODUCT TP ON TS.TRADEPRODUCTNUMBER=TP.DOCUMENTNUMBER
+LEFT JOIN LETTEROFCREDIT LC ON TS.TRADEPRODUCTNUMBER=LC.DOCUMENTNUMBER
+
+WHERE
+	(TS.TRADEPRODUCTNUMBER=$P{documentNumber} AND TS.TRADESERVICEID=$P{tradeServiceId})
+	OR
+	(TS.TRADEPRODUCTNUMBER=$P{lcNumber} AND TS.TRADESERVICEID=$P{tradeServiceId})]]>
+	</queryString>
+	<field name="SERVICETYPE" class="java.lang.String"/>
+	<field name="LCCURRENCY" class="java.lang.String"/>
+	<field name="LCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="TRADEPRODUCTAMOUNT" class="java.math.BigDecimal"/>
+	<field name="ISSUEDATE" class="java.sql.Timestamp"/>
+	<field name="IMPORTERNAME" class="java.lang.String"/>
+	<field name="IMPORTERADDRESS" class="java.lang.String"/>
+	<variable name="importerName" class="java.lang.String">
+		<variableExpression><![CDATA[$F{SERVICETYPE}=="OPENING"
+?
+$P{importerName}
+:
+($P{importerNameTo}=="" ? $P{importerName} : $P{importerNameTo})]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{SERVICETYPE}=="OPENING"
+?
+$P{importerName}
+:
+($P{importerNameTo}=="" ? $P{importerName} : $P{importerNameTo})]]></initialValueExpression>
+	</variable>
+	<variable name="importerAddress" class="java.lang.String">
+		<variableExpression><![CDATA[$F{SERVICETYPE}=="OPENING"
+?
+$P{importerAddress}
+:
+(($P{importerNameTo}=="" && $P{importerAddressTo}=="") ? $P{importerAddress} : $P{importerAddressTo})]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{SERVICETYPE}=="OPENING"
+?
+$P{importerAddress}
+:
+(($P{importerNameTo}=="" && $P{importerAddressTo}=="") ? $P{importerAddress} : $P{importerAddressTo})]]></initialValueExpression>
+	</variable>
+	<variable name="applicantName" class="java.lang.String">
+		<variableExpression><![CDATA[$P{applicantName}=="undefined" ? "" : $P{applicantName}.toUpperCase()]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{applicantName}=="undefined" ? "" : $P{applicantName}.toUpperCase()]]></initialValueExpression>
+	</variable>
+	<variable name="applicantAddress" class="java.lang.String">
+		<variableExpression><![CDATA[$P{applicantAddress}=="undefined" ? "" : $P{applicantAddress}.toUpperCase()]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{applicantAddress}=="undefined" ? "" : $P{applicantAddress}.toUpperCase()]]></initialValueExpression>
+	</variable>
+	<variable name="amount" class="java.lang.String">
+		<variableExpression><![CDATA[$F{LCAMOUNT}==null ? $V{tradeProductAmount} : new DecimalFormat("#,##0.00").format(new BigDecimal($F{LCAMOUNT}))]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{LCAMOUNT}==null ? $V{tradeProductAmount} : new DecimalFormat("#,##0.00").format(new BigDecimal($F{LCAMOUNT}))]]></initialValueExpression>
+	</variable>
+	<variable name="tradeProductAmount" class="java.lang.String">
+		<variableExpression><![CDATA[new DecimalFormat("#,##0.00").format(new BigDecimal($F{TRADEPRODUCTAMOUNT} ? $F{TRADEPRODUCTAMOUNT} : 0))]]></variableExpression>
+		<initialValueExpression><![CDATA[new DecimalFormat("#,##0.00").format(new BigDecimal($F{TRADEPRODUCTAMOUNT} ? $F{TRADEPRODUCTAMOUNT} : 0))]]></initialValueExpression>
+	</variable>
+	<variable name="issueDate" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("MM/dd/yyyy").format($F{ISSUEDATE})]]></variableExpression>
+		<initialValueExpression><![CDATA[new SimpleDateFormat("MM/dd/yyyy").format($F{ISSUEDATE})]]></initialValueExpression>
+	</variable>
+	<variable name="serviceType" class="java.lang.String">
+		<variableExpression><![CDATA[$F{SERVICETYPE}.substring(0,1) + $F{SERVICETYPE}.substring(1,$F{SERVICETYPE}.length()).toLowerCase()]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{SERVICETYPE}.substring(0,1) + $F{SERVICETYPE}.substring(1,$F{SERVICETYPE}.length()).toLowerCase()]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="205">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="140" width="504" height="15"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SERVICETYPE}=="OPENING"
+?
+($P{importerName}=="" ? $P{longName} : $P{importerName}).toUpperCase()
+:
+($F{IMPORTERNAME}==null ? $P{longName} : $F{IMPORTERNAME}).toUpperCase()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="75" height="75"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="75" width="504" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TRANSMITTAL LETTER]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="0" y="100" width="200" height="40"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="155" width="200" height="50"/>
+				<box bottomPadding="25">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement markup="html">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SERVICETYPE}=="OPENING"
+?
+($P{importerName}=="" ? ($P{address1} + "<br/>" + $P{address2}) : $P{importerAddress}).toUpperCase()
+:
+($F{IMPORTERNAME}==null ? ($P{address1} + "<br/>" + $P{address2}) : $F{IMPORTERADDRESS}).toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<summary>
+		<band height="345" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" x="0" y="0" width="504" height="200"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["This shall serve as confirmation of your <b>Letter of Credit No. " + ($P{serviceType}=="Negotiation" ? $P{lcNumber}.replaceAll("-", "") : $P{documentNumber}.replaceAll("-", "")) + " </b>for<b> " + (($P{currency}=="" || $P{currency}=="undefined") ? "" : $P{currency}) + " " + $P{amount} + " </b>which was opened on " + ($F{ISSUEDATE}==null ? $P{issueDate} : $V{issueDate}) + ". Also included is the corresponding Debit Memo/ Payment Summary/ Official Receipt for your reference.  Kindly go over them carefully and advise us immediately of any discrepancy(ies) or omission on our part.  You may get in touch with the Bank Officer/ Supervisor at 811-9000 local 4708 and 4705."
++
+"<br/><br/>"
++
+"If we do not hear from you within five (5) days from the date of receipt hereof, we  will consider this  LC " + $F{SERVICETYPE}.replaceAll("_", " ") + " as correct and we cannot be held liable for any errors/mistakes thereafter."
++
+"<br/><br/><br/>"
++
+"Please acknowledge receipt."
++
+"<br/><br/>"
++
+"Very truly yours,"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="250" width="200" height="40"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Received By:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="330" width="200" height="15"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Date Received]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="200" width="200" height="15"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" markup="html">
+					<font fontName="SansSerif" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSign}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="290" width="200" height="40"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Signature over printed name]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="215" width="200" height="35"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" markup="html">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignPosition}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

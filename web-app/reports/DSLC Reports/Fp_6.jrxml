@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Fp_6" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="504" leftMargin="54" rightMargin="54" topMargin="54" bottomMargin="54">
+	<property name="ireport.zoom" value="0.7513148009015794"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="com.ibm.icu.*"/>
+	<import value="report.utils.ReportUtility"/>
+	<import value="apache.commons.lang.*"/>
+	<parameter name="documentNumber" class="java.lang.String"/>
+	<parameter name="tradeServiceId" class="java.lang.String"/>
+	<parameter name="processDate" class="java.lang.String"/>
+	<parameter name="beneficiaryName" class="java.lang.String"/>
+	<parameter name="beneficiaryAddress" class="java.lang.String"/>
+	<parameter name="biddingDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="attentionName" class="java.lang.String"/>
+	<parameter name="attentionNamePosition" class="java.lang.String"/>
+	<parameter name="applicantName" class="java.lang.String"/>
+	<parameter name="applicantAddress" class="java.lang.String"/>
+	<parameter name="purposeOfStandby" class="java.lang.String"/>
+	<parameter name="bank" class="java.lang.String"/>
+	<parameter name="bankBranch" class="java.lang.String"/>
+	<parameter name="bankAddress" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="amount" class="java.lang.String"/>
+	<parameter name="city" class="java.lang.String"/>
+	<parameter name="expiryPeriod" class="java.lang.String"/>
+	<parameter name="expiryDate" class="java.lang.String"/>
+	<parameter name="authorizedSignatory1" class="java.lang.String"/>
+	<parameter name="authorizedSignatoryPosition1" class="java.lang.String"/>
+	<parameter name="authorizedSignatory2" class="java.lang.String"/>
+	<parameter name="authorizedSignatoryPosition2" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select currency, amount from tradeservice where tradeserviceid=$P{tradeServiceId}]]>
+	</queryString>
+	<field name="CURRENCY" class="java.lang.String"/>
+	<field name="AMOUNT" class="java.math.BigDecimal"/>
+	<variable name="AMOUNT_IN_WORDS" class="java.lang.String">
+		<variableExpression><![CDATA[ReportUtility.convert($F{AMOUNT}, $F{CURRENCY}).toUpperCase() + " ONLY "]]></variableExpression>
+		<initialValueExpression><![CDATA[ReportUtility.convert($F{AMOUNT}, $F{CURRENCY}).toUpperCase() + " ONLY "]]></initialValueExpression>
+	</variable>
+	<variable name="BIDDING_DATE" class="java.lang.String">
+		<variableExpression><![CDATA[($P{biddingDate}=="" || $P{biddingDate}=="undefined" || $P{biddingDate}==null) ? "" : new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{biddingDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{biddingDate}=="" || $P{biddingDate}=="undefined" || $P{biddingDate}==null) ? "" : new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{biddingDate}))]]></initialValueExpression>
+	</variable>
+	<variable name="PROCESS_DATE" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{processDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{processDate}))]]></initialValueExpression>
+	</variable>
+	<variable name="PROCESS_DATE2" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("dd'th Day Of' MMMMM, yyyy").format(new Date($P{processDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[new SimpleDateFormat("dd'th Day Of' MMMMM, yyyy").format(new Date($P{processDate}))]]></initialValueExpression>
+	</variable>
+	<variable name="EXPIRY_DATE" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{expiryDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{expiryDate}))]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="605">
+			<textField>
+				<reportElement x="0" y="40" width="504" height="30"/>
+				<textElement textAlignment="Right" markup="html">
+					<font size="9" pdfFontName="Times-Roman"/>
+					<paragraph rightIndent="100"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PROCESS_DATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="70" width="504" height="15"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{beneficiaryName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="85" width="175" height="45"/>
+				<textElement markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{beneficiaryAddress}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="180" width="504" height="250"/>
+				<box topPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" markup="html">
+					<font size="9" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["This is to certify that " + $P{applicantName} + ", has upon instruction to us, set aside, held out and assigned in favor of " + $P{beneficiaryName} + " the amount of " + $V{AMOUNT_IN_WORDS} + " (" + $P{currency} + $P{amount} + ") deposited with us, as security of " + $P{applicantName} + ", for the faithful performance of its obligations under its contract for the " + $P{purposeOfStandby} + ", and that said amount or any portion thereof is not allowed to be encumbered withdrawn or disposed of without written consent of the " + $P{beneficiaryName} + "."+
+"<br/><br/>"+
+"We hereby acknowledge that " + $P{applicantName} + ",  has hereby appointed the " + $P{beneficiaryName} + " through their respective duly authorized representatives, to demand, withdraw and receive the proceeds of the deposit above-mentioned or any portion thereof as may be necessary to pay/settle any legitimate claim filed and approved against the warranty guarantee, without the necessity of a prior notice to and consent of " + $P{applicantName} + " provided that the " + $P{beneficiaryName} + " files a written claim or demand upon the bank."+
+"<br/><br/>"+
+"It is hereby understood that the bank is authorized to pay the " + $P{beneficiaryName} + " up to the above-mentioned amount only, that said authorization is valid up to " + $P{expiryPeriod} + " days provided that the " + $P{beneficiaryName} + " serves a written notice or demand upon the bank, on or before " + $V{EXPIRY_DATE} + "."+
+"<br/><br/>"+
+"Per " + $P{applicantName} + " conforme hereto the Bank and its officers and employees are held free and harmless from whatever liability in connection with the performance of the authorization herein expressed."]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="302" y="500" width="175" height="30"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignatoryPosition2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="302" y="460" width="175" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom" markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignatory2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="530" width="504" height="75"/>
+				<textElement verticalAlignment="Bottom" markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CONFORME:<br/>"+
+$P{applicantName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="130" width="65" height="15"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ATTENTION:"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="130" width="439" height="15"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{attentionName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="145" width="439" height="35"/>
+				<textElement markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{beneficiaryAddress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="504" height="40"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="html">
+					<font size="9" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["BANK GUARANTEE (WARRANTY)<br/>DSLC NO. " + $P{documentNumber}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="202" y="430" width="100" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Very Truly Yours,"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="27" y="460" width="175" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom" markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignatory1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="27" y="500" width="175" height="30"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="html">
+					<font size="9" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignatoryPosition1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

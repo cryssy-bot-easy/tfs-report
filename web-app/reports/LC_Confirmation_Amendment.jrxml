@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LC_Confirmation_Amendment" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="540" leftMargin="36" rightMargin="36" topMargin="36" bottomMargin="36">
+	<property name="ireport.zoom" value="1.4641000000000022"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="documentNumber" class="java.lang.String"/>
+	<parameter name="tradeServiceId" class="java.lang.String"/>
+	<parameter name="amendmentDate" class="java.lang.String"/>
+	<parameter name="applicantName" class="java.lang.String"/>
+	<parameter name="expiryDate" class="java.lang.String"/>
+	<parameter name="expiryDateTo" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="availableBy" class="java.lang.String"/>
+	<parameter name="availableByTo" class="java.lang.String"/>
+	<parameter name="partialDelivery" class="java.lang.String"/>
+	<parameter name="partialDeliveryTo" class="java.lang.String"/>
+	<parameter name="amount" class="java.lang.String"/>
+	<parameter name="amountTo" class="java.lang.String"/>
+	<parameter name="beneficiaryName" class="java.lang.String"/>
+	<parameter name="beneficiaryNameTo" class="java.lang.String"/>
+	<parameter name="beneficiaryAddress" class="java.lang.String"/>
+	<parameter name="beneficiaryAddressTo" class="java.lang.String"/>
+	<parameter name="originalTenor" class="java.lang.String"/>
+	<parameter name="tenorTo" class="java.lang.String"/>
+	<parameter name="usancePeriodTo" class="java.lang.String"/>
+	<parameter name="narrative" class="java.lang.String"/>
+	<parameter name="authorizedSignatory1" class="java.lang.String"/>
+	<parameter name="authorizedSignatory1Position" class="java.lang.String"/>
+	<parameter name="authorizedSignatory2" class="java.lang.String"/>
+	<parameter name="authorizedSignatory2Position" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="PROCESSDATE" class="java.sql.Timestamp"/>
+	<field name="BENEFICIARYNAME" class="java.lang.String"/>
+	<field name="BENEFICIARYADDRESS" class="java.lang.String"/>
+	<field name="APPLICANTNAME" class="java.lang.String"/>
+	<field name="LCCURRENCY" class="java.lang.String"/>
+	<field name="LCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="EXPIRYDATE" class="java.sql.Timestamp"/>
+	<field name="TENOR" class="java.lang.String"/>
+	<variable name="availableByTo" class="java.lang.String">
+		<variableExpression><![CDATA[$P{availableByTo}=="A" ? "BY ACCEPTANCE" :
+($P{availableByTo}=="N" ? "BY NEGOTIATION" :
+($P{availableByTo}=="P" ? "BY PAYMENT" : ""))]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{availableByTo}=="A" ? "BY ACCEPTANCE" :
+($P{availableByTo}=="N" ? "BY NEGOTIATION" :
+($P{availableByTo}=="P" ? "BY PAYMENT" : ""))]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="422" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="232" width="540" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[*** Nothing Follows ***]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="0" y="257" width="540" height="75"/>
+				<textElement markup="html">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ALL OTHER TERMS AND CONDITIONS REMAIN UNCHANGED."
++
+"<br/><br/>"
++
+"THIS ADVICE OF AMENDMENT IS TO BE CONSIDERED AS PART OF THE ABOVE LETTER OF CREDIT AND MUST BE ATTACHED THERETO."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="182" width="540" height="25"/>
+				<box bottomPadding="5"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OTHERS :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="92" width="540" height="50"/>
+				<box topPadding="10" leftPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[GENTLEMEN:
+
+THE ABOVE LETTER OF CREDIT OPENED IN YOUR FAVOR IS AMENDED AS FOLLOWS :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="150" y="142" width="195" height="15"/>
+				<box leftPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[FROM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="345" y="142" width="195" height="15"/>
+				<box leftPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="150" y="157" width="195" height="25"/>
+				<box leftPadding="3" bottomPadding="10" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Top" markup="html">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="1.3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($P{expiryDateTo}=="" || $P{expiryDateTo}=="undefined") ? "" : ($P{expiryDate} + "<br/>"))
++
+(($P{amountTo}=="" || $P{amountTo}=="undefined" || $P{amountTo}=="0.00") ? "" : ($P{currency} + " " + $P{amount} + "<br/>"))
++
+(($P{availableByTo}=="" || $P{availableByTo}=="undefined") ? "" : ($P{availableBy}.toUpperCase() + "<br/>"))
++
+(($P{partialDeliveryTo}=="" || $P{partialDeliveryTo}=="undefined") ? "" : ($P{partialDelivery}.replace("_", " ").toUpperCase() + "<br/>"))
++
+(($P{tenorTo}=="" || $P{tenorTo}=="undefined") ? "" : ($P{originalTenor} + "<br/>"))
++
+(($P{beneficiaryNameTo}=="" || $P{beneficiaryNameTo}=="undefined") ? "" : ($P{beneficiaryName}.toUpperCase() + "<br/>"))
++
+(($P{beneficiaryAddressTo}=="" || $P{beneficiaryAddressTo}=="undefined") ? "" : ($P{beneficiaryAddress}.toUpperCase() + "<br/>"))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="207" width="540" height="25"/>
+				<box bottomPadding="10"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{narrative}=="undefined" ? "" : $P{narrative}.toUpperCase())]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="157" width="150" height="25"/>
+				<box leftPadding="3" bottomPadding="10" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Top" markup="html">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="1.3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($P{expiryDateTo}=="" || $P{expiryDateTo}=="undefined") ? "" : "<b>Expiry Date</b><br/>")
++
+(($P{amountTo}=="" || $P{amountTo}=="undefined" || $P{amountTo}=="0.00") ? "" : "<b>Amount</b><br/>")
++
+(($P{availableByTo}=="" || $P{availableByTo}=="undefined") ? "" : "<b>By...</b><br/>")
++
+(($P{partialDeliveryTo}=="" || $P{partialDeliveryTo}=="undefined") ? "" : "<b>Partial Delivery</b><br/>")
++
+(($P{tenorTo}=="" || $P{tenorTo}=="undefined") ? "" : "<b>Type of LC</b><br/>")
++
+(($P{beneficiaryNameTo}=="" || $P{beneficiaryNameTo}=="undefined") ? "" : "<b>Beneficiary Name</b><br/>")
++
+(($P{beneficiaryAddressTo}=="" || $P{beneficiaryAddressTo}=="undefined") ? "" : "<b>Beneficiary Address</b><br/>")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="345" y="157" width="195" height="25"/>
+				<box leftPadding="3" bottomPadding="10" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Top" markup="html">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="1.3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($P{expiryDateTo}=="" || $P{expiryDateTo}=="undefined") ? "" : ($P{expiryDateTo} + "<br/>"))
++
+(($P{amountTo}=="" || $P{amountTo}=="undefined" || $P{amountTo}=="0.00") ? "" : ($P{currency} + " " + $P{amountTo} + "<br/>"))
++
+(($P{availableByTo}=="" || $P{availableByTo}=="undefined") ? "" : ($V{availableByTo} + "<br/>"))
++
+(($P{partialDeliveryTo}=="" || $P{partialDeliveryTo}=="undefined") ? "" : ($P{partialDeliveryTo}.replaceAll("_", " ").toUpperCase() + "<br/>"))
++
+(($P{tenorTo}=="" || $P{tenorTo}=="undefined") ? "" : ($P{tenorTo}=="USANCE" ? ($P{tenorTo}.toUpperCase() + " " + $P{usancePeriodTo} + "<br/>") : ($P{tenorTo}.toUpperCase() + "<br/>")))
++
+(($P{beneficiaryNameTo}=="" || $P{beneficiaryNameTo}=="undefined") ? "" : ($P{beneficiaryNameTo}.toUpperCase() + "<br/>"))
++
+(($P{beneficiaryAddressTo}=="" || $P{beneficiaryAddressTo}=="undefined") ? "" : ($P{beneficiaryAddressTo}.toUpperCase() + "<br/>"))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="142" width="150" height="15"/>
+				<box leftPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="25" width="540" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{beneficiaryName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="40" width="200" height="25"/>
+				<box bottomPadding="10"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{beneficiaryAddress}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="188" y="66" width="275" height="25"/>
+				<box leftPadding="5" bottomPadding="10"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("LETTER OF CREDIT NO. " + $P{documentNumber}.replaceAll("-", "") + "<br/>")+
+($P{applicantName}.toUpperCase() + "<br/>")+
+("FOR " + $P{currency} + " " + $P{amount})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="78" y="66" width="100" height="25"/>
+				<box leftPadding="5" bottomPadding="10"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RE<br/>"+
+"FOR ACCOUNT OF"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="178" y="66" width="10" height="25"/>
+				<box leftPadding="5" bottomPadding="10"/>
+				<textElement markup="html">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[":<br/>"+
+":"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="65" width="540" height="1"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Center" markup="html">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="91" width="540" height="1"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Center" markup="html">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy" isBlankWhenNull="true">
+				<reportElement x="290" y="0" width="150" height="25"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{amendmentDate}=="" || $P{amendmentDate}=="undefined") ? "" : new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{amendmentDate}))]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="308" y="382" width="175" height="15"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" markup="html">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignatory2}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="58" y="382" width="175" height="15"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" markup="html">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignatory1}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="233" y="382" width="75" height="40"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="58" y="332" width="425" height="50"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Very Truly Yours,]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="58" y="397" width="175" height="25"/>
+				<textElement textAlignment="Center" markup="html">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignatory1Position}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="308" y="397" width="175" height="25"/>
+				<textElement textAlignment="Center" markup="html">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignatory2Position}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

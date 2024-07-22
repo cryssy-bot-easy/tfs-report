@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Outstanding_Bank_Guaranty_Grand_Total" language="groovy" pageWidth="150" pageHeight="752" whenNoDataType="AllSectionsNoDetail" columnWidth="150" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+	BANKGUARANTY.BGCURRENCY,
+	SUM(BANKGUARANTY.OSBGAMOUNT) AS GRANDTOTALOSBGAMOUNT
+
+FROM (
+	--OUTSTANDING BANK GUARANTY
+	SELECT
+		  BG.SHIPMENTCURRENCY AS BGCURRENCY,
+		  SUM(BG.SHIPMENTAMOUNT) AS OSBGAMOUNT
+	FROM INDEMNITY BG
+	INNER JOIN TRADEPRODUCT AS TP ON TP.DOCUMENTNUMBER = BG.INDEMNITYNUMBER
+	WHERE
+		{FN TIMESTAMPDIFF(SQL_TSI_DAY, CURRENT_TIMESTAMP, BG.INDEMNITYISSUEDATE)} > 60
+		AND BG.SHIPMENTAMOUNT > 0 AND BG.INDEMNITYTYPE = 'BG' AND TP.STATUS = 'OPEN'
+	GROUP BY BG.SHIPMENTCURRENCY
+
+	UNION ALL
+
+	--OUTSTANDING BANK GUARANTY 46-60 DAYS
+	SELECT
+		BG.SHIPMENTCURRENCY AS BGCURRENCY,
+		SUM(BG.SHIPMENTAMOUNT) AS OSBGAMOUNT
+	FROM INDEMNITY BG
+	INNER JOIN TRADEPRODUCT AS TP ON TP.DOCUMENTNUMBER = BG.INDEMNITYNUMBER
+	WHERE
+		{FN TIMESTAMPDIFF(SQL_TSI_DAY, CURRENT_TIMESTAMP, BG.INDEMNITYISSUEDATE)} >= 46
+		AND {FN TIMESTAMPDIFF(SQL_TSI_DAY, CURRENT_TIMESTAMP, BG.INDEMNITYISSUEDATE)} <= 60
+		AND BG.SHIPMENTAMOUNT > 0 AND BG.INDEMNITYTYPE = 'BG' AND TP.STATUS = 'OPEN'
+	GROUP BY BG.SHIPMENTCURRENCY
+
+	UNION ALL
+
+	--OUTSTANDING BANK GUARANTY 31-45 DAYS
+	SELECT
+		BG.SHIPMENTCURRENCY AS BGCURRENCY,
+		SUM(BG.SHIPMENTAMOUNT) AS OSBGAMOUNT
+	FROM INDEMNITY BG
+	INNER JOIN TRADEPRODUCT AS TP ON TP.DOCUMENTNUMBER = BG.INDEMNITYNUMBER
+	WHERE
+		{FN TIMESTAMPDIFF(SQL_TSI_DAY, CURRENT_TIMESTAMP, BG.INDEMNITYISSUEDATE)} >= 31
+		AND {FN TIMESTAMPDIFF(SQL_TSI_DAY, CURRENT_TIMESTAMP, BG.INDEMNITYISSUEDATE)} <= 45
+		AND BG.SHIPMENTAMOUNT > 0 AND BG.INDEMNITYTYPE = 'BG' AND TP.STATUS = 'OPEN'
+	GROUP BY BG.SHIPMENTCURRENCY
+
+	UNION ALL
+
+	--OUTSTANDING BANK GUARANTY 30 DAYS
+	SELECT
+		BG.SHIPMENTCURRENCY AS BGCURRENCY,
+		SUM(BG.SHIPMENTAMOUNT) AS OSBGAMOUNT
+	FROM INDEMNITY BG
+	INNER JOIN TRADEPRODUCT AS TP ON TP.DOCUMENTNUMBER = BG.INDEMNITYNUMBER
+	WHERE
+		{FN TIMESTAMPDIFF(SQL_TSI_DAY, CURRENT_TIMESTAMP, BG.INDEMNITYISSUEDATE)} <= 30
+		AND {FN TIMESTAMPDIFF(SQL_TSI_DAY, CURRENT_TIMESTAMP, BG.INDEMNITYISSUEDATE)} > 0
+		AND BG.SHIPMENTAMOUNT > 0 AND BG.INDEMNITYTYPE = 'BG' AND TP.STATUS = 'OPEN'
+	GROUP BY BG.SHIPMENTCURRENCY
+
+) AS BANKGUARANTY
+
+GROUP BY BANKGUARANTY.BGCURRENCY]]>
+	</queryString>
+	<field name="BGCURRENCY" class="java.lang.String"/>
+	<field name="GRANDTOTALOSBGAMOUNT" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="15">
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="50" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<topPen lineWidth="0.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BGCURRENCY}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<topPen lineWidth="0.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GRANDTOTALOSBGAMOUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Outstanding_Foreign_LCs_Per_Importer_subreport" language="groovy" pageWidth="760" pageHeight="140" whenNoDataType="AllSectionsNoDetail" columnWidth="760" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_1" class="java.lang.String"/>
+	<parameter name="SUBREPORT_2" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select distinct tp.currency as lcOrigCurrency,
+lc.outstandingbalance as outstandingBalance from tfs.letterofcredit lc
+left join tfs.tradeproduct tp on lc.documentnumber = tp.documentnumber where lc.documenttype = $P{SUBREPORT_1} and lc.type = $P{SUBREPORT_2}]]>
+	</queryString>
+	<field name="lcOrigCurrency" class="java.lang.String"/>
+	<field name="outstandingBalance" class="java.math.BigDecimal"/>
+	<variable name="grandTotalBalance" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[$F{outstandingBalance}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{outstandingBalance}]]></initialValueExpression>
+	</variable>
+	<group name="Total Balance">
+		<groupExpression><![CDATA[$F{lcOrigCurrency}]]></groupExpression>
+		<groupFooter>
+			<band height="13">
+				<textField isBlankWhenNull="true">
+					<reportElement x="572" y="0" width="74" height="13"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{lcOrigCurrency}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="646" y="0" width="114" height="13"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{grandTotalBalance}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<columnHeader>
+		<band height="13">
+			<staticText>
+				<reportElement x="0" y="0" width="760" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[GRAND TOTAL PER CURRENCY]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+</jasperReport>

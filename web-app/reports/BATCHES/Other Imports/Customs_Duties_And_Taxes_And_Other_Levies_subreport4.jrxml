@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Customs_Duties_And_Taxes_And_Other_Levies_subreport4" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="currentDate" class="java.util.Date" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentMonth" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentYear" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT RBU.BRANCH_NAME, RBU.UNIT_CODE, JAN.AM AS JANAM, JAN.BC AS JANBC, JAN.CO AS JANCO, FEB.AM AS FEBAM, FEB.BC AS FEBBC, FEB.CO AS FEBCO, MAR.AM AS MARAM, MAR.BC AS MARBC, MAR.CO AS MARCO, APR.AM AS APRAM, APR.BC AS APRBC, APR.CO AS APRCO, MAY.AM AS MAYAM, MAY.BC AS MAYBC, MAY.CO AS MAYCO, JUN.AM AS JUNAM, JUN.BC AS JUNBC, JUN.CO AS JUNCO, JUL.AM AS JULAM, JUL.BC AS JULBC, JUL.CO AS JULCO, AUG.AM AS AUGAM, AUG.BC AS AUGBC, AUG.CO AS AUGCO,  SEP.AM AS SEPAM, SEP.BC AS SEPBC, SEP.CO AS SEPCO, OCT.AM AS OCTAM, OCT.BC AS OCTBC, OCT.CO AS OCTCO, NOV.AM AS NOVAM, NOV.BC AS NOVBC, NOV.CO AS NOVCO, DEC.AM AS DECAM, DEC.BC AS DECBC, DEC.CO AS DECCO
+FROM REF_BRANCH_UNIT RBU
+
+LEFT JOIN (SELECT UNITCODE, YEAR(DATE_SENT) YEAR_SENT, SUM(AMOUNT) AM, SUM(BANKCHARGE)BC, COUNT(AMOUNT) CO FROM CDTPAYMENTREQUEST WHERE MONTH(DATE_SENT) = 1 AND $P{currentMonth} >= 1 AND YEAR(DATE_SENT) = $P{currentYear} GROUP BY UNITCODE, YEAR(DATE_SENT)) JAN ON JAN.UNITCODE = RBU.UNIT_CODE
+LEFT JOIN (SELECT UNITCODE, YEAR(DATE_SENT) YEAR_SENT, SUM(AMOUNT) AM, SUM(BANKCHARGE)BC, COUNT(AMOUNT) CO FROM CDTPAYMENTREQUEST WHERE MONTH(DATE_SENT) = 2 AND $P{currentMonth} >= 2 AND YEAR(DATE_SENT) = $P{currentYear} GROUP BY UNITCODE, YEAR(DATE_SENT)) FEB ON FEB.UNITCODE = RBU.UNIT_CODE
+LEFT JOIN (SELECT UNITCODE, YEAR(DATE_SENT) YEAR_SENT, SUM(AMOUNT) AM, SUM(BANKCHARGE)BC, COUNT(AMOUNT) CO FROM CDTPAYMENTREQUEST WHERE MONTH(DATE_SENT) = 3 AND $P{currentMonth} >= 3 AND YEAR(DATE_SENT) = $P{currentYear} GROUP BY UNITCODE, YEAR(DATE_SENT)) MAR ON MAR.UNITCODE = RBU.UNIT_CODE
+LEFT JOIN (SELECT UNITCODE, YEAR(DATE_SENT) YEAR_SENT, SUM(AMOUNT) AM, SUM(BANKCHARGE)BC, COUNT(AMOUNT) CO FROM CDTPAYMENTREQUEST WHERE MONTH(DATE_SENT) = 4 AND $P{currentMonth} >= 4 AND YEAR(DATE_SENT) = $P{currentYear} GROUP BY UNITCODE, YEAR(DATE_SENT)) APR ON APR.UNITCODE = RBU.UNIT_CODE
+LEFT JOIN (SELECT UNITCODE, YEAR(DATE_SENT) YEAR_SENT, SUM(AMOUNT) AM, SUM(BANKCHARGE)BC, COUNT(AMOUNT) CO FROM CDTPAYMENTREQUEST WHERE MONTH(DATE_SENT) = 5 AND $P{currentMonth} >= 5 AND YEAR(DATE_SENT) = $P{currentYear} GROUP BY UNITCODE, YEAR(DATE_SENT)) MAY ON MAY.UNITCODE = RBU.UNIT_CODE
+LEFT JOIN (SELECT UNITCODE, YEAR(DATE_SENT) YEAR_SENT, SUM(AMOUNT) AM, SUM(BANKCHARGE)BC, COUNT(AMOUNT) CO FROM CDTPAYMENTREQUEST WHERE MONTH(DATE_SENT) = 6 AND $P{currentMonth} >= 6 AND YEAR(DATE_SENT) = $P{currentYear} GROUP BY UNITCODE, YEAR(DATE_SENT)) JUN ON JUN.UNITCODE = RBU.UNIT_CODE
+LEFT JOIN (SELECT UNITCODE, YEAR(DATE_SENT) YEAR_SENT, SUM(AMOUNT) AM, SUM(BANKCHARGE)BC, COUNT(AMOUNT) CO FROM CDTPAYMENTREQUEST WHERE MONTH(DATE_SENT) = 7 AND $P{currentMonth} >= 7 AND YEAR(DATE_SENT) = $P{currentYear} GROUP BY UNITCODE, YEAR(DATE_SENT)) JUL ON JUL.UNITCODE = RBU.UNIT_CODE
+LEFT JOIN (SELECT UNITCODE, YEAR(DATE_SENT) YEAR_SENT, SUM(AMOUNT) AM, SUM(BANKCHARGE)BC, COUNT(AMOUNT) CO FROM CDTPAYMENTREQUEST WHERE MONTH(DATE_SENT) = 8 AND $P{currentMonth} >= 8 AND YEAR(DATE_SENT) = $P{currentYear} GROUP BY UNITCODE, YEAR(DATE_SENT)) AUG ON AUG.UNITCODE = RBU.UNIT_CODE
+LEFT JOIN (SELECT UNITCODE, YEAR(DATE_SENT) YEAR_SENT, SUM(AMOUNT) AM, SUM(BANKCHARGE)BC, COUNT(AMOUNT) CO FROM CDTPAYMENTREQUEST WHERE MONTH(DATE_SENT) = 9 AND $P{currentMonth} >= 9 AND YEAR(DATE_SENT) = $P{currentYear} GROUP BY UNITCODE, YEAR(DATE_SENT)) SEP ON SEP.UNITCODE = RBU.UNIT_CODE
+LEFT JOIN (SELECT UNITCODE, YEAR(DATE_SENT) YEAR_SENT, SUM(AMOUNT) AM, SUM(BANKCHARGE)BC, COUNT(AMOUNT) CO FROM CDTPAYMENTREQUEST WHERE MONTH(DATE_SENT) = 10 AND $P{currentMonth} >= 10 AND YEAR(DATE_SENT) = $P{currentYear} GROUP BY UNITCODE, YEAR(DATE_SENT)) OCT ON OCT.UNITCODE = RBU.UNIT_CODE
+LEFT JOIN (SELECT UNITCODE, YEAR(DATE_SENT) YEAR_SENT, SUM(AMOUNT) AM, SUM(BANKCHARGE)BC, COUNT(AMOUNT) CO FROM CDTPAYMENTREQUEST WHERE MONTH(DATE_SENT) = 11 AND $P{currentMonth} >= 11 AND YEAR(DATE_SENT) = $P{currentYear} GROUP BY UNITCODE, YEAR(DATE_SENT)) NOV ON NOV.UNITCODE = RBU.UNIT_CODE
+LEFT JOIN (SELECT UNITCODE, YEAR(DATE_SENT) YEAR_SENT, SUM(AMOUNT) AM, SUM(BANKCHARGE)BC, COUNT(AMOUNT) CO FROM CDTPAYMENTREQUEST WHERE MONTH(DATE_SENT) = 12 AND $P{currentMonth} >= 12 AND YEAR(DATE_SENT) = $P{currentYear} GROUP BY UNITCODE, YEAR(DATE_SENT)) DEC ON DEC.UNITCODE = RBU.UNIT_CODE
+
+WHERE RBU.UNIT_CODE IN (SELECT UNITCODE FROM CDTPAYMENTREQUEST WHERE MONTH(DATE_SENT) IN (1,2,3,4,5,6,7,8,9,10,11,12))
+ORDER BY JANAM, JANBC, JANCO, FEBAM, FEBBC, FEBCO, MARAM, MARBC, MARCO, APRAM, APRBC, APRCO, MAYAM, MAYBC, MAYCO, JUNAM, JUNBC, JUNCO, JULAM, JULBC, JULCO, AUGAM, AUGBC, AUGCO, SEPAM, SEPBC, SEPCO, OCTAM, OCTBC, OCTCO, NOVAM, NOVBC, NOVCO, DECAM, DECBC, DECCO, BRANCH_NAME]]>
+	</queryString>
+	<field name="BRANCH_NAME" class="java.lang.String"/>
+	<field name="UNIT_CODE" class="java.lang.String"/>
+	<field name="JANAM" class="java.math.BigDecimal"/>
+	<field name="JANBC" class="java.math.BigDecimal"/>
+	<field name="JANCO" class="java.lang.Integer"/>
+	<field name="FEBAM" class="java.math.BigDecimal"/>
+	<field name="FEBBC" class="java.math.BigDecimal"/>
+	<field name="FEBCO" class="java.lang.Integer"/>
+	<field name="MARAM" class="java.math.BigDecimal"/>
+	<field name="MARBC" class="java.math.BigDecimal"/>
+	<field name="MARCO" class="java.lang.Integer"/>
+	<field name="APRAM" class="java.math.BigDecimal"/>
+	<field name="APRBC" class="java.math.BigDecimal"/>
+	<field name="APRCO" class="java.lang.Integer"/>
+	<field name="MAYAM" class="java.math.BigDecimal"/>
+	<field name="MAYBC" class="java.math.BigDecimal"/>
+	<field name="MAYCO" class="java.lang.Integer"/>
+	<field name="JUNAM" class="java.math.BigDecimal"/>
+	<field name="JUNBC" class="java.math.BigDecimal"/>
+	<field name="JUNCO" class="java.lang.Integer"/>
+	<field name="JULAM" class="java.math.BigDecimal"/>
+	<field name="JULBC" class="java.math.BigDecimal"/>
+	<field name="JULCO" class="java.lang.Integer"/>
+	<field name="AUGAM" class="java.math.BigDecimal"/>
+	<field name="AUGBC" class="java.math.BigDecimal"/>
+	<field name="AUGCO" class="java.lang.Integer"/>
+	<field name="SEPAM" class="java.math.BigDecimal"/>
+	<field name="SEPBC" class="java.math.BigDecimal"/>
+	<field name="SEPCO" class="java.lang.Integer"/>
+	<field name="OCTAM" class="java.math.BigDecimal"/>
+	<field name="OCTBC" class="java.math.BigDecimal"/>
+	<field name="OCTCO" class="java.lang.Integer"/>
+	<field name="NOVAM" class="java.math.BigDecimal"/>
+	<field name="NOVBC" class="java.math.BigDecimal"/>
+	<field name="NOVCO" class="java.lang.Integer"/>
+	<field name="DECAM" class="java.math.BigDecimal"/>
+	<field name="DECBC" class="java.math.BigDecimal"/>
+	<field name="DECCO" class="java.lang.Integer"/>
+	<variable name="TOTAM" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[($F{JANAM} != null ? $F{JANAM} : BigDecimal.ZERO).add(
+($F{FEBAM} != null ? $F{FEBAM} : BigDecimal.ZERO).add(
+($F{MARAM} != null ? $F{MARAM} : BigDecimal.ZERO).add(
+($F{APRAM} != null ? $F{APRAM} : BigDecimal.ZERO).add(
+($F{MAYAM} != null ? $F{MAYAM} : BigDecimal.ZERO).add(
+($F{JUNAM} != null ? $F{JUNAM} : BigDecimal.ZERO).add(
+($F{JULAM} != null ? $F{JULAM} : BigDecimal.ZERO).add(
+($F{AUGAM} != null ? $F{AUGAM} : BigDecimal.ZERO).add(
+($F{SEPAM} != null ? $F{SEPAM} : BigDecimal.ZERO).add(
+($F{OCTAM} != null ? $F{OCTAM} : BigDecimal.ZERO).add(
+($F{NOVAM} != null ? $F{NOVAM} : BigDecimal.ZERO).add(
+($F{DECAM} != null ? $F{DECAM} : BigDecimal.ZERO))))))))))))]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{JANAM} != null ? $F{JANAM} : BigDecimal.ZERO).add(
+($F{FEBAM} != null ? $F{FEBAM} : BigDecimal.ZERO).add(
+($F{MARAM} != null ? $F{MARAM} : BigDecimal.ZERO).add(
+($F{APRAM} != null ? $F{APRAM} : BigDecimal.ZERO).add(
+($F{MAYAM} != null ? $F{MAYAM} : BigDecimal.ZERO).add(
+($F{JUNAM} != null ? $F{JUNAM} : BigDecimal.ZERO).add(
+($F{JULAM} != null ? $F{JULAM} : BigDecimal.ZERO).add(
+($F{AUGAM} != null ? $F{AUGAM} : BigDecimal.ZERO).add(
+($F{SEPAM} != null ? $F{SEPAM} : BigDecimal.ZERO).add(
+($F{OCTAM} != null ? $F{OCTAM} : BigDecimal.ZERO).add(
+($F{NOVAM} != null ? $F{NOVAM} : BigDecimal.ZERO).add(
+($F{DECAM} != null ? $F{DECAM} : BigDecimal.ZERO))))))))))))]]></initialValueExpression>
+	</variable>
+	<variable name="TOTCO" class="java.lang.Integer">
+		<variableExpression><![CDATA[($F{JANCO} != null ? $F{JANCO} : 0) +
+($F{FEBCO} != null ? $F{FEBCO} : 0) +
+($F{MARCO} != null ? $F{MARCO} : 0) +
+($F{APRCO} != null ? $F{APRCO} : 0) +
+($F{MAYCO} != null ? $F{MAYCO} : 0) +
+($F{JUNCO} != null ? $F{JUNCO} : 0) +
+($F{JULCO} != null ? $F{JULCO} : 0) +
+($F{AUGCO} != null ? $F{AUGCO} : 0) +
+($F{SEPCO} != null ? $F{SEPCO} : 0) +
+($F{OCTCO} != null ? $F{OCTCO} : 0) +
+($F{NOVCO} != null ? $F{NOVCO} : 0) +
+($F{DECCO} != null ? $F{DECCO} : 0)]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{JANCO} != null ? $F{JANCO} : 0) +
+($F{FEBCO} != null ? $F{FEBCO} : 0) +
+($F{MARCO} != null ? $F{MARCO} : 0) +
+($F{APRCO} != null ? $F{APRCO} : 0) +
+($F{MAYCO} != null ? $F{MAYCO} : 0) +
+($F{JUNCO} != null ? $F{JUNCO} : 0) +
+($F{JULCO} != null ? $F{JULCO} : 0) +
+($F{AUGCO} != null ? $F{AUGCO} : 0) +
+($F{SEPCO} != null ? $F{SEPCO} : 0) +
+($F{OCTCO} != null ? $F{OCTCO} : 0) +
+($F{NOVCO} != null ? $F{NOVCO} : 0) +
+($F{DECCO} != null ? $F{DECCO} : 0)]]></initialValueExpression>
+	</variable>
+	<variable name="TOTBC" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[($F{JANBC} != null ? $F{JANBC} : BigDecimal.ZERO).add(
+($F{FEBBC} != null ? $F{FEBBC} : BigDecimal.ZERO).add(
+($F{MARBC} != null ? $F{MARBC} : BigDecimal.ZERO).add(
+($F{APRBC} != null ? $F{APRBC} : BigDecimal.ZERO).add(
+($F{MAYBC} != null ? $F{MAYBC} : BigDecimal.ZERO).add(
+($F{JUNBC} != null ? $F{JUNBC} : BigDecimal.ZERO).add(
+($F{JULBC} != null ? $F{JULBC} : BigDecimal.ZERO).add(
+($F{AUGBC} != null ? $F{AUGBC} : BigDecimal.ZERO).add(
+($F{SEPBC} != null ? $F{SEPBC} : BigDecimal.ZERO).add(
+($F{OCTBC} != null ? $F{OCTBC} : BigDecimal.ZERO).add(
+($F{NOVBC} != null ? $F{NOVBC} : BigDecimal.ZERO).add(
+($F{DECBC} != null ? $F{DECBC} : BigDecimal.ZERO))))))))))))]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{JANBC} != null ? $F{JANBC} : BigDecimal.ZERO).add(
+($F{FEBBC} != null ? $F{FEBBC} : BigDecimal.ZERO).add(
+($F{MARBC} != null ? $F{MARBC} : BigDecimal.ZERO).add(
+($F{APRBC} != null ? $F{APRBC} : BigDecimal.ZERO).add(
+($F{MAYBC} != null ? $F{MAYBC} : BigDecimal.ZERO).add(
+($F{JUNBC} != null ? $F{JUNBC} : BigDecimal.ZERO).add(
+($F{JULBC} != null ? $F{JULBC} : BigDecimal.ZERO).add(
+($F{AUGBC} != null ? $F{AUGBC} : BigDecimal.ZERO).add(
+($F{SEPBC} != null ? $F{SEPBC} : BigDecimal.ZERO).add(
+($F{OCTBC} != null ? $F{OCTBC} : BigDecimal.ZERO).add(
+($F{NOVBC} != null ? $F{NOVBC} : BigDecimal.ZERO).add(
+($F{DECBC} != null ? $F{DECBC} : BigDecimal.ZERO))))))))))))]]></initialValueExpression>
+	</variable>
+	<variable name="TOTJANAM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{JANAM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{JANAM}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTJANCO" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{JANCO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{JANCO}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTJANBC" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{JANBC}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{JANBC}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTFEBAM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{FEBAM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{FEBAM}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTFEBCO" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{FEBCO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{FEBCO}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTFEBBC" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{FEBBC}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{FEBBC}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTMARAM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{MARAM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{MARAM}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTMARCO" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{MARCO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{MARCO}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTMARBC" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{MARBC}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{MARBC}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTAPRAM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{APRAM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{APRAM}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTAPRCO" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{APRCO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{APRCO}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTAPRBC" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{APRBC}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{APRBC}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTMAYAM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{MAYAM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{MAYAM}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTMAYCO" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{MAYCO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{MAYCO}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTMAYBC" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{MAYBC}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{MAYBC}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTJUNAM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{JUNAM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{JUNAM}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTJUNCO" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{JUNCO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{JUNCO}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTJUNBC" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{JUNBC}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{JUNBC}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTJULAM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{JULAM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{JULAM}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTJULCO" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{JULCO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{JULCO}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTJULBC" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{JULBC}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{JULBC}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTAUGAM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{AUGAM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{AUGAM}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTAUGCO" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{AUGCO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{AUGCO}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTAUGBC" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{AUGBC}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{AUGBC}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTSEPAM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SEPAM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{SEPAM}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTSEPCO" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{SEPCO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{SEPCO}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTSEPBC" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SEPBC}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{SEPBC}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTOCTAM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{OCTAM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{OCTAM}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTOCTCO" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{OCTCO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{OCTCO}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTOCTBC" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{OCTBC}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{OCTBC}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTNOVAM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{NOVAM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{NOVAM}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTNOVCO" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{NOVCO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{NOVCO}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTNOVBC" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{NOVBC}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{NOVBC}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTDECAM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{DECAM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{DECAM}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTDECCO" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{DECCO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{DECCO}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTDECBC" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{DECBC}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{DECBC}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTTOTAM" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{TOTAM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{TOTAM}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTTOTCO" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$V{TOTCO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{TOTCO}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTTOTBC" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{TOTBC}]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{TOTBC}]]></initialValueExpression>
+	</variable>
+	<columnHeader>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="150" height="39"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BRANCH NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="52" height="39"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BRANCH
+CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="502" y="13" width="100" height="26"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CDTOL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="602" y="13" width="100" height="26"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO OF TRANSACTIONS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="402" y="13" width="100" height="26"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BANK COMM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="0" width="300" height="13"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEPTEMBER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="302" y="13" width="100" height="26"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO OF TRANSACTIONS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="702" y="13" width="100" height="26"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BANK COMM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="13" width="100" height="26"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CDTOL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="502" y="0" width="300" height="13"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OCTOBER]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="150" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BRANCH_NAME}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="0" width="52" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UNIT_CODE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="602" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OCTCO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+				<reportElement x="402" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SEPBC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+				<reportElement x="502" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OCTAM}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+				<reportElement x="702" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OCTBC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+				<reportElement x="202" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SEPAM}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="302" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SEPCO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="202" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+				<reportElement x="502" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTOCTAM}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+				<reportElement x="702" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTOCTBC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+				<reportElement x="402" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTSEPBC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="602" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTOCTCO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+				<reportElement x="202" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTSEPAM}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="302" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTSEPCO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Daily_Foreign_LC_Negotiations" language="groovy" pageWidth="1368" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="1328" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="asOfDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dateGenerated" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\ucpb-tfs\\workspace2\\tfs-report\\web-app\\reports\\BATCHES\\FXLC\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentDate" class="java.lang.String"/>
+	<parameter name="brUnitCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA["909"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitName" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Trade Services Department"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[--DAILY FUNDING (LC)
+SELECT DAILYF.*
+FROM (--REGULAR, STANDBY
+	 SELECT LC1.*
+	 FROM
+	 (SELECT TS.DOCUMENTSUBTYPE2 AS TENOR,
+	  	    LC.REIMBURSINGBANKIDENTIFIERCODE AS REIMBURSINGBANK,
+	  	    TS.CIFNAME,
+	  	    TS.CIFFULLNAME,
+	  	    TS.CIFNUMBER,
+	  	    TS.ACCOUNTOFFICER,
+	  	    TS.TRADEPRODUCTNUMBER AS DOCUMENTNUMBER,
+	  	    TS.PROCESSDATE,
+	  	    TS.EXPIRYDATE,
+	  	    TS.DOCUMENTSUBTYPE1 AS TYPE,
+	  	    PD.SPECIALRATETHIRDTOPHP AS SELLRATE,
+	  	    PD.SPECIALRATETHIRDTOUSD AS thirdRate,
+	  	    PD.SPECIALRATEUSDTOPHP AS usdToPhp,
+	    	    PD.PAIDDATE AS DATEAPPROVED,
+	  	    PD.AMOUNT AS TSAMOUNT,
+	  	    TS.CURRENCY AS LCCURRENCY,
+	  	    PD.CURRENCY as SETTLECURRENCY,
+	  	    PM.CHARGETYPE,
+	  	    PD.PAYMENTINSTRUMENTTYPE,
+	  	    TS.DOCUMENTTYPE,
+	  	    TS.SERVICETYPE,
+	  	    TS.STATUS,
+	  	    PD.PAIDDATE,
+	  	    TS.AMOUNT
+
+	  FROM TRADESERVICE AS TS
+
+	  INNER JOIN PAYMENT AS PM
+	  ON PM.TRADESERVICEID = TS.TRADESERVICEID
+
+	  INNER JOIN PAYMENTDETAIL AS PD
+	  ON PD.PAYMENTID = PM.ID
+
+	  INNER JOIN LETTEROFCREDIT AS LC
+	  ON LC.DOCUMENTNUMBER = TS.TRADEPRODUCTNUMBER
+
+	  LEFT JOIN DAILYFUNDING AS DF
+	  ON DF.TRADESERVICEID = TS.TRADESERVICEID
+
+	 WHERE  TS.DOCUMENTTYPE = 'FOREIGN'
+	 AND TS.SERVICETYPE IN ('NEGOTIATION','UA_LOAN_SETTLEMENT')
+	 AND TS.STATUS IN ('APPROVED', 'POSTED', 'POST_APPROVED', 'PREPARED')
+	 AND TS.DOCUMENTSUBTYPE1 IN ('REGULAR', 'STANDBY')
+	 AND PM.CHARGETYPE IN ('PRODUCT')
+	 AND DATE(PD.PAIDDATE) = $P{dateGenerated}
+
+	 ) AS LC1
+
+	 UNION ALL
+
+	 --CASH
+	 SELECT LCCASH.*
+	 FROM
+	 (SELECT TS.DOCUMENTSUBTYPE2 AS TENOR,
+	  	    LC.REIMBURSINGBANKIDENTIFIERCODE AS REIMBURSINGBANK,
+	  	    TS.CIFNAME,
+	  	    TS.CIFFULLNAME,
+	  	    TS.CIFNUMBER,
+	  	    TS.ACCOUNTOFFICER,
+	  	    TS.TRADEPRODUCTNUMBER AS DOCUMENTNUMBER,
+	  	    TS.PROCESSDATE,
+	  	    TS.EXPIRYDATE,
+	  	    TS.DOCUMENTSUBTYPE1 AS TYPE,
+	  	    PD.SPECIALRATETHIRDTOPHP AS SELLRATE,
+	  	    PD.SPECIALRATETHIRDTOUSD AS thirdRate,
+	  	    PD.SPECIALRATEUSDTOPHP AS usdToPhp,
+	    	    PD.PAIDDATE AS DATEAPPROVED,
+	  	    PD.AMOUNT AS TSAMOUNT,
+	  	    TS.CURRENCY AS LCCURRENCY,
+	  	    PD.CURRENCY as SETTLECURRENCY,
+	  	    PM.CHARGETYPE,
+	  	    PD.PAYMENTINSTRUMENTTYPE,
+	  	    TS.DOCUMENTTYPE,
+	  	    TS.SERVICETYPE,
+	  	    TS.STATUS,
+	  	    PD.PAIDDATE,
+	  	    TS.AMOUNT
+
+	  FROM TRADESERVICE AS TS
+
+	  INNER JOIN PAYMENT AS PM
+	  ON PM.TRADESERVICEID = TS.TRADESERVICEID
+
+	  INNER JOIN PAYMENTDETAIL AS PD
+	  ON PD.PAYMENTID = PM.ID
+
+	  INNER JOIN LETTEROFCREDIT AS LC
+	  ON LC.DOCUMENTNUMBER = TS.TRADEPRODUCTNUMBER
+
+	  LEFT JOIN DAILYFUNDING AS DF
+	  ON DF.TRADESERVICEID = TS.TRADESERVICEID
+
+	  WHERE TS.DOCUMENTTYPE = 'FOREIGN'
+	  AND TS.SERVICETYPE IN ('NEGOTIATION','UA_LOAN_SETTLEMENT')
+	  AND TS.STATUS IN ('APPROVED', 'POSTED', 'POST_APPROVED', 'PREPARED')
+	  AND TS.DOCUMENTSUBTYPE1='CASH'
+	  AND DATE(PD.PAIDDATE) = $P{dateGenerated}
+
+	 ) AS LCCASH
+
+	 UNION ALL
+
+	 --REGULAR, STANDBY
+	 SELECT LC1DM.*
+	 FROM
+	 (SELECT TS.DOCUMENTSUBTYPE2 AS TENOR,
+	  	    LC.REIMBURSINGBANKIDENTIFIERCODE AS REIMBURSINGBANK,
+	  	    TS.CIFNAME,
+	  	    TS.CIFFULLNAME,
+	  	    TS.CIFNUMBER,
+	  	    TS.ACCOUNTOFFICER,
+	  	    TS.TRADEPRODUCTNUMBER AS DOCUMENTNUMBER,
+	  	    TS.PROCESSDATE,
+	  	    TS.EXPIRYDATE,
+	  	    TS.DOCUMENTSUBTYPE1 AS TYPE,
+	  	    PD.SPECIALRATETHIRDTOPHP AS SELLRATE,
+	  	    PD.SPECIALRATETHIRDTOUSD AS thirdRate,
+	  	    PD.SPECIALRATEUSDTOPHP AS usdToPhp,
+	    	    PD.PAIDDATE AS DATEAPPROVED,
+	  	    PD.AMOUNT AS TSAMOUNT,
+	  	    TS.CURRENCY AS LCCURRENCY,
+	  	    PD.CURRENCY as SETTLECURRENCY,
+	  	    PM.CHARGETYPE,
+	  	    PD.PAYMENTINSTRUMENTTYPE,
+	  	    TS.DOCUMENTTYPE,
+	  	    TS.SERVICETYPE,
+	  	    TS.STATUS,
+	  	    PD.PAIDDATE,
+	  	    TS.AMOUNT
+
+	  FROM TRADESERVICE AS TS
+
+	  INNER JOIN PAYMENT AS PM
+	  ON PM.TRADESERVICEID = TS.TRADESERVICEID
+
+	  INNER JOIN PAYMENTDETAIL AS PD
+	  ON PD.PAYMENTID = PM.ID
+
+	  INNER JOIN LETTEROFCREDIT AS LC
+	  ON LC.DOCUMENTNUMBER = TS.TRADEPRODUCTNUMBER
+
+	  LEFT JOIN DAILYFUNDING AS DF
+	  ON DF.TRADESERVICEID = TS.TRADESERVICEID
+
+	 WHERE TS.DOCUMENTTYPE = 'DOMESTIC'
+	 AND TS.SERVICETYPE IN('NEGOTIATION','UA_LOAN_SETTLEMENT')
+	 AND TS.STATUS IN ('APPROVED', 'POSTED', 'POST_APPROVED', 'PREPARED')
+	 AND TS.DOCUMENTSUBTYPE1 IN ('REGULAR', 'STANDBY')
+	 AND PD.PAYMENTINSTRUMENTTYPE IN ('PDDTS', 'SWIFT')
+	 AND DATE(PD.PAIDDATE) = $P{dateGenerated}
+
+	 ) AS LC1DM
+
+	 UNION ALL
+
+	 --CASH
+	 SELECT LCCASHDM.*
+	 FROM
+	 (SELECT TS.DOCUMENTSUBTYPE2 AS TENOR,
+	  	    LC.REIMBURSINGBANKIDENTIFIERCODE AS REIMBURSINGBANK,
+	  	    TS.CIFNAME,
+	  	    TS.CIFFULLNAME,
+	  	    TS.CIFNUMBER,
+	  	    TS.ACCOUNTOFFICER,
+	  	    TS.TRADEPRODUCTNUMBER AS DOCUMENTNUMBER,
+	  	    TS.PROCESSDATE,
+	  	    TS.EXPIRYDATE,
+	  	    TS.DOCUMENTSUBTYPE1 AS TYPE,
+	  	    PD.SPECIALRATETHIRDTOPHP AS SELLRATE,
+	  	    PD.SPECIALRATETHIRDTOUSD AS thirdRate,
+	  	    PD.SPECIALRATEUSDTOPHP AS usdToPhp,
+	    	    PD.PAIDDATE AS DATEAPPROVED,
+	  	    PD.AMOUNT AS TSAMOUNT,
+	  	    TS.CURRENCY AS LCCURRENCY,
+	  	    PD.CURRENCY as SETTLECURRENCY,
+	  	    PM.CHARGETYPE,
+	  	    PD.PAYMENTINSTRUMENTTYPE,
+	  	    TS.DOCUMENTTYPE,
+	  	    TS.SERVICETYPE,
+	  	    TS.STATUS,
+	  	    PD.PAIDDATE,
+	  	    TS.AMOUNT
+
+	  FROM TRADESERVICE AS TS
+
+	  INNER JOIN PAYMENT AS PM
+	  ON PM.TRADESERVICEID = TS.TRADESERVICEID
+
+	  INNER JOIN PAYMENTDETAIL AS PD
+	  ON PD.PAYMENTID = PM.ID
+
+	  INNER JOIN LETTEROFCREDIT AS LC
+	  ON LC.DOCUMENTNUMBER = TS.TRADEPRODUCTNUMBER
+
+	  LEFT JOIN DAILYFUNDING AS DF
+	  ON DF.TRADESERVICEID = TS.TRADESERVICEID
+
+	  WHERE TS.DOCUMENTTYPE = 'DOMESTIC'
+	  AND TS.SERVICETYPE IN('NEGOTIATION','UA_LOAN_SETTLEMENT')
+	  AND TS.STATUS IN ('APPROVED', 'POSTED', 'POST_APPROVED', 'PREPARED')
+	  AND TS.DOCUMENTSUBTYPE1='CASH'
+	  AND PD.PAYMENTINSTRUMENTTYPE IN ('PDDTS', 'SWIFT')
+	  AND DATE(PD.PAIDDATE) = $P{dateGenerated}
+
+	 ) AS LCCASHDM
+
+
+	) AS DAILYF
+
+ORDER BY DAILYF.LCCURRENCY, DAILYF.TYPE, DAILYF.REIMBURSINGBANK, DAILYF.EXPIRYDATE]]>
+	</queryString>
+	<field name="TENOR" class="java.lang.String"/>
+	<field name="REIMBURSINGBANK" class="java.lang.String"/>
+	<field name="CIFNAME" class="java.lang.String"/>
+	<field name="CIFFULLNAME" class="java.lang.String"/>
+	<field name="CIFNUMBER" class="java.lang.String"/>
+	<field name="ACCOUNTOFFICER" class="java.lang.String"/>
+	<field name="DOCUMENTNUMBER" class="java.lang.String"/>
+	<field name="PROCESSDATE" class="java.sql.Timestamp"/>
+	<field name="EXPIRYDATE" class="java.sql.Timestamp"/>
+	<field name="TYPE" class="java.lang.String"/>
+	<field name="SELLRATE" class="java.math.BigDecimal"/>
+	<field name="THIRDRATE" class="java.math.BigDecimal"/>
+	<field name="USDTOPHP" class="java.math.BigDecimal"/>
+	<field name="DATEAPPROVED" class="java.sql.Timestamp"/>
+	<field name="TSAMOUNT" class="java.math.BigDecimal"/>
+	<field name="LCCURRENCY" class="java.lang.String"/>
+	<field name="SETTLECURRENCY" class="java.lang.String"/>
+	<field name="CHARGETYPE" class="java.lang.String"/>
+	<field name="PAYMENTINSTRUMENTTYPE" class="java.lang.String"/>
+	<field name="DOCUMENTTYPE" class="java.lang.String"/>
+	<field name="SERVICETYPE" class="java.lang.String"/>
+	<field name="STATUS" class="java.lang.String"/>
+	<field name="PAIDDATE" class="java.sql.Timestamp"/>
+	<field name="AMOUNT" class="java.math.BigDecimal"/>
+	<variable name="subTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="reimBank" calculation="Sum">
+		<variableExpression><![CDATA[$F{TSAMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{TSAMOUNT}]]></initialValueExpression>
+	</variable>
+	<variable name="grandTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="lcCurrency" incrementType="Group" incrementGroup="reimBank" calculation="Sum">
+		<variableExpression><![CDATA[$V{subTotal}]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{subTotal}]]></initialValueExpression>
+	</variable>
+	<variable name="dateGeneratedFormatted" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("MMMM dd, yyyy").format(new Date($P{dateGenerated}))]]></variableExpression>
+		<initialValueExpression><![CDATA[new SimpleDateFormat("MMMM dd, yyyy").format(new Date($P{dateGenerated}))]]></initialValueExpression>
+	</variable>
+	<group name="tenor">
+		<groupExpression><![CDATA[$F{TENOR}]]></groupExpression>
+		<groupHeader>
+			<band height="15">
+				<textField isBlankWhenNull="true">
+					<reportElement mode="Transparent" x="0" y="0" width="200" height="15" backcolor="#FFFFFF"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TENOR}.toUpperCase()]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="lcCurrency">
+		<groupExpression><![CDATA[$F{LCCURRENCY}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<staticText>
+					<reportElement x="0" y="15" width="200" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[REIMBURSING
+BANK]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="875" y="15" width="75" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[ISSUE
+DATE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1025" y="15" width="100" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[SETTLEMENT AMOUNT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="200" y="15" width="50" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[CIF NO.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1125" y="15" width="50" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[SELL RATE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1175" y="15" width="50" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[SETTLE
+CURR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="425" y="15" width="175" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[AO NAME]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1225" y="15" width="100" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[TIME
+APPROVED]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="600" y="15" width="125" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[DOCUMENT NUMBER]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="250" y="15" width="175" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[CIF NAME]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="200" height="15"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA["LC CURRENCY: " + $F{LCCURRENCY}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="950" y="15" width="75" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[EXPIRY
+DATE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="725" y="15" width="50" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[ORIGINAL
+CURRENCY]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="775" y="15" width="100" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[ORRIGINAL AMOUNT]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="subType">
+		<groupExpression><![CDATA[$F{TYPE}]]></groupExpression>
+		<groupHeader>
+			<band height="15">
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="200" height="15"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement verticalAlignment="Top">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TYPE}.toUpperCase()]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="reimBank">
+		<groupExpression><![CDATA[]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="90">
+			<staticText>
+				<reportElement x="1225" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PAGE:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="60" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{brUnitName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="514" y="0" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="45" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{brUnitCode}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="15" width="150" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportId}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="150" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1225" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN TIME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN DATE:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1275" y="15" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="514" y="30" width="300" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["AS OF " + $V{dateGeneratedFormatted}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="1275" y="0" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="45" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="65" height="30"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT NAME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="514" y="15" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DAILY FUNDING REPORT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPORT ID:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="200" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REIMBURSINGBANK}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="200" y="0" width="50" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIFNUMBER}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="600" y="0" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DOCUMENTNUMBER}.toUpperCase().replaceAll("-", "")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy h:mm a" isBlankWhenNull="true">
+				<reportElement x="1225" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATEAPPROVED}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="950" y="0" width="75" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EXPIRYDATE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="425" y="0" width="175" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACCOUNTOFFICER}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="1175" y="0" width="50" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SETTLECURRENCY}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="875" y="0" width="75" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATEAPPROVED}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="250" y="0" width="175" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIFFULLNAME} != null ? $F{CIFFULLNAME}.toUpperCase() : $F{CIFNAME} != null ? $F{CIFNAME}.toUpperCase() : " "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00000000" isBlankWhenNull="true">
+				<reportElement x="1125" y="0" width="50" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{LCCURRENCY} != $F{SETTLECURRENCY})
+    ?
+    ($F{LCCURRENCY} != "USD" && $F{LCCURRENCY} != "PHP" && $F{SETTLECURRENCY} == "USD"
+        ?
+        $F{THIRDRATE}
+        :
+        ($F{LCCURRENCY} != "USD" && $F{LCCURRENCY} != "PHP" && $F{SETTLECURRENCY} == "PHP"
+            ?
+            $F{THIRDRATE} + " / " + $F{USDTOPHP}
+            :
+            ($F{LCCURRENCY} == "USD" && $F{SETTLECURRENCY} == "PHP" ?  $F{USDTOPHP} : " ")
+        )
+    )
+
+: " "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="1025" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TSAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="775" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="725" y="0" width="50" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LCCURRENCY}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="200" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="1325" height="100"/>
+				<subreportParameter name="asOfDate"/>
+				<subreportParameter name="dateGenerated">
+					<subreportParameterExpression><![CDATA[$P{dateGenerated}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="reportId"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Daily_Funding_Subreport.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="100" width="1325" height="100"/>
+				<subreportParameter name="asOfDate"/>
+				<subreportParameter name="dateGenerated">
+					<subreportParameterExpression><![CDATA[$P{dateGenerated}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="reportId"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Daily_Funding_ImportAdvance_Subreport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

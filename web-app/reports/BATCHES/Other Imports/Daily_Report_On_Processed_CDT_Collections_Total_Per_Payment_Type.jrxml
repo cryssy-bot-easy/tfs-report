@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Daily_Report_On_Processed_CDT_Collections_Total_Per_Payment_Type" language="groovy" pageWidth="140" pageHeight="30" whenNoDataType="AllSectionsNoDetail" columnWidth="140" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select
+	sum(amount) as totalperpaymenttypeamount
+
+from cdtpaymentrequest
+
+where status is not null group by req_type]]>
+	</queryString>
+	<field name="TOTALPERPAYMENTTYPEAMOUNT" class="java.math.BigDecimal"/>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="140" height="30"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{TOTALPERPAYMENTTYPEAMOUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

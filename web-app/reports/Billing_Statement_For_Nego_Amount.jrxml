@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Billing_Statement_For_Nego_Amount" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="540" leftMargin="36" rightMargin="36" topMargin="36" bottomMargin="36">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="254"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\ucpb-tfs\\workspace2\\tfs-report\\web-app\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="documentNumber" class="java.lang.String"/>
+	<parameter name="tradeServiceId" class="java.lang.String"/>
+	<parameter name="longName" class="java.lang.String"/>
+	<parameter name="importerName" class="java.lang.String"/>
+	<parameter name="expiryDate" class="java.lang.String"/>
+	<parameter name="priceTerm" class="java.lang.String"/>
+	<parameter name="usancePeriod" class="java.lang.String"/>
+	<parameter name="outstandingBalance" class="java.lang.String"/>
+	<parameter name="tenorOfDraftNarrative" class="java.lang.String"/>
+	<parameter name="modeOfPayment1" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="modeOfPayment2" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="modeOfPayment3" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="settlementCurrency1" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="settlementCurrency2" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="settlementCurrency3" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amountSettlement1" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amountSettlement2" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amountSettlement3" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amount1" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amount2" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amount3" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="totalAmountOfPaymentLc" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="modeOfPaymentCharges1" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="modeOfPaymentCharges2" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="modeOfPaymentCharges3" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amountCharges1" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amountCharges2" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amountCharges3" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="settlementCurrency" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="totalAmountOfPaymentCharges" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="advisingFee" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="bankCommission" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="bookingCommission" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="bspFee" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cableFee" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cancellationFee" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="showCilex" class="java.lang.String"/>
+	<parameter name="cilexFee" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="commitmentFee" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="confirmingFee" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="documentaryStamp" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="interestFee" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="notarialFee" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="remittanceFee" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="suppliesFee" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="totalAmountCharges" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="amount" class="java.lang.String"/>
+	<parameter name="THIRD-USD_text_special_rate" class="java.lang.String"/>
+	<parameter name="USD-PHP_text_special_rate" class="java.lang.String"/>
+	<parameter name="USD-PHP_urr" class="java.lang.String"/>
+	<parameter name="urr" class="java.lang.String"/>
+	<parameter name="forexTableRowCount" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+	ts.amount as lcamount,
+	ts.documentType, ts.documentclass, ts.documentsubtype1,
+	ts.documentclass,
+	ts.documentsubtype2, ts.servicetype, ts.cifname,
+	ts.currency,
+	tp.currency as tradeproductcurrency,
+	tp.amount as tradeproductamount,
+
+	lc.usanceperiod, lc.tenorofdraftnarrative,
+
+	pd.currency as settlementcurrency,
+
+	pd.specialratethirdtophp as specialratethirdtophp,
+
+	pd.specialratethirdtousd as specialratethirdtousd,
+
+	pd.specialrateusdtophp as specialrateusdtophp,
+	pd.urr
+
+
+from tradeservice ts
+left join tradeproduct tp on ts.documentnumber=tp.documentnumber
+left join letterofcredit lc on ts.tradeproductnumber=lc.documentnumber
+left join payment pay on ts.tradeserviceid=pay.tradeserviceid
+left join paymentdetail pd on pay.id=pd.paymentid
+
+where ts.tradeServiceId=$P{tradeServiceId}
+
+order by pd.urr]]>
+	</queryString>
+	<field name="LCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="DOCUMENTTYPE" class="java.lang.String"/>
+	<field name="DOCUMENTCLASS" class="java.lang.String"/>
+	<field name="DOCUMENTSUBTYPE1" class="java.lang.String"/>
+	<field name="DOCUMENTSUBTYPE2" class="java.lang.String"/>
+	<field name="SERVICETYPE" class="java.lang.String"/>
+	<field name="CIFNAME" class="java.lang.String"/>
+	<field name="CURRENCY" class="java.lang.String"/>
+	<field name="TRADEPRODUCTCURRENCY" class="java.lang.String"/>
+	<field name="TRADEPRODUCTAMOUNT" class="java.math.BigDecimal"/>
+	<field name="USANCEPERIOD" class="java.lang.Long"/>
+	<field name="TENOROFDRAFTNARRATIVE" class="java.lang.String"/>
+	<field name="SETTLEMENTCURRENCY" class="java.lang.String"/>
+	<field name="SPECIALRATETHIRDTOPHP" class="java.math.BigDecimal"/>
+	<field name="SPECIALRATETHIRDTOUSD" class="java.math.BigDecimal"/>
+	<field name="SPECIALRATEUSDTOPHP" class="java.math.BigDecimal"/>
+	<field name="URR" class="java.math.BigDecimal"/>
+	<variable name="currencyAmount" class="java.lang.String">
+		<variableExpression><![CDATA[$P{currency} + " " + (($F{LCAMOUNT}==0 || $F{LCAMOUNT}==0.00 || $F{LCAMOUNT}==null) ? $V{tradeProductAmount} : $V{lcAmount})]]></variableExpression>
+	</variable>
+	<variable name="lcAmount" class="java.lang.String">
+		<variableExpression><![CDATA[(new DecimalFormat("#,##0.00").format(new BigDecimal($F{LCAMOUNT} ? $F{LCAMOUNT} : 0)))]]></variableExpression>
+		<initialValueExpression><![CDATA[(new DecimalFormat("#,##0.00").format(new BigDecimal($F{LCAMOUNT} ? $F{LCAMOUNT} : 0)))]]></initialValueExpression>
+	</variable>
+	<variable name="tradeProductCurrency" class="java.lang.String">
+		<variableExpression><![CDATA[($F{TRADEPRODUCTCURRENCY}==null ? "" : $F{TRADEPRODUCTCURRENCY})]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{TRADEPRODUCTCURRENCY}==null ? "" : $F{TRADEPRODUCTCURRENCY})]]></initialValueExpression>
+	</variable>
+	<variable name="tradeProductAmount" class="java.lang.String">
+		<variableExpression><![CDATA[($F{TRADEPRODUCTAMOUNT}==null ? "" : (new DecimalFormat("#,##0.00").format(new BigDecimal($F{TRADEPRODUCTAMOUNT} ? $F{TRADEPRODUCTAMOUNT} : 0))))]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{TRADEPRODUCTAMOUNT}==null ? "" : (new DecimalFormat("#,##0.00").format(new BigDecimal($F{TRADEPRODUCTAMOUNT} ? $F{TRADEPRODUCTAMOUNT} : 0))))]]></initialValueExpression>
+	</variable>
+	<variable name="outstandingBalance" class="java.lang.String">
+		<variableExpression><![CDATA[($P{outstandingBalance}=="undefined") ? "" : $P{outstandingBalance}]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{outstandingBalance}=="undefined") ? "" : $P{outstandingBalance}]]></initialValueExpression>
+	</variable>
+	<variable name="usancePeriod" class="java.lang.String">
+		<variableExpression><![CDATA[$P{usancePeriod} + " days " + $P{tenorOfDraftNarrative}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{usancePeriod} + " days " + $P{tenorOfDraftNarrative}]]></initialValueExpression>
+	</variable>
+	<variable name="thirdToUsdRate" class="java.lang.String">
+		<variableExpression><![CDATA[$F{SPECIALRATETHIRDTOUSD}!=null ? (($F{CURRENCY}==null ? $F{TRADEPRODUCTCURRENCY} : $F{CURRENCY}) + " - USD") : ""]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{SPECIALRATETHIRDTOUSD}!=null ? (($F{CURRENCY}==null ? $F{TRADEPRODUCTCURRENCY} : $F{CURRENCY}) + " - USD") : ""]]></initialValueExpression>
+	</variable>
+	<variable name="thirdToPhpRate" class="java.lang.String">
+		<variableExpression><![CDATA[$F{SPECIALRATETHIRDTOPHP}!=null ? (($F{CURRENCY}==null ? $F{TRADEPRODUCTCURRENCY} : $F{CURRENCY}) + " - PHP") : ""]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{SPECIALRATETHIRDTOPHP}!=null ? (($F{CURRENCY}==null ? $F{TRADEPRODUCTCURRENCY} : $F{CURRENCY}) + " - PHP") : ""]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="134" y="10" width="300" height="30"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[BILLING STATEMENT]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="50" height="50"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="120" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="150" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CLIENT NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="150" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TYPE OF TRANSACTION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="150" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[AMOUNT / CURRENCY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="150" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[REFERENCE NUMBER
+TRANSACTION]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="60" width="150" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DOCUMENTSUBTYPE2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="15" width="390" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{DOCUMENTTYPE}.equals("FOREIGN") ? "FX " : "DM ")
++
+(($F{DOCUMENTSUBTYPE1}==null || $F{DOCUMENTSUBTYPE1}=="") ? "" : ($F{DOCUMENTSUBTYPE1}.toUpperCase() + " "))
++
+$F{DOCUMENTCLASS}.toUpperCase()
++
+" "
++ $F{SERVICETYPE}.replaceAll("_", " ").toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="30" width="390" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{documentNumber}.replaceAll("-", "")]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement x="150" y="0" width="390" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{longName}=="" ? $P{importerName}.toUpperCase() :
+($P{longName}.substring(0, 2)=="  " ? $P{longName}.substring(2).toUpperCase() : $P{longName}.toUpperCase())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="300" y="45" width="125" height="15"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{SPECIALRATETHIRDTOPHP}!=null || $F{SPECIALRATETHIRDTOUSD}!=null || $F{SPECIALRATEUSDTOPHP}!=null) ? "Special Rate" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="75" width="150" height="45"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DOCUMENTSUBTYPE2}.equalsIgnoreCase("Usance") ? "USANCE TENOR (if payment term is usance)" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="75" width="150" height="45"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{USANCEPERIOD}==null || $F{USANCEPERIOD}==0)
+?
+(($P{usancePeriod}=="0" || $P{usancePeriod}=="" || $P{usancePeriod}=="undefined") ? "" : $V{usancePeriod}.toUpperCase())
+:
+($F{USANCEPERIOD} + " DAYS " + $F{TENOROFDRAFTNARRATIVE}.toUpperCase())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="60" width="150" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DOCUMENTSUBTYPE2}==null ? "" : "TENOR"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="45" width="150" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currency} + " " + $P{amount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="425" y="60" width="115" height="60"/>
+				<box leftPadding="5" rightPadding="25"/>
+				<textElement textAlignment="Right" markup="html">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($F{SPECIALRATETHIRDTOUSD}!=null || $P{THIRD-USD_text_special_rate}!="") ? (($F{SPECIALRATETHIRDTOUSD}==null ? $P{THIRD-USD_text_special_rate} : $F{SPECIALRATETHIRDTOUSD}.stripTrailingZeros()) + "<br/>") : "")
++
+(($P{forexTableRowCount}>="3" && $P{USD-PHP_text_special_rate}!="") ? (($F{DOCUMENTTYPE}=="DOMESTIC" && $F{DOCUMENTCLASS}=="LC") ? "" : ($P{USD-PHP_text_special_rate} + "<br/>")) : "")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="300" y="60" width="125" height="60"/>
+				<textElement textAlignment="Right" markup="html">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($F{SPECIALRATETHIRDTOUSD}!=null || $P{THIRD-USD_text_special_rate}!="") ? (($P{currency} + " - USD") + "<br/>") : "")
++
+(($P{forexTableRowCount}>="3" && $P{USD-PHP_text_special_rate}!="") ? (($F{DOCUMENTTYPE}=="DOMESTIC" && $F{DOCUMENTCLASS}=="LC") ? "" : "USD - PHP<br/>") : "")]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="35">
+			<staticText>
+				<reportElement x="0" y="0" width="200" height="15"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Payment Details for Nego Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="15" width="125" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Settlement Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="425" y="15" width="115" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Equivalent Nego]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="150" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Settlement Currency]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="15" width="150" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Mode of Payment]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<summary>
+		<band height="305" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="60" width="300" height="15"/>
+				<box rightPadding="6"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nego Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="105" width="150" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Mode of Payment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="150" y="105" width="150" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Settlement Amount]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="300" y="60" width="125" height="15"/>
+				<subreportParameter name="documentNumber">
+					<subreportParameterExpression><![CDATA[$P{documentNumber}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tradeServiceId">
+					<subreportParameterExpression><![CDATA[$P{tradeServiceId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Settlement_Amount_Total_SubReport.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement x="150" y="0" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{modeOfPayment1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{settlementCurrency1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amountSettlement1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="0" width="115" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amount1}=="" ? "" : new DecimalFormat("#,##0.00").format(new BigDecimal($P{amount1}.replaceAll(",", "")))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="15" width="115" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amount2}=="" ? "" : new DecimalFormat("#,##0.00").format(new BigDecimal($P{amount2}.replaceAll(",", "")))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="15" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{modeOfPayment2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="15" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{settlementCurrency2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="15" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amountSettlement2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="30" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{modeOfPayment3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="30" width="115" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amount3}=="" ? "" : new DecimalFormat("#,##0.00").format(new BigDecimal($P{amount3}.replaceAll(",", "")))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="30" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amountSettlement3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="30" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{settlementCurrency3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="45" width="115" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{totalAmountOfPaymentLc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="45" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="45" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="45" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="125" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{modeOfPaymentCharges1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="150" y="125" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amountCharges1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="150" y="140" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amountCharges2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="140" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{modeOfPaymentCharges2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="150" y="155" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amountCharges3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="155" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{modeOfPaymentCharges3}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="170" width="150" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Amount Due]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="190" width="150" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Settlement Currency]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="150" y="190" width="150" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{settlementCurrency}=="undefined" ? "" : $P{settlementCurrency}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="150" y="170" width="150" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{totalAmountOfPaymentCharges}=="undefined" ? "" : $P{totalAmountOfPaymentCharges}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="210" width="300" height="20"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CHARGES DETAILS"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="150" y="230" width="150" height="30"/>
+				<box leftPadding="3" bottomPadding="15" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Top" markup="html">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($P{advisingFee}=="undefined" || $P{advisingFee}=="0.00") ? "" : ($P{advisingFee} + "<br/><br/>")) +
+(($P{bankCommission}=="undefined" || $P{bankCommission}=="0.00") ? "" : ($P{bankCommission} + "<br/><br/>")) +
+(($P{bookingCommission}=="undefined" || $P{bookingCommission}=="0.00") ? "" : ($P{bookingCommission} + "<br/><br/>")) +
+(($P{bspFee}=="undefined" || $P{bspFee}=="0.00") ? "" : ($P{bspFee} + "<br/><br/>")) +
+(($P{cableFee}=="undefined" || $P{cableFee}=="0.00") ? "" : ($P{cableFee} + "<br/>")) +
+(($P{cancellationFee}=="undefined" || $P{cancellationFee}=="0.00") ? "" : ($P{cancellationFee} + "<br/>")) +
+((($P{cilexFee}!="undefined" && $P{cilexFee}!="0.00") && $P{showCilex}=="true") ? ($P{cilexFee} + "<br/><br/>") : "") +
+(($P{commitmentFee}=="undefined" || $P{commitmentFee}=="0.00") ? "" : ($P{commitmentFee} + "<br/><br/>")) +
+(($P{confirmingFee}=="undefined" || $P{confirmingFee}=="0.00") ? "" : ($P{confirmingFee} + "<br/>")) +
+(($P{documentaryStamp}=="undefined" || $P{documentaryStamp}=="0.00") ? "" : ($P{documentaryStamp} + "<br/>")) +
+(($P{interestFee}=="undefined" || $P{interestFee}=="0.00") ? "" : ($P{interestFee} + "<br/>")) +
+(($P{notarialFee}=="undefined" || $P{notarialFee}=="0.00") ? "" : ($P{notarialFee} + "<br/>")) +
+(($P{remittanceFee}=="undefined" || $P{remittanceFee}=="0.00") ? "" : ($P{remittanceFee} + "<br/>")) +
+(($P{suppliesFee}=="undefined" || $P{suppliesFee}=="0.00") ? "" : ($P{suppliesFee} + "<br/>")) +
+(($P{totalAmountCharges}=="undefined" || $P{totalAmountCharges}=="0.00") ? "" : ("<br/>" + $P{totalAmountCharges}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="230" width="150" height="30"/>
+				<box leftPadding="0" bottomPadding="15" rightPadding="0"/>
+				<textElement markup="html">
+					<font size="9"/>
+					<paragraph leftIndent="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($P{advisingFee}=="undefined" || $P{advisingFee}=="0.00") ? "" : "Corresponding Charges-<br/>Advising Fee<br/>") +
+(($P{bankCommission}=="undefined" || $P{bankCommission}=="0.00") ? "" : "Bank Commission<br/>(Net of 2% tax, if applicable)<br/>") +
+(($P{bookingCommission}=="undefined" || $P{bookingCommission}=="0.00") ? "" : "Booking Commission<br/>(Net of 2% tax, if applicable)<br/>") +
+(($P{bspFee}=="undefined" || $P{bspFee}=="0.00") ? "" : "BSP Commission<br/>(Net of 2% tax, if applicable)<br/>") +
+(($P{cableFee}=="undefined" || $P{cableFee}=="0.00") ? "" : "Cable Fee<br/>") +
+(($P{cancellationFee}=="undefined" || $P{cancellationFee}=="0.00") ? "" : "Cancellation Fee<br/>") +
+((($P{cilexFee}!="undefined" && $P{cilexFee}!="0.00") && $P{showCilex}=="true") ? "CILEX<br/>(Net of 2% tax, if applicable)<br/>" : "") +
+(($P{commitmentFee}=="undefined" || $P{commitmentFee}=="0.00") ? "" : "Commitment Fee<br/>(Net of 2% tax, if applicable)<br/>") +
+(($P{confirmingFee}=="undefined" || $P{confirmingFee}=="0.00") ? "" : "Confirming Fee<br/>") +
+(($P{documentaryStamp}=="undefined" || $P{documentaryStamp}=="0.00") ? "" : "Documentary Stamps<br/>") +
+(($P{interestFee}=="undefined" || $P{interestFee}=="0.00") ? "" : "Interest Fee<br/>") +
+(($P{notarialFee}=="undefined" || $P{notarialFee}=="0.00") ? "" : "Notarial Fee<br/>") +
+(($P{remittanceFee}=="undefined" || $P{remittanceFee}=="0.00") ? "" : "Remittance Fee<br/>") +
+(($P{suppliesFee}=="undefined" || $P{suppliesFee}=="0.00") ? "" : "Supplies Fee<br/>") +
+(($P{totalAmountCharges}=="undefined" || $P{totalAmountCharges}=="0.00") ? "" : "<br/>TOTAL CHARGES")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="260" width="150" height="45"/>
+				<textElement>
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Grand Total
+Nego Amount & Charges]]></text>
+			</staticText>
+			<subreport>
+				<reportElement positionType="Float" x="175" y="260" width="125" height="45"/>
+				<subreportParameter name="tradeServiceId">
+					<subreportParameterExpression><![CDATA[$P{tradeServiceId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Grand_Total_SubReport.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="75" width="540" height="30"/>
+				<box topPadding="15"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Payment Details for Charges]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

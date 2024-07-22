@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Dm_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Other_Local_Bank_Subreport_Importer" language="groovy" pageWidth="572" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="brUnitCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sumTop30dpNumber" class="java.lang.String"/>
+	<parameter name="currentYear" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--DM NON-LC TOP 30 (GRANDTOTAL)
+SELECT SUM(AMOUNTDP) AS AMOUNTDPTOTAL,
+	  SUM(DPNUMBER) AS DPNUMBERTOTAL
+FROM (
+	SELECT row_number() over(ORDER BY AmountDp DESC) as RN,
+		  clientBank,
+		  CIFFULLNAME,
+		  AMOUNTDP,
+		  DPNUMBER
+
+	FROM (SELECT row_number() over() as RN,
+       		   tab.importer AS clientBank,
+       		   tab.CIFFULLNAME,
+	  		   SUM(tab.tpAmountConverted) AS AmountDp,
+	  		   COUNT(*) AS dpNumber
+
+		 FROM (SELECT tpIn.importer,
+		   		    tpIn.CIFFULLNAME,
+		  		    (CASE WHEN tpIn.dpCurr ='PHP' THEN coalesce(tpIn.dpAmount,0)
+		        			WHEN tpIn.dpCurr ='USD' THEN coalesce(tpIn.dpAmount * tpIn.usdPhp,0)
+			   			WHEN tpIn.dpCurr !='PHP' AND tpIn.dpCurr != 'USD' THEN coalesce((tpIn.dpAmount * tpIn.thrdUsd) * tpIn.usdPhp,0)
+		   			END) AS tpAmountConverted
+
+	 		  FROM (SELECT SPECIALRATETHIRDTOUSD AS thrdUsd,
+	  		   			SPECIALRATEUSDTOPHP AS usdPhp,
+	  		   			CIFNAME AS importer,
+	  		   			NULLIF(CIFFULLNAME, '') AS CIFFULLNAME,
+	  		   			AMOUNT AS dpAmount,
+	  		   			CURRENCY AS dpCurr
+
+		 		   FROM TRADESERVICE
+
+		 		   WHERE DOCUMENTTYPE = 'DOMESTIC'
+	 	 		   AND STATUS IN('APPROVED', 'POST_APPROVED', 'POSTED', 'PRE_APPROVED')
+	 	 		   AND SERVICETYPE = 'NEGOTIATION'
+	 	 		   AND DOCUMENTCLASS = 'DP'
+	 	 		   AND PROCESSINGUNITCODE = '909'
+	 	 		   AND CIFNAME <> ''
+	 	 		   AND year(MODIFIEDDATE)= $P{currentYear}
+
+				  ) AS tpIn
+
+			 ) AS tab
+
+		 GROUP BY tab.importer,
+		 		tab.CIFFULLNAME
+		 ORDER BY AmountDp DESC
+		)
+
+	) AS DM2]]>
+	</queryString>
+	<field name="AMOUNTDPTOTAL" class="java.math.BigDecimal"/>
+	<field name="DPNUMBERTOTAL" class="java.lang.Integer"/>
+	<summary>
+		<band height="21">
+			<staticText>
+				<reportElement x="24" y="0" width="250" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="274" y="18" width="275" height="1"/>
+			</line>
+			<line>
+				<reportElement x="274" y="20" width="275" height="1"/>
+			</line>
+			<line>
+				<reportElement x="274" y="0" width="275" height="1"/>
+			</line>
+			<textField pattern="#,##0.00">
+				<reportElement x="274" y="0" width="150" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AMOUNTDPTOTAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="424" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DPNUMBERTOTAL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

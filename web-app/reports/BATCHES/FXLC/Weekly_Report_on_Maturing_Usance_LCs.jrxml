@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Weekly_Report_on_Maturing_Usance_LCs" language="groovy" pageWidth="1008" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="968" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.196150000000004"/>
+	<property name="ireport.x" value="1351"/>
+	<property name="ireport.y" value="13"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="week1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="week2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitName" class="java.lang.String"/>
+	<parameter name="date" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format(new Date())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dateNow" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("MM").format(new Date())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\ucpb-tfs\\workspace\\tfs-report\\web-app\\reports\\BATCHES\\FXLC\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[-- OLD QUERY
+--select tp.currency as lcCurrency , lc.reimbursingbankidentifiercode as reimbursingBank ,
+--tp.cifnumber as cifNo , tp.cifname as cifName , ts.accountofficer as aoName ,
+--tp.documentnumber  as lcNo , pd.loanmaturitydate as maturityDate, tp.amount as lcAmount
+--from tradeproduct tp , letterofcredit lc , tradeservice ts , payment p , paymentdetail pd
+--where 	tp.documentnumber = ts.documentnumber
+--		and ts.documentnumber = lc.documentnumber
+--		and ts.tradeserviceid = p.tradeserviceid
+--		and p.id = pd.paymentid
+--		and	ts.documentsubtype2 = 'USANCE'
+--	and p.chargetype = 'SERVICE'
+--order by lcCurrency,reimbursingBank
+
+-- NEW QUERY
+SELECT
+	PD.CURRENCY,
+	LC.REIMBURSINGBANKIDENTIFIERCODE,
+	LC.REIMBURSINGBANKNAMEANDADDRESS,
+	TP.CIFNUMBER,
+	TP.CIFNAME,
+	TP.ACCOUNTOFFICER,
+	LC.DOCUMENTNUMBER,
+	DATE(PD.LOANMATURITYDATE) AS LOANMATURITYDATE,
+	PD.AMOUNT,
+	PD.PAYMENTINSTRUMENTTYPE
+FROM LETTEROFCREDIT LC
+LEFT JOIN TRADEPRODUCT TP ON LC.DOCUMENTNUMBER=TP.DOCUMENTNUMBER
+LEFT JOIN TRADESERVICE TS ON LC.DOCUMENTNUMBER=TS.TRADEPRODUCTNUMBER
+LEFT JOIN PAYMENT PA ON TS.TRADESERVICEID=PA.TRADESERVICEID
+LEFT JOIN PAYMENTDETAIL PD ON PA.ID=PD.PAYMENTID
+WHERE
+	TS.DOCUMENTCLASS='LC' AND TS.SERVICETYPE='NEGOTIATION'
+	AND TS.DOCUMENTSUBTYPE2='USANCE' AND PD.PAYMENTINSTRUMENTTYPE='UA_LOAN'
+	AND DATE(PD.LOANMATURITYDATE) BETWEEN $P{week1} AND $P{week2}
+ORDER BY PD.CURRENCY]]>
+	</queryString>
+	<field name="CURRENCY" class="java.lang.String"/>
+	<field name="REIMBURSINGBANKIDENTIFIERCODE" class="java.lang.String"/>
+	<field name="REIMBURSINGBANKNAMEANDADDRESS" class="java.lang.String"/>
+	<field name="CIFNUMBER" class="java.lang.String"/>
+	<field name="CIFNAME" class="java.lang.String"/>
+	<field name="ACCOUNTOFFICER" class="java.lang.String"/>
+	<field name="DOCUMENTNUMBER" class="java.lang.String"/>
+	<field name="LOANMATURITYDATE" class="java.sql.Date"/>
+	<field name="AMOUNT" class="java.math.BigDecimal"/>
+	<field name="PAYMENTINSTRUMENTTYPE" class="java.lang.String"/>
+	<variable name="total" class="java.math.BigDecimal" resetType="Group" resetGroup="reimbursingBank" calculation="Sum">
+		<variableExpression><![CDATA[$F{AMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{AMOUNT}]]></initialValueExpression>
+	</variable>
+	<variable name="grandTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="lcCurrency" calculation="Sum">
+		<variableExpression><![CDATA[$F{AMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{AMOUNT}]]></initialValueExpression>
+	</variable>
+	<variable name="weekRefDate" class="java.lang.String"/>
+	<variable name="refDate" class="java.util.Date"/>
+	<variable name="week2CurrentDate" class="java.lang.String"/>
+	<variable name="reimBank" class="java.lang.String">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<group name="lcCurrency">
+		<groupExpression><![CDATA[$F{CURRENCY}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<staticText>
+					<reportElement x="41" y="0" width="80" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<text><![CDATA[LC CURRENCY :]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="121" y="0" width="100" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isItalic="true" isUnderline="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CURRENCY}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="824" y="0" width="108" height="20"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{grandTotal}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="696" y="0" width="118" height="15"/>
+					<textElement verticalAlignment="Top">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[GRAND TOTAL]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="reimbursingBank">
+		<groupExpression><![CDATA[$F{REIMBURSINGBANKNAMEANDADDRESS}]]></groupExpression>
+		<groupFooter>
+			<band height="25">
+				<staticText>
+					<reportElement x="696" y="2" width="118" height="15"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[TOTAL]]></text>
+				</staticText>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="825" y="2" width="108" height="15"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="41" y="-4" width="893" height="1"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="120">
+			<staticText>
+				<reportElement x="0" y="0" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[RUN DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="334" y="0" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="918" y="0" width="50" height="15"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="15" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[REPORT ID:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="85" height="30"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[BR/UNIT NAME:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="334" y="30" width="300" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA["FOR THE WEEK " + $P{week1} + " TO " + $P{week2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="15" width="150" height="15"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$P{reportId}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="85" y="45" width="300" height="15"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$P{brUnitCode}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="918" y="15" width="50" height="15"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="85" y="60" width="300" height="15"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$P{brUnitCode}=="909" ? "Trade Services Department" : $P{brUnitName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="334" y="15" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[WEEKLY REPORT ON MATURING USANCE LCs]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="65" y="0" width="150" height="15"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="858" y="0" width="60" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[RUN TIME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="85" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="858" y="15" width="60" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[PAGE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="90" width="159" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AO NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="41" y="90" width="118" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REIMBURSING BANK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="819" y="90" width="121" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LC AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="90" width="132" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CIF NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="705" y="90" width="114" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MATURITY DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="564" y="90" width="141" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LC NO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="159" y="90" width="114" height="30"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CIF NO.]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="154" y="0" width="114" height="11"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIFNUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="268" y="0" width="132" height="11"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIFNAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="400" y="0" width="159" height="11"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACCOUNTOFFICER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="564" y="0" width="141" height="11"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DOCUMENTNUMBER}.replaceAll("-", "")]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="825" y="0" width="109" height="11"/>
+				<box leftPadding="3"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="41" y="0" width="113" height="15"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REIMBURSINGBANKNAMEANDADDRESS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="707" y="0" width="107" height="11"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANMATURITYDATE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

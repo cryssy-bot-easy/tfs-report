@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Others_Standby_3" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="504" leftMargin="54" rightMargin="54" topMargin="54" bottomMargin="54">
+	<property name="ireport.zoom" value="0.8264462809917354"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="com.ibm.icu.*"/>
+	<import value="report.utils.ReportUtility"/>
+	<import value="apache.commons.lang.*"/>
+	<parameter name="documentNumber" class="java.lang.String"/>
+	<parameter name="tradeServiceId" class="java.lang.String"/>
+	<parameter name="processDate" class="java.lang.String"/>
+	<parameter name="beneficiaryName" class="java.lang.String"/>
+	<parameter name="beneficiaryAddress" class="java.lang.String"/>
+	<parameter name="biddingDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="attentionName" class="java.lang.String"/>
+	<parameter name="attentionNamePosition" class="java.lang.String"/>
+	<parameter name="applicantName" class="java.lang.String"/>
+	<parameter name="applicantAddress" class="java.lang.String"/>
+	<parameter name="purposeOfStandby" class="java.lang.String"/>
+	<parameter name="bank" class="java.lang.String"/>
+	<parameter name="bankBranch" class="java.lang.String"/>
+	<parameter name="bankAddress" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="amount" class="java.lang.String"/>
+	<parameter name="city" class="java.lang.String"/>
+	<parameter name="expiryPeriod" class="java.lang.String"/>
+	<parameter name="expiryDate" class="java.lang.String"/>
+	<parameter name="authorizedSignatory1" class="java.lang.String"/>
+	<parameter name="authorizedSignatoryPosition1" class="java.lang.String"/>
+	<parameter name="authorizedSignatory2" class="java.lang.String"/>
+	<parameter name="authorizedSignatoryPosition2" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select currency, amount from tradeservice where tradeserviceid=$P{tradeServiceId}]]>
+	</queryString>
+	<field name="CURRENCY" class="java.lang.String"/>
+	<field name="AMOUNT" class="java.math.BigDecimal"/>
+	<variable name="AMOUNT_IN_WORDS" class="java.lang.String">
+		<variableExpression><![CDATA[ReportUtility.convert($F{AMOUNT}, $F{CURRENCY}).toUpperCase() + " ONLY "]]></variableExpression>
+		<initialValueExpression><![CDATA[ReportUtility.convert($F{AMOUNT}, $F{CURRENCY}).toUpperCase() + " ONLY "]]></initialValueExpression>
+	</variable>
+	<variable name="BIDDING_DATE" class="java.lang.String">
+		<variableExpression><![CDATA[($P{biddingDate}=="" || $P{biddingDate}=="undefined" || $P{biddingDate}==null) ? "" : new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{biddingDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{biddingDate}=="" || $P{biddingDate}=="undefined" || $P{biddingDate}==null) ? "" : new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{biddingDate}))]]></initialValueExpression>
+	</variable>
+	<variable name="PROCESS_DATE" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{processDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{processDate}))]]></initialValueExpression>
+	</variable>
+	<variable name="PROCESS_DATE2" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("dd'th Day Of' MMMMM, yyyy").format(new Date($P{processDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[new SimpleDateFormat("dd'th Day Of' MMMMM, yyyy").format(new Date($P{processDate}))]]></initialValueExpression>
+	</variable>
+	<variable name="EXPIRY_DATE" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{expiryDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{expiryDate}))]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="560">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="50" width="504" height="100"/>
+				<box topPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" markup="html">
+					<font size="9" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA["WHEREAS, " + $P{applicantName} + " with office address at " + $P{applicantAddress} + ", (hereinafter called \"The Buyer\") has requested to issue a Irrevocable Domestic Standby Letter of Credit in favor of " + $P{beneficiaryName} + ", " + $P{beneficiaryAddress} + ", (hereinafter called \"The Seller\") for " + $V{AMOUNT_IN_WORDS} + " (" + $P{currency} + $P{amount} + "). This represents guarantee payment for " + $P{purposeOfStandby} + "."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="504" height="50"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Center" markup="html">
+					<font size="9" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Irrevocable Domestic Standby Letter of Credit No. " + $P{documentNumber}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="150" width="504" height="20"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" markup="html">
+					<font size="9" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA["This Irrevocable Domestic Standby Letter of Credit is available at sight upon presentation of the following documents:"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="170" width="33" height="50"/>
+				<box topPadding="0"/>
+				<textElement verticalAlignment="Top" markup="html">
+					<font size="9" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+					<paragraph leftIndent="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA["1.<br/><br/>"+
+"2."]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="290" width="504" height="20"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" markup="html">
+					<font size="9" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Special Instructions:"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="240" width="504" height="50"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" markup="html">
+					<font size="9" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+					<paragraph leftIndent="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Being authorized signatory of " + $P{beneficiaryName} + ", hereby represents and warrants that the amount of the accompanying draft represents and covers payment in full certain invoices due and owing to " + $P{beneficiaryName} + ", which have not been paid by and said invoice(s) remain unpaid at the time of this drawing."]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="220" width="504" height="20"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" markup="html">
+					<font size="9" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["The undersigned,"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="310" width="504" height="250"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" markup="html">
+					<font size="9" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA["The original of this Domestic Irrevocable Standby Letter of Credit must be presented together with the above documents in order to endorse the amount of each drawing on the reverse side."+
+"<br/><br/>"+
+"This Domestic Irrevocable Letter of Credit will be confirmed by " + $P{attentionName} + "."+
+"<br/><br/>"+
+"We undertake to reimburse the negotiating bank as per their instruction upon receipt of documents in compliance with the terms and conditions of this Domestic Irrevocable Standby Letter of Credit."+
+"<br/><br/>"+
+"All bank charges including confirmation are for the Account of Buyer. We hereby agreed with you that draft(s) drawn under and in compliance with the terms of this credit that such draft(s) would be duly honored upon presentation."+
+"<br/><br/>"+
+"This Domestic Irrevocable Standby Letter if Credit will be remain in force up to including and any demand in respect thereof should reach the counter of " + $P{attentionName} + " not later than such date."+
+"<br/><br/>"+
+"This Domestic Irrevocable standby Letter of Credit is subject to the International Standby Practices 98 International Chamber of Commerce Publication No. 590"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="33" y="170" width="471" height="50"/>
+				<box topPadding="0"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" markup="html">
+					<font size="9" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman"/>
+					<paragraph leftIndent="1" rightIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Drafts at Sight drawn on " + $P{attentionName} + " marked drawn under " + $P{bank} + ", Domestic Irrevocable Standby Letter of Credit No. " + $P{documentNumber} + " dated " + $V{PROCESS_DATE} + ".<br/>"+
+"Notarized statement signed by Authorized Signatory of " + $P{beneficiaryName} + ", certifying the fol-lowing:"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

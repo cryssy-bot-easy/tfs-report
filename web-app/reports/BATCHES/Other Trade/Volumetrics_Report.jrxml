@@ -1,0 +1,1473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Volumetrics_Report" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="0.9090909090909091"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="brUnitCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitName" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\ucpb-tfs\\workspace\\tfs-report\\web-app\\reports\\BATCHES\\Other Trade\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentMonth" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentYear" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dateGenerated" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<variable name="1Deposit_Clients_PesoCASA_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_PesoCASA_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_PesoCASA_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_PesoCASA_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_PesoCASA_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_PesoCASA_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_PesoCASA_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_PesoCASA_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_PesoCASA_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_PesoCASA_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_PesoCASA_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_PesoCASA_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_FCDUSA_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_FCDUSA_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_FCDUSA_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_FCDUSA_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_FCDUSA_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_FCDUSA_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_FCDUSA_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_FCDUSA_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_FCDUSA_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_FCDUSA_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_FCDUSA_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_FCDUSA_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TimeDeposits_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TimeDeposits_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TimeDeposits_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TimeDeposits_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TimeDeposits_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TimeDeposits_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TimeDeposits_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TimeDeposits_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TimeDeposits_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TimeDeposits_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TimeDeposits_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TimeDeposits_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TotalNoOfClients_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TotalNoOfClients_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TotalNoOfClients_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TotalNoOfClients_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TotalNoOfClients_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TotalNoOfClients_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TotalNoOfClients_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TotalNoOfClients_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TotalNoOfClients_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TotalNoOfClients_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TotalNoOfClients_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TotalNoOfClients_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Active_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Active_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Active_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Active_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Active_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Active_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Active_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Active_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Active_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Active_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Active_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Active_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Dormant_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Dormant_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Dormant_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Dormant_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Dormant_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Dormant_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Dormant_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Dormant_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Dormant_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Dormant_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Dormant_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Dormant_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Closed_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Closed_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Closed_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Closed_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Closed_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Closed_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Closed_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Closed_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Closed_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Closed_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Closed_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Closed_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Total_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Total_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Total_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Total_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Total_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Total_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Total_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Total_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Total_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Total_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Total_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Total_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Active_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Active_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Active_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Active_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Active_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Active_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Active_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Active_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Active_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Active_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Active_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Active_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Dormant_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Dormant_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Dormant_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Dormant_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Dormant_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Dormant_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Dormant_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Dormant_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Dormant_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Dormant_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Dormant_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Dormant_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Closed_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Closed_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Closed_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Closed_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Closed_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Closed_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Closed_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Closed_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Closed_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Closed_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Closed_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Closed_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Total_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Total_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Total_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Total_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Total_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Total_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Total_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Total_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Total_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Total_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Total_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Total_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TimeDeposits_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TimeDeposits_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TimeDeposits_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TimeDeposits_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TimeDeposits_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TimeDeposits_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TimeDeposits_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TimeDeposits_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TimeDeposits_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TimeDeposits_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TimeDeposits_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TimeDeposits_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TotalNoOfAccounts_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TotalNoOfAccounts_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TotalNoOfAccounts_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TotalNoOfAccounts_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TotalNoOfAccounts_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TotalNoOfAccounts_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TotalNoOfAccounts_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TotalNoOfAccounts_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TotalNoOfAccounts_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TotalNoOfAccounts_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TotalNoOfAccounts_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TotalNoOfAccounts_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Over_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Over_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Over_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Over_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Over_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Over_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Over_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Over_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Over_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Over_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Over_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Over_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Batch_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Batch_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Batch_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Batch_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Batch_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Batch_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Batch_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Batch_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Batch_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Batch_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Batch_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Batch_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Total_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Total_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Total_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Total_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Total_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Total_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Total_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Total_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Total_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Total_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Total_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Total_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_NonFin_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_NonFin_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_NonFin_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_NonFin_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_NonFin_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_NonFin_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_NonFin_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_NonFin_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_NonFin_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_NonFin_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_NonFin_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_NonFin_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalPesoCASA_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalPesoCASA_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalPesoCASA_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalPesoCASA_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalPesoCASA_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalPesoCASA_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalPesoCASA_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalPesoCASA_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalPesoCASA_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalPesoCASA_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalPesoCASA_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalPesoCASA_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Over_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Over_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Over_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Over_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Over_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Over_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Over_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Over_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Over_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Over_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Over_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Over_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Batch_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Batch_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Batch_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Batch_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Batch_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Batch_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Batch_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Batch_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Batch_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Batch_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Batch_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Batch_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Total_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Total_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Total_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Total_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Total_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Total_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Total_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Total_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Total_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Total_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Total_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Total_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_NonFin_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_NonFin_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_NonFin_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_NonFin_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_NonFin_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_NonFin_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_NonFin_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_NonFin_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_NonFin_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_NonFin_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_NonFin_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_NonFin_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalFCDUSA_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalFCDUSA_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalFCDUSA_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalFCDUSA_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalFCDUSA_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalFCDUSA_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalFCDUSA_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalFCDUSA_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalFCDUSA_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalFCDUSA_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalFCDUSA_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalFCDUSA_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Fin_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Fin_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Fin_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Fin_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Fin_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Fin_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Fin_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Fin_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Fin_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Fin_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Fin_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Fin_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_NonFin_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_NonFin_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_NonFin_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_NonFin_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_NonFin_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_NonFin_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_NonFin_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_NonFin_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_NonFin_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_NonFin_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_NonFin_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_NonFin_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Total_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Total_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Total_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Total_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Total_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Total_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Total_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Total_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Total_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Total_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Total_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Total_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Fin_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Fin_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Fin_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Fin_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Fin_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Fin_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Fin_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Fin_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Fin_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Fin_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Fin_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Fin_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_NonFin_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_NonFin_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_NonFin_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_NonFin_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_NonFin_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_NonFin_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_NonFin_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_NonFin_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_NonFin_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_NonFin_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_NonFin_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_NonFin_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Total_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Total_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Total_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Total_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Total_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Total_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Total_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Total_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Total_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Total_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Total_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Total_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalTimeDeposits_Jan" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalTimeDeposits_Feb" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalTimeDeposits_Mar" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalTimeDeposits_Apr" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalTimeDeposits_May" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalTimeDeposits_Jun" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalTimeDeposits_Jul" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalTimeDeposits_Aug" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalTimeDeposits_Sep" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalTimeDeposits_Oct" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalTimeDeposits_Nov" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalTimeDeposits_Dec" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_ATM_Jan" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_ATM_Feb" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_ATM_Mar" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_ATM_Apr" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_ATM_May" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_ATM_Jun" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_ATM_Jul" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_ATM_Aug" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_ATM_Sep" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_ATM_Oct" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_ATM_Nov" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_ATM_Dec" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Corp_Jan" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Corp_Feb" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Corp_Mar" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Corp_Apr" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Corp_May" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Corp_Jun" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Corp_Jul" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Corp_Aug" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Corp_Sep" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Corp_Oct" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Corp_Nov" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Corp_Dec" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Retail_Jan" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Retail_Feb" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Retail_Mar" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Retail_Apr" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Retail_May" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Retail_Jun" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Retail_Jul" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Retail_Aug" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Retail_Sep" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Retail_Oct" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Retail_Nov" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Retail_Dec" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Phone_Jan" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Phone_Feb" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Phone_Mar" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Phone_Apr" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Phone_May" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Phone_Jun" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Phone_Jul" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Phone_Aug" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Phonel_Sep" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Phone_Oct" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Phone_Nov" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Phone_Dec" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_TotalNoOfUsers_Jan" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_TotalNoOfUsers_Feb" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_TotalNoOfUsers_Mar" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_TotalNoOfUsers_Apr" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_TotalNoOfUsers_May" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_TotalNoOfUsers_Jun" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_TotalNoOfUsers_Jul" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_TotalNoOfUsers_Aug" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_TotalNoOfUsers_Sep" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_TotalNoOfUsers_Oct" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_TotalNoOfUsers_Nov" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_TotalNoOfUsers_Dec" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_ATM_Jan" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_ATM_Feb" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_ATM_Mar" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_ATM_Apr" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_ATM_May" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_ATM_Jun" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_ATM_Jul" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_ATM_Aug" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_ATM_Sep" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_ATM_Oct" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_ATM_Nov" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_ATM_Dec" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Corp_Jan" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Corp_Feb" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Corp_Mar" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Corp_Apr" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Corp_May" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Corp_Jun" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Corp_Jul" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Corp_Aug" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Corp_Sep" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Corp_Oct" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Corp_Nov" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Corp_Dec" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Retail_Jan" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Retail_Feb" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Retail_Mar" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Retail_Apr" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Retail_May" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Retail_Jun" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Retail_Jul" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Retail_Aug" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Retail_Sep" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Retail_Oct" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Retail_Nov" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Retail_Dec" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Phone_Jan" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Phone_Feb" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Phone_Mar" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Phone_Apr" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Phone_May" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Phone_Jun" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Phone_Jul" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Phone_Aug" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Phonel_Sep" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Phone_Oct" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Phone_Nov" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Phone_Dec" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_TotalNoOfAcc_Jan" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_TotalNoOfAcc_Feb" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_TotalNoOfAcc_Mar" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_TotalNoOfAcc_Apr" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_TotalNoOfAcc_May" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_TotalNoOfAcc_Jun" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_TotalNoOfAcc_Jul" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_TotalNoOfAcc_Aug" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_TotalNoOfAcc_Sep" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_TotalNoOfAcc_Oct" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_TotalNoOfAcc_Nov" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_TotalNoOfAcc_Dec" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_Fin_Jan" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_Fin_Feb" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_Fin_Mar" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_Fin_Apr" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_Fin_May" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_Fin_Jun" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_Fin_Jul" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_Fin_Aug" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_Fin_Sep" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_Fin_Oct" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_Fin_Nov" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_Fin_Dec" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_NonFin_Jan" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_NonFin_Feb" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_NonFin_Mar" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_NonFin_Apr" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_NonFin_May" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_NonFin_Jun" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_NonFin_Jul" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_NonFin_Aug" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_NonFin_Sep" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_NonFin_Oct" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_NonFin_Nov" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_NonFin_Dec" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_TotalNoOfTrans_Jan" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_TotalNoOfTrans_Feb" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_TotalNoOfTrans_Mar" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_TotalNoOfTrans_Apr" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_TotalNoOfTrans_May" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_TotalNoOfTrans_Jun" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_TotalNoOfTrans_Jul" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_TotalNoOfTrans_Aug" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_TotalNoOfTrans_Sep" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_TotalNoOfTrans_Oct" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_TotalNoOfTrans_Nov" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_TotalNoOfTrans_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Auto_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Auto_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Auto_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Auto_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Auto_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Auto_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Auto_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Auto_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Auto_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Auto_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Auto_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Auto_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Salary_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Salary_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Salary_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Salary_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Salary_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Salary_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Salary_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Salary_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Salary_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Salary_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Salary_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Salary_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_RealEstate_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_RealEstate_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_RealEstate_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_RealEstate_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_RealEstate_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_RealEstate_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_RealEstate_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_RealEstate_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_RealEstate_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_RealEstate_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_RealEstate_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_RealEstate_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Total_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Total_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Total_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Total_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Total_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Total_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Total_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Total_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Total_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Total_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Total_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Total_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Corporate_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Corporate_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Corporate_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Corporate_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Corporate_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Corporate_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Corporate_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Corporate_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Corporate_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Corporate_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Corporate_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Corporate_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_TotalNoOfClients_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_TotalNoOfClients_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_TotalNoOfClients_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_TotalNoOfClients_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_TotalNoOfClients_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_TotalNoOfClients_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_TotalNoOfClients_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_TotalNoOfClients_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_TotalNoOfClients_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_TotalNoOfClients_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_TotalNoOfClients_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_TotalNoOfClients_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Auto_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Auto_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Auto_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Auto_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Auto_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Auto_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Auto_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Auto_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Auto_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Auto_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Auto_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Auto_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Salary_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Salary_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Salary_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Salary_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Salary_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Salary_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Salary_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Salary_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Salary_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Salary_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Salary_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Salary_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_RealEstate_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_RealEstate_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_RealEstate_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_RealEstate_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_RealEstate_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_RealEstate_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_RealEstate_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_RealEstate_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_RealEstate_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_RealEstate_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_RealEstate_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_RealEstate_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Total_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Total_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Total_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Total_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Total_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Total_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Total_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Total_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Total_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Total_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Total_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Total_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Corporate_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Corporate_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Corporate_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Corporate_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Corporate_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Corporate_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Corporate_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Corporate_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Corporate_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Corporate_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Corporate_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Corporate_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_TotalNoOfAcc_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_TotalNoOfAcc_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_TotalNoOfAcc_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_TotalNoOfAcc_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_TotalNoOfAcc_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_TotalNoOfAcc_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_TotalNoOfAcc_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_TotalNoOfAcc_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_TotalNoOfAcc_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_TotalNoOfAcc_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_TotalNoOfAcc_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_TotalNoOfAcc_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Fin_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Fin_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Fin_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Fin_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Fin_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Fin_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Fin_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Fin_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Fin_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Fin_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Fin_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Fin_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_NonFin_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_NonFin_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_NonFin_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_NonFin_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_NonFin_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_NonFin_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_NonFin_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_NonFin_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_NonFin_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_NonFin_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_NonFin_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_NonFin_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Total_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Total_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Total_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Total_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Total_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Total_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Total_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Total_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Total_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Total_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Total_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Total_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Fin_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Fin_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Fin_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Fin_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Fin_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Fin_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Fin_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Fin_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Fin_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Fin_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Fin_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Fin_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_NonFin_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_NonFin_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_NonFin_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_NonFin_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_NonFin_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_NonFin_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_NonFin_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_NonFin_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_NonFin_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_NonFin_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_NonFin_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_NonFin_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Total_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Total_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Total_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Total_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Total_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Total_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Total_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Total_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Total_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Total_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Total_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Total_Dec" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_TotalNoOfTransactions_Jan" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_TotalNoOfTransactions_Feb" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_TotalNoOfTransactions_Mar" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_TotalNoOfTransactions_Apr" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_TotalNoOfTransactions_May" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_TotalNoOfTransactions_Jun" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_TotalNoOfTransactions_Jul" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_TotalNoOfTransactions_Aug" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_TotalNoOfTransactions_Sep" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_TotalNoOfTransactions_Oct" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_TotalNoOfTransactions_Nov" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_TotalNoOfTransactions_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccOpened_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccOpened_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccOpened_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccOpened_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccOpened_May" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccOpened_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccOpened_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccOpened_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccOpened_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccOpened_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccOpened_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccOpened_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccClosed_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccClosed_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccClosed_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccClosed_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccClosed_May" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccClosed_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccClosed_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccClosed_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccClosed_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccClosed_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccClosed_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccClosed_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccOpened_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccOpened_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccOpened_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccOpened_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccOpened_May" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccOpened_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccOpened_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccOpened_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccOpened_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccOpened_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccOpened_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccOpened_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccClosed_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccClosed_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccClosed_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccClosed_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccClosed_May" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccClosed_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccClosed_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccClosed_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccClosed_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccClosed_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccClosed_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccClosed_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfAcc_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfAcc_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfAcc_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfAcc_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfAcc_May" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfAcc_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfAcc_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfAcc_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfAcc_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfAcc_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfAcc_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfAcc_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFADeposits_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFADeposits_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFADeposits_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFADeposits_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFADeposits_May" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFADeposits_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFADeposits_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFADeposits_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFADeposits_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFADeposits_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFADeposits_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFADeposits_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFAWithdrawals_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFAWithdrawals_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFAWithdrawals_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFAWithdrawals_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFAWithdrawals_May" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFAWithdrawals_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFAWithdrawals_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFAWithdrawals_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFAWithdrawals_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFAWithdrawals_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFAWithdrawals_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFAWithdrawals_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFSubscriptions_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFSubscriptions_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFSubscriptions_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFSubscriptions_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFSubscriptions_May" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFSubscriptions_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFSubscriptions_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFSubscriptions_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFSubscriptions_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFSubscriptions_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFSubscriptions_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFSubscriptions_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFRedemptions_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFRedemptions_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFRedemptions_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFRedemptions_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFRedemptions_May" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFRedemptions_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFRedemptions_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFRedemptions_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFRedemptions_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFRedemptions_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFRedemptions_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFRedemptions_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_MaturitiesProcessed_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_MaturitiesProcessed_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_MaturitiesProcessed_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_MaturitiesProcessed_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_MaturitiesProcessed_May" class="java.lang.Integer"/>
+	<variable name="4Trust_MaturitiesProcessed_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_MaturitiesProcessed_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_MaturitiesProcessed_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_MaturitiesProcessed_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_MaturitiesProcessed_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_MaturitiesProcessed_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_MaturitiesProcessed_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_InAccSaleProcessed_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_InAccSaleProcessed_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_InAccSaleProcessed_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_InAccSaleProcessed_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_InAccSaleProcessed_May" class="java.lang.Integer"/>
+	<variable name="4Trust_InAccSaleProcessed_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_InAccSaleProcessed_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_InAccSaleProcessed_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_InAccSaleProcessed_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_InAccSaleProcessed_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_InAccSaleProcessed_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_InAccSaleProcessed_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_ChangePartProcessed_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_ChangePartProcessed_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_ChangePartProcessed_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_ChangePartProcessed_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_ChangePartProcessed_May" class="java.lang.Integer"/>
+	<variable name="4Trust_ChangePartProcessed_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_ChangePartProcessed_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_ChangePartProcessed_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_ChangePartProcessed_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_ChangePartProcessed_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_ChangePartProcessed_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_ChangePartProcessed_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_InvestAllocated_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_InvestAllocated_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_InvestAllocated_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_InvestAllocated_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_InvestAllocated_May" class="java.lang.Integer"/>
+	<variable name="4Trust_InvestAllocated_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_InvestAllocated_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_InvestAllocated_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_InvestAllocated_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_InvestAllocated_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_InvestAllocated_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_InvestAllocated_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGenerated_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGenerated_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGenerated_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGenerated_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGenerated_May" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGenerated_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGenerated_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGenerated_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGenerated_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGenerated_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGenerated_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGenerated_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGeneratedWithInvAlloc_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGeneratedWithInvAlloc_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGeneratedWithInvAlloc_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGeneratedWithInvAlloc_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGeneratedWithInvAlloc_May" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGeneratedWithInvAlloc_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGeneratedWithInvAlloc_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGeneratedWithInvAlloc_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGeneratedWithInvAlloc_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGeneratedWithInvAlloc_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGeneratedWithInvAlloc_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGeneratedWithInvAlloc_Dec" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfTransactions_Jan" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfTransactions_Feb" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfTransactions_Mar" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfTransactions_Apr" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfTransactions_May" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfTransactions_Jun" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfTransactions_Jul" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfTransactions_Aug" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfTransactions_Sep" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfTransactions_Oct" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfTransactions_Nov" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfTransactions_Dec" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_CLSTradeClients_Jan" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_CLSTradeClients_Feb" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_CLSTradeClientss_Mar" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_CLSTradeClients_Apr" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_CLSTradeClients_May" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_CLSTradeClients_Jun" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_CLSTradeClients_Jul" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_CLSTradeClients_Aug" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_CLSTradeClients_Sep" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_CLSTradeClients_Oct" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_CLSTradeClients_Nov" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_CLSTradeClients_Dec" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TFSClients_Jan" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TFSClients_Feb" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TFSClients_Mar" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TFSClients_Apr" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TFSClients_May" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TFSClients_Jun" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TFSClients_Jul" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TFSClients_Aug" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TFSClients_Sep" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TFSClients_Oct" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TFSClients_Nov" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TFSClients_Dec" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TotalNoOfClients_Jan" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TotalNoOfClients_Feb" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TotalNoOfClients_Mar" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TotalNoOfClients_Apr" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TotalNoOfClients_May" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TotalNoOfClients_Jun" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TotalNoOfClients_Jul" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TotalNoOfClients_Aug" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TotalNoOfClients_Sep" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TotalNoOfClients_Oct" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TotalNoOfClients_Nov" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TotalNoOfClients_Dec" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Import_Jan" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Import_Feb" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Import_Mar" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Import_Apr" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Import_May" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Import_Jun" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Import_Jul" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Import_Aug" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Import_Sep" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Import_Oct" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Import_Nov" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Import_Dec" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Export_Jan" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Export_Feb" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Export_Mar" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Export_Apr" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Export_May" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Export_Jun" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Export_Jul" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Export_Aug" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Export_Sep" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Export_Oct" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Export_Nov" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Export_Dec" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_TotalNoOfAccounts_Jan" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_TotalNoOfAccounts_Feb" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_TotalNoOfAccounts_Mar" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_TotalNoOfAccounts_Apr" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_TotalNoOfAccounts_May" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_TotalNoOfAccounts_Jun" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_TotalNoOfAccounts_Jul" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_TotalNoOfAccounts_Aug" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_TotalNoOfAccounts_Sep" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_TotalNoOfAccounts_Oct" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_TotalNoOfAccounts_Nov" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_TotalNoOfAccounts_Dec" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_Fin_Jan" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_Fin_Feb" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_Fin_Mar" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_Fin_Apr" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_Fin_May" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_Fin_Jun" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_Fin_Jul" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_Fin_Aug" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_Fin_Sep" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_Fin_Oct" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_Fin_Nov" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_Fin_Dec" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_NonFin_Jan" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_NonFin_Feb" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_NonFin_Mar" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_NonFin_Apr" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_NonFin_May" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_NonFin_Jun" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_NonFin_Jul" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_NonFin_Aug" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_NonFin_Sep" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_NonFin_Oct" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_NonFin_Nov" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_NonFin_Dec" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_TotalNoOfTransactions_Jan" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_TotalNoOfTransactions_Feb" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_TotalNoOfTransactions_Mar" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_TotalNoOfTransactions_Apr" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_TotalNoOfTransactions_May" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_TotalNoOfTransactions_Jun" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_TotalNoOfTransactions_Jul" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_TotalNoOfTransactions_Aug" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_TotalNoOfTransactions_Sep" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_TotalNoOfTransactions_Oct" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_TotalNoOfTransactions_Nov" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_TotalNoOfTransactions_Dec" class="java.lang.Integer"/>
+	<variable name="6Treasury_Bonds_Jan" class="java.lang.Integer"/>
+	<variable name="6Treasury_Bonds_Feb" class="java.lang.Integer"/>
+	<variable name="6Treasury_Bonds_Mar" class="java.lang.Integer"/>
+	<variable name="6Treasury_Bonds_Apr" class="java.lang.Integer"/>
+	<variable name="6Treasury_Bonds_May" class="java.lang.Integer"/>
+	<variable name="6Treasury_Bonds_Jun" class="java.lang.Integer"/>
+	<variable name="6Treasury_Bonds_Jul" class="java.lang.Integer"/>
+	<variable name="6Treasury_Bonds_Aug" class="java.lang.Integer"/>
+	<variable name="6Treasury_Bonds_Sep" class="java.lang.Integer"/>
+	<variable name="6Treasury_Bonds_Oct" class="java.lang.Integer"/>
+	<variable name="6Treasury_Bonds_Nov" class="java.lang.Integer"/>
+	<variable name="6Treasury_Bonds_Dec" class="java.lang.Integer"/>
+	<variable name="6Treasury_CashFlows_Jan" class="java.lang.Integer"/>
+	<variable name="6Treasury_CashFlows_Feb" class="java.lang.Integer"/>
+	<variable name="6Treasury_CashFlows_Mar" class="java.lang.Integer"/>
+	<variable name="6Treasury_CashFlows_Apr" class="java.lang.Integer"/>
+	<variable name="6Treasury_CashFlows_May" class="java.lang.Integer"/>
+	<variable name="6Treasury_CashFlows_Jun" class="java.lang.Integer"/>
+	<variable name="6Treasury_CashFlows_Jul" class="java.lang.Integer"/>
+	<variable name="6Treasury_CashFlows_Aug" class="java.lang.Integer"/>
+	<variable name="6Treasury_CashFlows_Sep" class="java.lang.Integer"/>
+	<variable name="6Treasury_CashFlows_Oct" class="java.lang.Integer"/>
+	<variable name="6Treasury_CashFlows_Nov" class="java.lang.Integer"/>
+	<variable name="6Treasury_CashFlows_Dec" class="java.lang.Integer"/>
+	<variable name="6Treasury_FXSwaps_Jan" class="java.lang.Integer"/>
+	<variable name="6Treasury_FXSwaps_Feb" class="java.lang.Integer"/>
+	<variable name="6Treasury_FXSwaps_Mar" class="java.lang.Integer"/>
+	<variable name="6Treasury_FXSwaps_Apr" class="java.lang.Integer"/>
+	<variable name="6Treasury_FXSwaps_May" class="java.lang.Integer"/>
+	<variable name="6Treasury_FXSwaps_Jun" class="java.lang.Integer"/>
+	<variable name="6Treasury_FXSwaps_Jul" class="java.lang.Integer"/>
+	<variable name="6Treasury_FXSwaps_Aug" class="java.lang.Integer"/>
+	<variable name="6Treasury_FXSwaps_Sep" class="java.lang.Integer"/>
+	<variable name="6Treasury_FXSwaps_Oct" class="java.lang.Integer"/>
+	<variable name="6Treasury_FXSwaps_Nov" class="java.lang.Integer"/>
+	<variable name="6Treasury_FXSwaps_Dec" class="java.lang.Integer"/>
+	<variable name="6Treasury_BorrowingLending_Jan" class="java.lang.Integer"/>
+	<variable name="6Treasury_BorrowingLending_Feb" class="java.lang.Integer"/>
+	<variable name="6Treasury_BorrowingLending_Mar" class="java.lang.Integer"/>
+	<variable name="6Treasury_BorrowingLending_Apr" class="java.lang.Integer"/>
+	<variable name="6Treasury_BorrowingLending_May" class="java.lang.Integer"/>
+	<variable name="6Treasury_BorrowingLending_Jun" class="java.lang.Integer"/>
+	<variable name="6Treasury_BorrowingLending_Jul" class="java.lang.Integer"/>
+	<variable name="6Treasury_BorrowingLending_Aug" class="java.lang.Integer"/>
+	<variable name="6Treasury_BorrowingLending_Sep" class="java.lang.Integer"/>
+	<variable name="6Treasury_BorrowingLending_Oct" class="java.lang.Integer"/>
+	<variable name="6Treasury_BorrowingLending_Nov" class="java.lang.Integer"/>
+	<variable name="6Treasury_BorrowingLending_Dec" class="java.lang.Integer"/>
+	<variable name="6Treasury_LoansDeposit_Jan" class="java.lang.Integer"/>
+	<variable name="6Treasury_LoansDeposit_Feb" class="java.lang.Integer"/>
+	<variable name="6Treasury_LoansDeposit_Mar" class="java.lang.Integer"/>
+	<variable name="6Treasury_LoansDeposit_Apr" class="java.lang.Integer"/>
+	<variable name="6Treasury_LoansDeposit_May" class="java.lang.Integer"/>
+	<variable name="6Treasury_LoansDeposit_Jun" class="java.lang.Integer"/>
+	<variable name="6Treasury_LoansDeposit_Jul" class="java.lang.Integer"/>
+	<variable name="6Treasury_LoansDeposit_Aug" class="java.lang.Integer"/>
+	<variable name="6Treasury_LoansDeposit_Sep" class="java.lang.Integer"/>
+	<variable name="6Treasury_LoansDeposit_Oct" class="java.lang.Integer"/>
+	<variable name="6Treasury_LoansDeposit_Nov" class="java.lang.Integer"/>
+	<variable name="6Treasury_LoansDeposit_Dec" class="java.lang.Integer"/>
+	<variable name="6Treasury_Spots_Jan" class="java.lang.Integer"/>
+	<variable name="6Treasury_Spots_Feb" class="java.lang.Integer"/>
+	<variable name="6Treasury_Spots_Mar" class="java.lang.Integer"/>
+	<variable name="6Treasury_Spots_Apr" class="java.lang.Integer"/>
+	<variable name="6Treasury_Spots_May" class="java.lang.Integer"/>
+	<variable name="6Treasury_Spots_Jun" class="java.lang.Integer"/>
+	<variable name="6Treasury_Spots_Jul" class="java.lang.Integer"/>
+	<variable name="6Treasury_Spots_Aug" class="java.lang.Integer"/>
+	<variable name="6Treasury_Spots_Sep" class="java.lang.Integer"/>
+	<variable name="6Treasury_Spots_Oct" class="java.lang.Integer"/>
+	<variable name="6Treasury_Spots_Nov" class="java.lang.Integer"/>
+	<variable name="6Treasury_Spots_Dec" class="java.lang.Integer"/>
+	<variable name="6Treasury_TotalNoOfTransactions_Jan" class="java.lang.Integer"/>
+	<variable name="6Treasury_TotalNoOfTransactions_Feb" class="java.lang.Integer"/>
+	<variable name="6Treasury_TotalNoOfTransactions_Mar" class="java.lang.Integer"/>
+	<variable name="6Treasury_TotalNoOfTransactions_Apr" class="java.lang.Integer"/>
+	<variable name="6Treasury_TotalNoOfTransactions_May" class="java.lang.Integer"/>
+	<variable name="6Treasury_TotalNoOfTransactions_Jun" class="java.lang.Integer"/>
+	<variable name="6Treasury_TotalNoOfTransactions_Jul" class="java.lang.Integer"/>
+	<variable name="6Treasury_TotalNoOfTransactions_Aug" class="java.lang.Integer"/>
+	<variable name="6Treasury_TotalNoOfTransactions_Sep" class="java.lang.Integer"/>
+	<variable name="6Treasury_TotalNoOfTransactions_Oct" class="java.lang.Integer"/>
+	<variable name="6Treasury_TotalNoOfTransactions_Nov" class="java.lang.Integer"/>
+	<variable name="6Treasury_TotalNoOfTransactions_Dec" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_PesoCASA_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_FCDUSA_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TimeDeposits_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Clients_TotalNoOfClients_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Active_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Dormant_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Closed_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_PesoCASA_Total_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Active_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Dormant_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Closed_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_FCDUSA_Total_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TimeDeposits_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Acc_TotalNoOfAccounts_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Over_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Batch_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_Fin_Total_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_PesoCASA_NonFin_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalPesoCASA_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Over_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Batch_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_Fin_Total_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_FCDUSA_NonFin_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalFCDUSA_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Fin_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_NonFin_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_Peso_Total_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Fin_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_NonFin_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TimeDeposits_FCDU_Total_Total" class="java.lang.Integer"/>
+	<variable name="1Deposit_Trans_TotalTimeDeposits_Total" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_ATM_Total" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Corp_Total" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Phone_Total" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_TotalNoOfUsers_Total" class="java.lang.Integer"/>
+	<variable name="2EChannel_Users_Internet_Retail_Total" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_ATM_Total" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Corp_Total" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Internet_Retail_Total" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_Phone_Total" class="java.lang.Integer"/>
+	<variable name="2EChannel_Accounts_TotalNoOfAcc_Total" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_Fin_Total" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_NonFin_Total" class="java.lang.Integer"/>
+	<variable name="2EChannel_Transactions_TotalNoOfTrans_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Auto_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Salary_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_RealEstate_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Consumer_Total_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_Corporate_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Clients_TotalNoOfClients_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Auto_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Salary_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_RealEstate_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Consumer_Total_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_Corporate_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Acc_TotalNoOfAcc_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Fin_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_NonFin_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Consumer_Total_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Fin_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_NonFin_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_Corporate_Total_Total" class="java.lang.Integer"/>
+	<variable name="3Loans_Trans_TotalNoOfTransactions_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccOpened_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_TrustAccClosed_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccOpened_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFAccClosed_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfAcc_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFADeposits_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_IMATOFAWithdrawals_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFSubscriptions_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_UITFRedemptions_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_MaturitiesProcessed_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_InAccSaleProcessed_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_ChangePartProcessed_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_InvestAllocated_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGenerated_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_TSGeneratedWithInvAlloc_Total" class="java.lang.Integer"/>
+	<variable name="4Trust_TotalNoOfTransactions_Total" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_CLSTradeClients_Total" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TFSClients_Total" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Clients_TotalNoOfClients_Total" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Import_Total" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_Export_Total" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Acc_TotalNoOfAccounts_Total" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_Fin_Total" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_NonFin_Total" class="java.lang.Integer"/>
+	<variable name="5TradeFinance_Transactions_TotalNoOfTransactions_Total" class="java.lang.Integer"/>
+	<variable name="6Treasury_Bonds_Total" class="java.lang.Integer"/>
+	<variable name="6Treasury_CashFlows_Total" class="java.lang.Integer"/>
+	<variable name="6Treasury_FXSwaps_Total" class="java.lang.Integer"/>
+	<variable name="6Treasury_BorrowingLending_Total" class="java.lang.Integer"/>
+	<variable name="6Treasury_LoansDeposit_Total" class="java.lang.Integer"/>
+	<variable name="6Treasury_Spots_Total" class="java.lang.Integer"/>
+	<variable name="6Treasury_TotalNoOfTransactions_Total" class="java.lang.Integer"/>
+	<variable name="brUnitName" class="java.lang.String">
+		<variableExpression><![CDATA[($P{brUnitCode}=="909") ? "Trade Services Department" : $P{brUnitName}]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{brUnitCode}=="909") ? "Trade Services Department" : $P{brUnitName}]]></initialValueExpression>
+	</variable>
+	<variable name="reportId" class="java.lang.String">
+		<variableExpression><![CDATA[$P{reportId}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{reportId}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="90">
+			<textField>
+				<reportElement x="65" y="60" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{brUnitName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="45" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{brUnitCode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="652" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN TIME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="226" y="0" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPORT ID:]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="150" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="226" y="15" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[VOLUMETRICS MONTHLY TRADING]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="226" y="30" width="300" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MMMMM, yyyy").format(new Date($P{dateGenerated})).toUpperCase() + " VOLUME"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="702" y="0" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="652" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PAGE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="702" y="15" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="15" width="150" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{reportId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="65" height="30"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT NAME:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<summary>
+		<band height="230" splitType="Stretch">
+			<subreport>
+				<reportElement x="126" y="0" width="500" height="70"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Volumetrics_Report_CLS.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="126" y="130" width="500" height="20"/>
+				<subreportParameter name="currentYear">
+					<subreportParameterExpression><![CDATA[$P{currentYear}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="currentMonth">
+					<subreportParameterExpression><![CDATA[$P{currentMonth}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Volumetrics_Report_Exports.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="126" y="150" width="500" height="20"/>
+				<subreportParameter name="currentYear">
+					<subreportParameterExpression><![CDATA[$P{currentYear}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="currentMonth">
+					<subreportParameterExpression><![CDATA[$P{currentMonth}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Volumetrics_Report_Accounts_Total.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="126" y="170" width="500" height="20"/>
+				<subreportParameter name="currentYear">
+					<subreportParameterExpression><![CDATA[$P{currentYear}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="currentMonth">
+					<subreportParameterExpression><![CDATA[$P{currentMonth}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Volumetrics_Report_Financial.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="126" y="190" width="500" height="20"/>
+				<subreportParameter name="currentYear">
+					<subreportParameterExpression><![CDATA[$P{currentYear}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="currentMonth">
+					<subreportParameterExpression><![CDATA[$P{currentMonth}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Volumetrics_Report_Non-Financial.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="126" y="210" width="500" height="20"/>
+				<subreportParameter name="currentYear">
+					<subreportParameterExpression><![CDATA[$P{currentYear}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="currentMonth">
+					<subreportParameterExpression><![CDATA[$P{currentMonth}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Volumetrics_Report_Transactions_Total.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="126" y="70" width="500" height="20"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Volumetrics_Report_Non-CLS.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="126" y="90" width="500" height="20"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Volumetrics_Report_Clients_Total.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="126" y="110" width="500" height="20"/>
+				<subreportParameter name="currentYear">
+					<subreportParameterExpression><![CDATA[$P{currentYear}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="currentMonth">
+					<subreportParameterExpression><![CDATA[$P{currentMonth}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Volumetrics_Report_Imports.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

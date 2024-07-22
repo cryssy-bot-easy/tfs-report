@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Volumetrics_Report_CLS" language="groovy" pageWidth="500" pageHeight="792" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="currentMonth" class="java.lang.String"/>
+	<parameter name="currentYear" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--FINANCIALS
+		SELECT SUM(TOTAL) AS TOTAL
+		FROM (
+
+		--FXREGULARNEGOTIATION
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='REGULAR' and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--FXREGULARSETTLEMENT
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='REGULAR' and servicetype='UA_LOAN_SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--FXCASHNEGOTIATION
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='CASH' and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--FXSTANDBYNEGOTIATION
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='STANDBY' and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--DMREGULARNEGOTIATION
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='REGULAR' and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--DMREGULARSETTLEMENT
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='REGULAR' and servicetype='UA_LOAN_SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--DMCASHNEGOTIATION
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='CASH' and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--DMSTANDBYNEGOTIATION
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='STANDBY' and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--FXNONLCSETTLEMENT
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where (documentclass='DA' or documentclass='DP'
+		or documentclass='DR' or documentclass='OA')
+		and documenttype='FOREIGN' and servicetype='SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--DMNONLCSETTLEMENT
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='DP' and documenttype='DOMESTIC'
+		and servicetype='SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--REFUNDIMPORTADVANCE
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='IMPORT_ADVANCE' and servicetype='REFUND'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--CDTREMITTANCE
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='CDT' and servicetype='REMITTANCE'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--SETTLEMENTCORRESCHARGE
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='CORRES_CHARGE' and servicetype='SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--REFUNDLC
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='LC' and servicetype='REFUND'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--EBPNEGOTIATION
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='BP' and documenttype='FOREIGN'
+		and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--DBPNEGOTIATION
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='BP' and documenttype='DOMESTIC'
+		and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--EBCSETTLEMENT
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='BC' and documenttype='FOREIGN'
+		and servicetype='SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--DBCSETTLEMENT
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='BC' and documenttype='DOMESTIC'
+		and servicetype='SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--EXPORTADVANCE
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='EXPORT_ADVANCE' and servicetype='PAYMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--REFUNDEXPORTADVANCE
+		select count(servicetype) AS TOTAL from tradeservice ts
+		where documentclass='EXPORT_ADVANCE' and servicetype='REFUND'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		)]]>
+	</queryString>
+	<field name="TOTAL" class="java.lang.Integer"/>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="375" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="150" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TRANSACTIONS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="225" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[FINANCIAL]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Letter_of_Advise" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="540" leftMargin="36" rightMargin="36" topMargin="36" bottomMargin="36">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="documentNumber" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tradeServiceId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="documentSubType1" class="java.lang.String"/>
+	<parameter name="serviceType" class="java.lang.String"/>
+	<parameter name="lcNumber" class="java.lang.String"/>
+	<parameter name="newExporterName" class="java.lang.String"/>
+	<parameter name="newExporterAddress" class="java.lang.String"/>
+	<parameter name="advisingBank" class="java.lang.String"/>
+	<parameter name="advisingBankLabel" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="advisingBankAddress" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="issuingBank" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="issuingBankAddress" class="java.lang.String"/>
+	<parameter name="sendMt730Flag" class="java.lang.String"/>
+	<parameter name="sendMt799Flag" class="java.lang.String"/>
+	<parameter name="exportsAdvisingFee" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1000.00"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cableFee" class="java.lang.String"/>
+	<parameter name="totalBankCharges" class="java.lang.String"/>
+	<parameter name="authorizedSign" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="authorizedSignPosition" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sequenceOfTotal" class="java.lang.String"/>
+	<parameter name="formOfDocumentaryCredit" class="java.lang.String"/>
+	<parameter name="documentaryCreditNumber" class="java.lang.String"/>
+	<parameter name="referenceToPreAdvice" class="java.lang.String"/>
+	<parameter name="lcIssueDate" class="java.lang.String"/>
+	<parameter name="applicableRules" class="java.lang.String"/>
+	<parameter name="dateAndPlaceOfExpiry" class="java.lang.String"/>
+	<parameter name="applicantBank" class="java.lang.String"/>
+	<parameter name="importerName" class="java.lang.String"/>
+	<parameter name="importerAddress" class="java.lang.String"/>
+	<parameter name="exporterName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="exporterAddress" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="lcCurrency" class="java.lang.String"/>
+	<parameter name="lcAmount" class="java.lang.String"/>
+	<parameter name="percentageCreditAmountTolerance" class="java.lang.String"/>
+	<parameter name="maximumCreditAmount" class="java.lang.String"/>
+	<parameter name="additionalAmountsCovered" class="java.lang.String"/>
+	<parameter name="availableWithBy" class="java.lang.String"/>
+	<parameter name="usanceTerm" class="java.lang.String"/>
+	<parameter name="drawee" class="java.lang.String"/>
+	<parameter name="mixedPaymentDetails" class="java.lang.String"/>
+	<parameter name="deferredPaymentDetails" class="java.lang.String"/>
+	<parameter name="partialShipments" class="java.lang.String"/>
+	<parameter name="transshipment" class="java.lang.String"/>
+	<parameter name="placeOfTakingInCharge" class="java.lang.String"/>
+	<parameter name="portOfLoading" class="java.lang.String"/>
+	<parameter name="placeOfFinalDestination" class="java.lang.String"/>
+	<parameter name="latestDateOfShipment" class="java.lang.String"/>
+	<parameter name="shipmentPeriod" class="java.lang.String"/>
+	<parameter name="descriptionOfGoodsAndOrServices" class="java.lang.String"/>
+	<parameter name="documentsRequired" class="java.lang.String"/>
+	<parameter name="additionalConditions" class="java.lang.String"/>
+	<parameter name="charges" class="java.lang.String"/>
+	<parameter name="periodForPresentation" class="java.lang.String"/>
+	<parameter name="confirmationInstructions" class="java.lang.String"/>
+	<parameter name="reimbursingBank" class="java.lang.String"/>
+	<parameter name="instructionsToThePayingBank" class="java.lang.String"/>
+	<parameter name="adviseThroughBank" class="java.lang.String"/>
+	<parameter name="senderToReceiverInformation" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="DOCUMENTTYPE" class="java.lang.String"/>
+	<variable name="WHITESPACE" class="java.lang.String">
+		<variableExpression><![CDATA["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]]></variableExpression>
+		<initialValueExpression><![CDATA["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]]></initialValueExpression>
+	</variable>
+	<variable name="INCOMING_MT" class="java.lang.String" resetType="Page">
+		<variableExpression><![CDATA[($P{documentSubType1}=="FIRST_ADVISING" && $P{sequenceOfTotal}!="")
+?
+(
+    ($P{sequenceOfTotal}=="" ? "" : ("27: Sequence of Total<br/>" + $V{WHITESPACE} + $P{sequenceOfTotal} + "<br/>"))
+    +
+    ($P{formOfDocumentaryCredit}=="" ? "" : ("40A: Form of Documentary Credit<br/>" + $V{WHITESPACE} + $P{formOfDocumentaryCredit} + "<br/>"))
+    +
+    ($P{documentaryCreditNumber}=="" ? "" : ("20: Documentary Credit Number<br/>" + $V{WHITESPACE} + $P{documentaryCreditNumber} + "<br/>"))
+    +
+    ($P{referenceToPreAdvice}=="" ? "" : ("23: Reference to Pre-Advice<br/>" + $V{WHITESPACE} + $P{referenceToPreAdvice} + "<br/>"))
+    +
+    ($P{lcIssueDate}=="" ? "" : ("31C: Date of Issue<br/>" + $V{WHITESPACE} + new SimpleDateFormat("yyMMdd").format(new Date($P{lcIssueDate})) + "<br/>"))
+    +
+    ($P{applicableRules}=="" ? "" : ("40E: Applicable Rules<br/>" + $V{WHITESPACE} + $P{applicableRules} + "<br/>"))
+    +
+    ($P{dateAndPlaceOfExpiry}=="" ? "" : ("31D: Date and Place of Expiry<br/>" + $V{WHITESPACE} + $P{dateAndPlaceOfExpiry} + "<br/>"))
+    +
+    ($P{importerName}=="" ? "" : ("50: Applicant<br/>" + $V{WHITESPACE} + $P{importerName} + "<br/>" + $V{WHITESPACE} + $P{importerAddress} + "<br/>"))
+    +
+    ($P{exporterName}=="" ? "" : ("59: Beneficiary<br/>" + $V{WHITESPACE} + $P{exporterName} + "<br/>" + $V{WHITESPACE} + $P{exporterAddress} + "<br/>"))
+    +
+    ($P{sequenceOfTotal}=="" ? "" : ("32B: Currency Code, Amount<br/>" + $V{WHITESPACE} + $P{sequenceOfTotal} + "<br/>"))
+    +
+    ($P{percentageCreditAmountTolerance}=="" ? "" : ("39A: Percentage Credit Amount Tolerance<br/>" + $V{WHITESPACE} + $P{percentageCreditAmountTolerance} + "<br/>"))
+    +
+    ($P{maximumCreditAmount}=="" ? "" : ("39B: Maximum Credit Amount<br/>" + $V{WHITESPACE} + $P{maximumCreditAmount} + "<br/>"))
+    +
+    ($P{additionalAmountsCovered}=="" ? "" : ("39C: Additional Amounts Covered<br/>" + $V{WHITESPACE} + $P{additionalAmountsCovered} + "<br/>"))
+    +
+    ($P{availableWithBy}=="" ? "" : ("41a: Available With... By...<br/>" + $V{WHITESPACE} + $P{availableWithBy} + "<br/>"))
+    +
+    ($P{usanceTerm}=="" ? "" : ("42C: Drafts at...<br/>" + $V{WHITESPACE} + $P{usanceTerm} + "<br/>"))
+    +
+    ($P{drawee}=="" ? "" : ("42a: Drawee<br/>" + $V{WHITESPACE} + $P{drawee} + "<br/>"))
+    +
+    ($P{mixedPaymentDetails}=="" ? "" : ("42M: Mixed Payment Details<br/>" + $V{WHITESPACE} + $P{mixedPaymentDetails} + "<br/>"))
+    +
+    ($P{deferredPaymentDetails}=="" ? "" : ("42P: Deferred Payment Details<br/>" + $V{WHITESPACE} + $P{deferredPaymentDetails} + "<br/>"))
+    +
+    ($P{partialShipments}=="" ? "" : ("43P: Partial Shipments<br/>" + $V{WHITESPACE} + $P{partialShipments} + "<br/>"))
+    +
+    ($P{transshipment}=="" ? "" : ("43T: Transshipment<br/>" + $V{WHITESPACE} + $P{transshipment} + "<br/>"))
+    +
+    ($P{placeOfTakingInCharge}=="" ? "" : ("44A: Place of Taking in Charge/Dispatch from.../Place of Receipt<br/>" + $V{WHITESPACE} + $P{placeOfTakingInCharge} + "<br/>"))
+    +
+    ($P{portOfLoading}=="" ? "" : ("44E: Port of Loading/Airport of Departure<br/>" + $V{WHITESPACE} + $P{portOfLoading} + "<br/>"))
+    +
+    ($P{placeOfFinalDestination}=="" ? "" : ("44B: Place of Final Destination/For Transportation to .../Place of Delivery<br/>" + $V{WHITESPACE} + $P{placeOfFinalDestination} + "<br/>"))
+    +
+    ($P{latestDateOfShipment}=="" ? "" : ("44C: Latest Date of Shipment<br/>" + $V{WHITESPACE} + $P{latestDateOfShipment} + "<br/>"))
+    +
+    ($P{shipmentPeriod}=="" ? "" : ("44D: Shipment Period<br/>" + $V{WHITESPACE} + $P{shipmentPeriod} + "<br/>"))
+    +
+    ($P{descriptionOfGoodsAndOrServices}=="" ? "" : ("45A: Description of Goods and/or Services<br/>" + $V{WHITESPACE} + $P{descriptionOfGoodsAndOrServices} + "<br/><br/>"))
+    +
+    ($P{documentsRequired}=="" ? "" : ("46A: Documents Required<br/>" + $V{WHITESPACE} + $P{documentsRequired} + "<br/><br/>"))
+    +
+    ($P{additionalConditions}=="" ? "" : ("47A: Additional Conditions<br/>" + $V{WHITESPACE} + $P{additionalConditions} + "<br/><br/>"))
+    +
+    ($P{charges}=="" ? "" : ("71B: Charges<br/>" + $V{WHITESPACE} + $P{charges} + "<br/>"))
+    +
+    ($P{periodForPresentation}=="" ? "" : ("48: Period for Presentation<br/>" + $V{WHITESPACE} + $P{periodForPresentation} + "<br/>"))
+    +
+    ($P{confirmationInstructions}=="" ? "" : ("49: Confirmation Instructions<br/>" + $V{WHITESPACE} + $P{confirmationInstructions} + "<br/>"))
+    +
+    ($P{reimbursingBank}=="" ? "" : ("53a: Reimbursing Bank<br/>" + $V{WHITESPACE} + $P{reimbursingBank} + "<br/>"))
+    +
+    ($P{instructionsToThePayingBank}=="" ? "" : ("78: Instructions to the Paying/Accepting/Negotiating Bank<br/>" + $V{WHITESPACE} + $P{instructionsToThePayingBank} + "<br/><br/>"))
+    +
+    ($P{adviseThroughBank}=="" ? "" : ("57a: 'Advise Through' Bank<br/>" + $V{WHITESPACE} + $P{adviseThroughBank} + "<br/>"))
+    +
+    ($P{senderToReceiverInformation}=="" ? "" : ("72: Sender to Receiver Information<br/>" + $V{WHITESPACE} + $P{senderToReceiverInformation}))
+)
+:
+""]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{documentSubType1}=="FIRST_ADVISING" && $P{sequenceOfTotal}!="")
+?
+(
+    ($P{sequenceOfTotal}=="" ? "" : ("27: Sequence of Total<br/>" + $V{WHITESPACE} + $P{sequenceOfTotal} + "<br/>"))
+    +
+    ($P{formOfDocumentaryCredit}=="" ? "" : ("40A: Form of Documentary Credit<br/>" + $V{WHITESPACE} + $P{formOfDocumentaryCredit} + "<br/>"))
+    +
+    ($P{documentaryCreditNumber}=="" ? "" : ("20: Documentary Credit Number<br/>" + $V{WHITESPACE} + $P{documentaryCreditNumber} + "<br/>"))
+    +
+    ($P{referenceToPreAdvice}=="" ? "" : ("23: Reference to Pre-Advice<br/>" + $V{WHITESPACE} + $P{referenceToPreAdvice} + "<br/>"))
+    +
+    ($P{lcIssueDate}=="" ? "" : ("31C: Date of Issue<br/>" + $V{WHITESPACE} + new SimpleDateFormat("yyMMdd").format(new Date($P{lcIssueDate})) + "<br/>"))
+    +
+    ($P{applicableRules}=="" ? "" : ("40E: Applicable Rules<br/>" + $V{WHITESPACE} + $P{applicableRules} + "<br/>"))
+    +
+    ($P{dateAndPlaceOfExpiry}=="" ? "" : ("31D: Date and Place of Expiry<br/>" + $V{WHITESPACE} + $P{dateAndPlaceOfExpiry} + "<br/>"))
+    +
+    ($P{importerName}=="" ? "" : ("50: Applicant<br/>" + $V{WHITESPACE} + $P{importerName} + "<br/>" + $V{WHITESPACE} + $P{importerAddress} + "<br/>"))
+    +
+    ($P{exporterName}=="" ? "" : ("59: Beneficiary<br/>" + $V{WHITESPACE} + $P{exporterName} + "<br/>" + $V{WHITESPACE} + $P{exporterAddress} + "<br/>"))
+    +
+    ($P{sequenceOfTotal}=="" ? "" : ("32B: Currency Code, Amount<br/>" + $V{WHITESPACE} + $P{sequenceOfTotal} + "<br/>"))
+    +
+    ($P{percentageCreditAmountTolerance}=="" ? "" : ("39A: Percentage Credit Amount Tolerance<br/>" + $V{WHITESPACE} + $P{percentageCreditAmountTolerance} + "<br/>"))
+    +
+    ($P{maximumCreditAmount}=="" ? "" : ("39B: Maximum Credit Amount<br/>" + $V{WHITESPACE} + $P{maximumCreditAmount} + "<br/>"))
+    +
+    ($P{additionalAmountsCovered}=="" ? "" : ("39C: Additional Amounts Covered<br/>" + $V{WHITESPACE} + $P{additionalAmountsCovered} + "<br/>"))
+    +
+    ($P{availableWithBy}=="" ? "" : ("41a: Available With... By...<br/>" + $V{WHITESPACE} + $P{availableWithBy} + "<br/>"))
+    +
+    ($P{usanceTerm}=="" ? "" : ("42C: Drafts at...<br/>" + $V{WHITESPACE} + $P{usanceTerm} + "<br/>"))
+    +
+    ($P{drawee}=="" ? "" : ("42a: Drawee<br/>" + $V{WHITESPACE} + $P{drawee} + "<br/>"))
+    +
+    ($P{mixedPaymentDetails}=="" ? "" : ("42M: Mixed Payment Details<br/>" + $V{WHITESPACE} + $P{mixedPaymentDetails} + "<br/>"))
+    +
+    ($P{deferredPaymentDetails}=="" ? "" : ("42P: Deferred Payment Details<br/>" + $V{WHITESPACE} + $P{deferredPaymentDetails} + "<br/>"))
+    +
+    ($P{partialShipments}=="" ? "" : ("43P: Partial Shipments<br/>" + $V{WHITESPACE} + $P{partialShipments} + "<br/>"))
+    +
+    ($P{transshipment}=="" ? "" : ("43T: Transshipment<br/>" + $V{WHITESPACE} + $P{transshipment} + "<br/>"))
+    +
+    ($P{placeOfTakingInCharge}=="" ? "" : ("44A: Place of Taking in Charge/Dispatch from.../Place of Receipt<br/>" + $V{WHITESPACE} + $P{placeOfTakingInCharge} + "<br/>"))
+    +
+    ($P{portOfLoading}=="" ? "" : ("44E: Port of Loading/Airport of Departure<br/>" + $V{WHITESPACE} + $P{portOfLoading} + "<br/>"))
+    +
+    ($P{placeOfFinalDestination}=="" ? "" : ("44B: Place of Final Destination/For Transportation to .../Place of Delivery<br/>" + $V{WHITESPACE} + $P{placeOfFinalDestination} + "<br/>"))
+    +
+    ($P{latestDateOfShipment}=="" ? "" : ("44C: Latest Date of Shipment<br/>" + $V{WHITESPACE} + $P{latestDateOfShipment} + "<br/>"))
+    +
+    ($P{shipmentPeriod}=="" ? "" : ("44D: Shipment Period<br/>" + $V{WHITESPACE} + $P{shipmentPeriod} + "<br/>"))
+    +
+    ($P{descriptionOfGoodsAndOrServices}=="" ? "" : ("45A: Description of Goods and/or Services<br/>" + $V{WHITESPACE} + $P{descriptionOfGoodsAndOrServices} + "<br/><br/>"))
+    +
+    ($P{documentsRequired}=="" ? "" : ("46A: Documents Required<br/>" + $V{WHITESPACE} + $P{documentsRequired} + "<br/><br/>"))
+    +
+    ($P{additionalConditions}=="" ? "" : ("47A: Additional Conditions<br/>" + $V{WHITESPACE} + $P{additionalConditions} + "<br/><br/>"))
+    +
+    ($P{charges}=="" ? "" : ("71B: Charges<br/>" + $V{WHITESPACE} + $P{charges} + "<br/>"))
+    +
+    ($P{periodForPresentation}=="" ? "" : ("48: Period for Presentation<br/>" + $V{WHITESPACE} + $P{periodForPresentation} + "<br/>"))
+    +
+    ($P{confirmationInstructions}=="" ? "" : ("49: Confirmation Instructions<br/>" + $V{WHITESPACE} + $P{confirmationInstructions} + "<br/>"))
+    +
+    ($P{reimbursingBank}=="" ? "" : ("53a: Reimbursing Bank<br/>" + $V{WHITESPACE} + $P{reimbursingBank} + "<br/>"))
+    +
+    ($P{instructionsToThePayingBank}=="" ? "" : ("78: Instructions to the Paying/Accepting/Negotiating Bank<br/>" + $V{WHITESPACE} + $P{instructionsToThePayingBank} + "<br/><br/>"))
+    +
+    ($P{adviseThroughBank}=="" ? "" : ("57a: 'Advise Through' Bank<br/>" + $V{WHITESPACE} + $P{adviseThroughBank} + "<br/>"))
+    +
+    ($P{senderToReceiverInformation}=="" ? "" : ("72: Sender to Receiver Information<br/>" + $V{WHITESPACE} + $P{senderToReceiverInformation}))
+)
+:
+""]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="441" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="540" height="15"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="540" height="30"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Letter of Advise addressed to Client / 2nd Advising Bank]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="45" width="540" height="30"/>
+				<box bottomPadding="10"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MMMMM dd, yyyy").format(new Date()) + "<br/><br/>" +
+"Our Reference Number: " + $P{documentNumber}.toUpperCase().replaceAll("-", "") + "<br/>" +
+"LC Number: " + $P{lcNumber}.toUpperCase().replaceAll("-", "") + "<br/>" +
+(($P{issuingBank}!="" && $P{issuingBank}!="undefined") ? ("Issuing Bank: " + $P{issuingBank}.toUpperCase()) : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="75" width="540" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{serviceType}=="AMENDMENT_ADVISING"
+?
+(($P{advisingBank}!="" && $P{advisingBank}!="undefined") ? $P{advisingBankLabel}.toUpperCase() :
+(($P{newExporterName}.toUpperCase()=="") ? $P{exporterName}.toUpperCase() : $P{newExporterName}.toUpperCase()))
+:
+(($P{documentSubType1}=="FIRST_ADVISING" && ($P{advisingBank}!="" && $P{advisingBank}!="undefined")) ? $P{advisingBankLabel}.toUpperCase() : $P{exporterName}.toUpperCase())]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="90" width="250" height="30"/>
+				<box bottomPadding="15"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[$P{serviceType}=="AMENDMENT_ADVISING"
+?
+(($P{advisingBank}!="" && $P{advisingBank}!="undefined") ? $P{advisingBankAddress}.toUpperCase() :
+(($P{newExporterAddress}.toUpperCase()=="") ? $P{exporterAddress}.toUpperCase() : $P{newExporterAddress}.toUpperCase()))
+:
+(($P{documentSubType1}=="FIRST_ADVISING" && ($P{advisingBank}!="" && $P{advisingBank}!="undefined")) ? $P{advisingBankAddress}.toUpperCase() : $P{exporterAddress}.toUpperCase())]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="120" width="540" height="100"/>
+				<box bottomPadding="10"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA["Sir / Madam :" +
+"<br/><br/>" +
+"In accordance with the instructions received from the above Issuing Bank, we advise having received " + ($P{serviceType}=="OPENING_ADVISING" ? "LC opened" : "amendment") + " in your favour, as follows:" +
+"<br/><br/>" +
+(($P{issuingBank}!="" && $P{issuingBank}!="undefined") ? ("From: " + $P{issuingBank}.toUpperCase() + "<br/>") : "")  +
+"Amount: " + $P{lcCurrency} + " " + (new DecimalFormat("#,##0.00").format(new BigDecimal($P{lcAmount}.replaceAll(",", ""))) + "<br/>") +
+(($P{importerName}!="" && $P{importerName}!="undefined") ? ("Importer: " + $P{importerName}.toUpperCase() + "<br/>") : "") +
+"<br/>" +
+"We will release the operative instrument upon payment of the following Charges."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="250" width="540" height="75"/>
+				<textElement textAlignment="Justified" markup="html"/>
+				<textFieldExpression><![CDATA["Please note that this Letter of Advice is simply an advice and conveys no responsibility or engagement on our part. Strict compliance with all the terms and conditions is necessary and if any of the requirements cannot be complied with, please communicate immediately with your customer to obtain necessary amendment of the LC."]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="220" width="150" height="30"/>
+				<box bottomPadding="15"/>
+				<textElement markup="html">
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA["LC ADVISING FEE:<br/>"
++
+(($P{sendMt730Flag}=="1" || $P{sendMt799Flag}=="1") ? "CABLE FEE:<br/>" : "")
++
+($P{documentSubType1}=="SECOND_ADVISING" ? "OTHER BANK CHARGES:" : "")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="150" y="220" width="150" height="30"/>
+				<box bottomPadding="15"/>
+				<textElement markup="html">
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("PHP " + ($P{exportsAdvisingFee}=="" ? "1,000.00" : new DecimalFormat("#,##0.00").format(new BigDecimal($P{exportsAdvisingFee}.replaceAll(",", "")))) + "<br/>")
++
+(($P{sendMt730Flag}=="1" || $P{sendMt799Flag}=="1")? ("PHP " + ($P{cableFee}=="" ? "500.00" : new DecimalFormat("#,##0.00").format(new BigDecimal($P{cableFee}.replaceAll(",", ""))))) : "")
++
+($P{documentSubType1}=="SECOND_ADVISING" ? ("PHP " + $P{totalBankCharges}) : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="375" width="200" height="15"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom" markup="none">
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSign}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="390" width="200" height="50"/>
+				<textElement textAlignment="Center" markup="none">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignPosition}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="325" width="100" height="50"/>
+				<textElement markup="none"/>
+				<text><![CDATA[Very truly yours,]]></text>
+			</staticText>
+			<break>
+				<reportElement x="0" y="440" width="100" height="1"/>
+			</break>
+		</band>
+	</title>
+	<summary>
+		<band height="50">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="540" height="50"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[$V{INCOMING_MT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

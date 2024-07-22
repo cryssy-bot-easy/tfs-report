@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Discrepancy_Letter" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="540" leftMargin="36" rightMargin="36" topMargin="36" bottomMargin="36">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="81"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="documentNumber" class="java.lang.String"/>
+	<parameter name="tradeServiceId" class="java.lang.String"/>
+	<parameter name="longName" class="java.lang.String"/>
+	<parameter name="address1" class="java.lang.String"/>
+	<parameter name="address2" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="negotiationCurrency" class="java.lang.String"/>
+	<parameter name="negotiationAmount" class="java.lang.String"/>
+	<parameter name="icNumber" class="java.lang.String"/>
+	<parameter name="authorizedSign" class="java.lang.String"/>
+	<parameter name="authorizedSignPosition" class="java.lang.String"/>
+	<parameter name="expiredLcSwitch" class="java.lang.String"/>
+	<parameter name="overdrawnForAmountSwitch" class="java.lang.String"/>
+	<parameter name="overdrawnForAmount" class="java.lang.String"/>
+	<parameter name="descriptionOfGoodsNotPerLcSwitch" class="java.lang.String"/>
+	<parameter name="documentsNotPresentedSwitch" class="java.lang.String"/>
+	<parameter name="documentsNotPresented" class="java.lang.String"/>
+	<parameter name="othersSwitch" class="java.lang.String"/>
+	<parameter name="others" class="java.lang.String"/>
+	<parameter name="otherDiscrepancy" class="java.lang.String"/>
+	<parameter name="whiteSpace5" class="java.lang.String">
+		<defaultValueExpression><![CDATA["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="whiteSpace10" class="java.lang.String">
+		<defaultValueExpression><![CDATA["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+	lc.importername, lc.importerAddress,
+	lcNego.negotiationCurrency, lcNego.negotiationAmount, lcNego.icNumber
+
+from tradeproduct tp
+
+join letterofcredit lc on tp.documentNumber=lc.documentNumber
+join lcnegotiation lcNego on tp.documentNumber=lcNego.documentNumber
+
+where tp.documentNumber=$P{documentNumber}]]>
+	</queryString>
+	<field name="IMPORTERNAME" class="java.lang.String"/>
+	<field name="IMPORTERADDRESS" class="java.lang.String"/>
+	<field name="NEGOTIATIONCURRENCY" class="java.lang.String"/>
+	<field name="NEGOTIATIONAMOUNT" class="java.math.BigDecimal"/>
+	<field name="ICNUMBER" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="235" splitType="Stretch">
+			<staticText>
+				<reportElement x="170" y="50" width="200" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DISCREPANCY LETTER]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="100" width="540" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{longName}==""
+?
+""
+:
+($P{longName}.substring(0, 2)=="  " ? $P{longName}.substring(2).toUpperCase() : $P{longName}.toUpperCase())]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="115" width="540" height="30"/>
+				<box bottomPadding="10"/>
+				<textElement markup="html">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{address1}.toUpperCase()
++ "<br/>" +
+$P{address2}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy" isBlankWhenNull="true">
+				<reportElement x="390" y="80" width="150" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="145" width="540" height="15"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Letter of Credit Number: " + $P{documentNumber}.replaceAll("-", "")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="175" width="540" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["IC Number: " + $P{icNumber}.replaceAll("-", "")]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="75" height="75"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="160" width="540" height="15"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Negotiation Amount: " + $P{negotiationCurrency} +
+($P{negotiationAmount}=="undefined" ? "" : new DecimalFormat("#,##0.00").format(new BigDecimal($P{negotiationAmount})))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="195" width="540" height="40"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Dear Sir:
+
+The documents under captioned letter of credit are being sent/ advised to us for collection/ payment due to the following discrepancies:
+]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="165">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="0" width="540" height="50"/>
+				<box leftPadding="0" bottomPadding="30"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{expiredLcSwitch}=="on" ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expired LC<br/>" : "")
++
+($P{overdrawnForAmountSwitch}=="on" ? ("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Overdrawn for (" + $P{currency} + " " + new DecimalFormat("#,##0.00").format(new BigDecimal($P{overdrawnForAmount}.replaceAll(",", ""))) + ")<br/>") : "")
++
+($P{descriptionOfGoodsNotPerLcSwitch}=="on" ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Description of goods not as per lc<br/>" : "")
++
+($P{documentsNotPresentedSwitch}=="on" ? ("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Documents not Presented:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + $P{documentsNotPresented}.replaceAll("\n", "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;").toUpperCase() + "<br/>") : "")
++
+($P{othersSwitch}=="on" ? ("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Others:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + $P{otherDiscrepancy}.replaceAll("\n", "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;").toUpperCase()) : "")
++
+"<br/></br><br/>"
++
+"Please signify your willingness to accept/ waive the above discrepancy(ies) of the relative documents by signing on the space provided below, within 3 banking days.  It is understood that your signature serves as your authority for us to pay the beneficiary."
++
+"<br/></br><br/>"
++
+"Trusting that you will find the above in order."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="340" y="50" width="200" height="30"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Very Truly Yours,]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="340" y="80" width="200" height="15"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="html">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSign}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="115" width="150" height="30"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Conforme:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="145" width="150" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Authorized Signature(s)]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="340" y="95" width="200" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="html">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignPosition}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

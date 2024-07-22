@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Documents_Check_List" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="504" leftMargin="54" rightMargin="54" topMargin="54" bottomMargin="54">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="24"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="documentNumber" class="java.lang.String"/>
+	<parameter name="tradeServiceId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="longName" class="java.lang.String"/>
+	<parameter name="address1" class="java.lang.String"/>
+	<parameter name="address2" class="java.lang.String"/>
+	<parameter name="importerName" class="java.lang.String">
+		<defaultValueExpression><![CDATA["<Importer Name>"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="importerAddress" class="java.lang.String">
+		<defaultValueExpression><![CDATA["<Importer Address>"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="amount" class="java.lang.String"/>
+	<parameter name="receivedBy" class="java.lang.String"/>
+	<parameter name="authorizedSign" class="java.lang.String"/>
+	<parameter name="authorizedSignPosition" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	TS.DOCUMENTCLASS,
+
+	(CASE
+		WHEN LC.IMPORTERNAME IS NOT NULL THEN LC.IMPORTERNAME
+		WHEN DA.IMPORTERNAME IS NOT NULL THEN DA.IMPORTERNAME
+		WHEN DP.IMPORTERNAME IS NOT NULL THEN DP.IMPORTERNAME
+	END) AS IMPORTERNAME,
+	(CASE
+		WHEN LC.IMPORTERADDRESS IS NOT NULL THEN LC.IMPORTERADDRESS
+		WHEN DA.IMPORTERADDRESS IS NOT NULL THEN DA.IMPORTERADDRESS
+		WHEN DP.IMPORTERADDRESS IS NOT NULL THEN DP.IMPORTERADDRESS
+	END) AS IMPORTERADDRESS,
+
+	VARCHAR(TL.LETTERDESCRIPTION) AS LETTERDESCRIPTION,
+	TL.ORIGINALCOPY, TL.DUPLICATECOPY
+FROM TRADESERVICE TS
+
+LEFT JOIN LETTEROFCREDIT LC ON LC.DOCUMENTNUMBER=TS.DOCUMENTNUMBER
+LEFT JOIN TRANSMITTALLETTER TL ON TL.TRADESERVICEID=TS.TRADESERVICEID
+LEFT JOIN DOCUMENTAGAINSTACCEPTANCE DA ON DA.DOCUMENTNUMBER=TS.DOCUMENTNUMBER
+LEFT JOIN DOCUMENTAGAINSTPAYMENT DP ON DP.DOCUMENTNUMBER=TS.DOCUMENTNUMBER
+
+WHERE
+	TS.TRADESERVICEID=$P{tradeServiceId}
+	OR (LC.DOCUMENTNUMBER=$P{documentNumber}
+	OR DA.DOCUMENTNUMBER=$P{documentNumber}
+	OR DP.DOCUMENTNUMBER=$P{documentNumber})
+ORDER BY
+	LC.IMPORTERNAME,
+	TL.SEQUENCENUMBER]]>
+	</queryString>
+	<field name="DOCUMENTCLASS" class="java.lang.String"/>
+	<field name="IMPORTERNAME" class="java.lang.String"/>
+	<field name="IMPORTERADDRESS" class="java.lang.String"/>
+	<field name="LETTERDESCRIPTION" class="java.lang.String"/>
+	<field name="ORIGINALCOPY" class="java.lang.String"/>
+	<field name="DUPLICATECOPY" class="java.lang.String"/>
+	<variable name="documentClass" class="java.lang.String">
+		<variableExpression><![CDATA[$F{DOCUMENTCLASS}=="LC" ? "Letter of Credit" :
+($F{DOCUMENTCLASS}=="DA" ? "Documents Against Acceptance" :
+($F{DOCUMENTCLASS}=="DP" ? "Documents Against Payment" :
+($F{DOCUMENTCLASS}=="DR" ? "Direct Remittance" :
+($F{DOCUMENTCLASS}=="OA" ? "Open Account" : ""))))]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{DOCUMENTCLASS}=="LC" ? "Letter of Credit" :
+($F{DOCUMENTCLASS}=="DA" ? "Documents Against Acceptance" :
+($F{DOCUMENTCLASS}=="DP" ? "Documents Against Payment" :
+($F{DOCUMENTCLASS}=="DR" ? "Direct Remittance" :
+($F{DOCUMENTCLASS}=="OA" ? "Open Account" : ""))))]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="245" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="504" height="75"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TRANSMITTAL LETTER TO CLIENT]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy" isBlankWhenNull="true">
+				<reportElement x="0" y="75" width="200" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="75" height="75"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="95" width="504" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IMPORTERNAME}==null
+?
+($F{DOCUMENTCLASS}!="LC" ? $P{importerName} : $P{longName}).trim().toUpperCase()
+:
+$F{IMPORTERNAME}.trim().toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="110" width="200" height="30"/>
+				<box bottomPadding="10"/>
+				<textElement markup="html">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IMPORTERADDRESS}==null
+?
+($F{DOCUMENTCLASS}!="LC" ? $P{importerAddress} : ($P{address1} + "<br/>" + $P{address2})).toUpperCase()
+:
+$F{IMPORTERADDRESS}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="140" width="200" height="30"/>
+				<box bottomPadding="5"/>
+				<textElement markup="html">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Ref No.: " + $P{documentNumber}.replaceAll("-", "") + "<br/>" +
+"Draft Amount: " + ($P{currency} + " " + $P{amount})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="170" width="504" height="45"/>
+				<textElement markup="html">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Gentlemen:"
++
+"<br/><br/>"
++
+"We are forwarding herewith the following documents under the above captioned " + $V{documentClass} + "."]]></textFieldExpression>
+			</textField>
+			<elementGroup/>
+			<staticText>
+				<reportElement positionType="Float" x="52" y="215" width="250" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[DOCUMENT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="302" y="215" width="150" height="15"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[NO. OF COPIES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="302" y="230" width="75" height="15"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[ORIGINAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="377" y="230" width="75" height="15"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[DUPLICATE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="15">
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="52" y="0" width="250" height="15" isRemoveLineWhenBlank="true"/>
+				<box leftPadding="10">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LETTERDESCRIPTION}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="302" y="0" width="75" height="15" isRemoveLineWhenBlank="true"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ORIGINALCOPY}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="377" y="0" width="75" height="15" isRemoveLineWhenBlank="true"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DUPLICATECOPY}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="185" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="0" width="504" height="25"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Please acknowledge receipt.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="25" width="100" height="25"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Very truly yours,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="110" width="150" height="30"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Received By:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="140" width="150" height="30"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Signature over printed name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="170" width="150" height="15"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Date Received]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="50" width="150" height="30"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom" markup="html">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSign}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="80" width="150" height="30"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" markup="html">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignPosition}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Daily_Foreign_LC_Negotiations" language="groovy" pageWidth="1008" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="968" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="205"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="asOfDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("MM/dd/yyyy").format(new Date()).toString()]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+LOC.TENOR,
+TS.CHARGESCURRENCY,
+LOC.REIMBURSINGBANKIDENTIFIERCODE,
+TS.CIFNAME,
+TS.CIFNUMBER,
+TS.ACCOUNTOFFICER,
+TS.DOCUMENTNUMBER,
+LOC.PROCESSDATE,
+LOC.EXPIRYDATE,
+TS.AMOUNT AS TSAMOUNT,
+SI.DATEAPPROVED,
+TP.AMOUNT AS TPAMOUNT,
+TP.CURRENCY,
+LOC.TYPE
+FROM TFS.LETTEROFCREDIT AS LOC INNER JOIN TFS.TRADESERVICE AS TS ON
+LOC.DOCUMENTNUMBER=TS.DOCUMENTNUMBER
+INNER JOIN TFS.SERVICEINSTRUCTION AS SI ON
+TS.SERVICEINSTRUCTIONID=SI.SERVICEINSTRUCTIONID
+INNER JOIN TFS.TRADEPRODUCT AS TP ON
+LOC.DOCUMENTNUMBER=TP.DOCUMENTNUMBER]]>
+	</queryString>
+	<field name="TENOR" class="java.lang.String"/>
+	<field name="CHARGESCURRENCY" class="java.lang.String"/>
+	<field name="REIMBURSINGBANKIDENTIFIERCODE" class="java.lang.String"/>
+	<field name="CIFNAME" class="java.lang.String"/>
+	<field name="CIFNUMBER" class="java.lang.String"/>
+	<field name="ACCOUNTOFFICER" class="java.lang.String"/>
+	<field name="DOCUMENTNUMBER" class="java.lang.String"/>
+	<field name="PROCESSDATE" class="java.sql.Timestamp"/>
+	<field name="EXPIRYDATE" class="java.sql.Timestamp"/>
+	<field name="TSAMOUNT" class="java.math.BigDecimal"/>
+	<field name="DATEAPPROVED" class="java.sql.Timestamp"/>
+	<field name="TPAMOUNT" class="java.math.BigDecimal"/>
+	<field name="CURRENCY" class="java.lang.String"/>
+	<field name="TYPE" class="java.lang.String"/>
+	<variable name="subTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="reimBank" calculation="Sum">
+		<variableExpression><![CDATA[$F{TSAMOUNT}]]></variableExpression>
+	</variable>
+	<variable name="grandTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="lcCurrency" calculation="Sum">
+		<variableExpression><![CDATA[$F{TPAMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{TPAMOUNT}]]></initialValueExpression>
+	</variable>
+	<group name="tenor">
+		<groupExpression><![CDATA[$F{TENOR}]]></groupExpression>
+		<groupHeader>
+			<band height="19">
+				<textField>
+					<reportElement x="0" y="0" width="100" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{TENOR}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="lcCurrency">
+		<groupExpression><![CDATA[$F{CHARGESCURRENCY}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<staticText>
+					<reportElement x="0" y="0" width="80" height="15"/>
+					<textElement/>
+					<text><![CDATA[LC CURRENCY : ]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="80" y="0" width="100" height="15"/>
+					<box leftPadding="3"/>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CHARGESCURRENCY}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="25" width="80" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[REIM
+BANK]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="80" y="25" width="85" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[CIF
+NO.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="165" y="25" width="132" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[CIF NAME]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="297" y="25" width="134" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[AO NAME]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="431" y="25" width="113" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[LC NO.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="544" y="25" width="55" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[LC ISSUE
+DATE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="599" y="25" width="55" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[LC EXPIRY
+DATE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="654" y="25" width="100" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[LC AMOUNT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="754" y="25" width="56" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[SELL
+RATE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="810" y="25" width="79" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[SETTLE
+CURR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="889" y="25" width="79" height="25"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[TIME
+APPROVED]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="35">
+				<staticText>
+					<reportElement x="29" y="1" width="110" height="15"/>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[GRAND TOTAL]]></text>
+				</staticText>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="654" y="0" width="100" height="15"/>
+					<box leftPadding="1" rightPadding="1"/>
+					<textElement textAlignment="Right">
+						<font size="8" isUnderline="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{grandTotal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="subType">
+		<groupExpression><![CDATA[$F{TYPE}]]></groupExpression>
+		<groupHeader>
+			<band height="15">
+				<textField>
+					<reportElement x="0" y="0" width="110" height="15"/>
+					<box leftPadding="3"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TYPE}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="reimBank">
+		<groupExpression><![CDATA[$F{REIMBURSINGBANKIDENTIFIERCODE}]]></groupExpression>
+		<groupFooter>
+			<band height="20">
+				<staticText>
+					<reportElement x="29" y="1" width="110" height="15"/>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[SUB - TOTAL]]></text>
+				</staticText>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="654" y="1" width="100" height="15"/>
+					<box leftPadding="1" rightPadding="1"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{subTotal}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="654" y="0" width="100" height="1"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="107" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="55" height="15"/>
+				<textElement/>
+				<text><![CDATA[RUN DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="55" height="15"/>
+				<textElement/>
+				<text><![CDATA[RUN TIME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="55" y="0" width="10" height="15"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="55" y="15" width="10" height="15"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="65" y="0" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm:ss">
+				<reportElement x="65" y="15" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="861" y="0" width="107" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{reportId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="802" y="15" width="87" height="15"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[PAGE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="889" y="15" width="79" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="45" width="200" height="15"/>
+				<textElement/>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="200" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DAILY FOREIGN LC NEGOTIATIONS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="75" width="165" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA["AS OF " + $P{asOfDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="80" height="15"/>
+				<box leftPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REIMBURSINGBANKIDENTIFIERCODE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="80" y="0" width="85" height="15"/>
+				<box leftPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIFNUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="165" y="0" width="132" height="15"/>
+				<box leftPadding="1" rightPadding="1"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIFNAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="297" y="0" width="134" height="15"/>
+				<box leftPadding="1" rightPadding="1"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACCOUNTOFFICER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="431" y="0" width="113" height="15"/>
+				<box leftPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DOCUMENTNUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="599" y="0" width="55" height="15"/>
+				<box leftPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EXPIRYDATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="754" y="0" width="56" height="15"/>
+				<box leftPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TPAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="654" y="0" width="100" height="15"/>
+				<box leftPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TSAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="810" y="0" width="79" height="15"/>
+				<box leftPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TPAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="889" y="0" width="79" height="15"/>
+				<box leftPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATEAPPROVED}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="544" y="0" width="55" height="15"/>
+				<box leftPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PROCESSDATE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

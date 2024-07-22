@@ -1,0 +1,1943 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Weekly_Foreign_Domestic_LCs_Opened" language="groovy" pageWidth="1224" pageHeight="572" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="1224" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="0.5266625086121597"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.ignore.page.margins" value="true"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 2">
+		<parameter name="currentYear" class="java.lang.String"/>
+		<parameter name="currentWeek" class="java.lang.String"/>
+		<parameter name="brUnitCode" class="java.lang.String"/>
+		<parameter name="brUnitName" class="java.lang.String"/>
+		<parameter name="taxRate" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[0.02]]></defaultValueExpression>
+		</parameter>
+		<parameter name="currentMonth" class="java.lang.String"/>
+		<parameter name="cal" class="java.util.Calendar" isForPrompting="false">
+			<defaultValueExpression><![CDATA[Calendar.getInstance()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="runDate" class="java.util.Date">
+			<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="endDaterep" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+		</parameter>
+		<parameter name="parameter1" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[-- FOREIGN REGULAR
+SELECT  A.LASTMODIFIEDDATE AS lastModP, A.ISSUEDATE AS ISD,A.DOCUMENTNUMBER AS LCNO,CONCAT( COALESCE(A.APPLICANTNAME,'') , COALESCE(A.IMPORTERNAME,'') ) AS APPIMP,A.EXPORTERNAME AS BENSUP,A.GENERALDESCRIPTIONOFGOODS AS COMMODITY, Z.CURRENCY AS CURRENCY, B.CURRENTAMOUNT AS AMOUNT,date(A.EXPIRYDATE) as EXPIRYDATE,date(A.ISSUEDATE) as ISSUEDATE,CONCAT (COALESCE(b_name.institution_name,''), COALESCE(A.ADVISETHROUGHBANKNAMEANDADDRESS,'')) AS ADVISINGBANK, r_name.institution_name AS REIBNK, A.DOCUMENTTYPE AS DOCUMENTTYPE, TYPE AS TYPE
+FROM    LETTEROFCREDIT A
+
+  LEFT OUTER JOIN
+        (
+    SELECT I.DOCUMENTNUMBER, I.lastMod, T.CURRENTAMOUNT FROM LETTEROFCREDIT_AUDIT T
+      LEFT OUTER JOIN
+     (
+            SELECT DOCUMENTNUMBER, MIN(TIMESTAMP(LASTMODIFIEDDATE)) AS lastMod
+            FROM    LETTEROFCREDIT_AUDIT
+
+ GROUP BY DOCUMENTNUMBER
+) I ON T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+WHERE T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+        ) B on a.DOCUMENTNUMBER = b.DOCUMENTNUMBER
+
+
+LEFT OUTER JOIN
+(
+SELECT DOCUMENTNUMBER, CURRENCY
+FROM TRADEPRODUCT
+GROUP BY DOCUMENTNUMBER, CURRENCY
+) Z ON a.DOCUMENTNUMBER = Z.DOCUMENTNUMBER
+
+LEFT OUTER JOIN
+(
+SELECT CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,''))  AS bank_code, institution_name
+FROM REF_BANK
+GROUP BY CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,'')) , institution_name
+) b_name ON a.DESTINATIONBANK = b_name.bank_code
+
+LEFT OUTER JOIN
+(
+SELECT CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,''))  AS bank_code, institution_name
+FROM REF_BANK
+GROUP BY CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,'')) , institution_name
+) r_name ON a.REIMBURSINGBANKIDENTIFIERCODE = r_name.bank_code
+
+WHERE TYPE IN ('REGULAR','CASH')  AND DOCUMENTTYPE = 'FOREIGN' AND WEEK(A.ISSUEDATE) = $P{currentWeek} AND year(A.ISSUEDATE) = $P{currentYear}]]>
+		</queryString>
+		<field name="ISD" class="java.lang.String"/>
+		<field name="LCNO" class="java.lang.String"/>
+		<field name="APPIMP" class="java.lang.String"/>
+		<field name="BENSUP" class="java.lang.String"/>
+		<field name="COMMODITY" class="java.lang.String"/>
+		<field name="CURRENCY" class="java.lang.String"/>
+		<field name="AMOUNT" class="java.lang.Double"/>
+		<field name="ADVISINGBANK" class="java.lang.String"/>
+		<field name="REIBNK" class="java.lang.String"/>
+		<field name="DOCUMENTTYPE" class="java.lang.String"/>
+		<field name="TYPE" class="java.lang.String"/>
+		<field name="EXPIRYDATE" class="java.util.Date"/>
+		<field name="ISSUEDATE" class="java.util.Date"/>
+		<variable name="CUR_COUNT" class="java.lang.String" calculation="Count"/>
+	</subDataset>
+	<subDataset name="frsDATAset">
+		<parameter name="currentYear" class="java.lang.String"/>
+		<parameter name="currentWeek" class="java.lang.String"/>
+		<parameter name="brUnitCode" class="java.lang.String"/>
+		<parameter name="brUnitName" class="java.lang.String"/>
+		<parameter name="taxRate" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[0.02]]></defaultValueExpression>
+		</parameter>
+		<parameter name="currentMonth" class="java.lang.String"/>
+		<parameter name="cal" class="java.util.Calendar" isForPrompting="false">
+			<defaultValueExpression><![CDATA[Calendar.getInstance()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="runDate" class="java.util.Date">
+			<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="endDaterep" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT  A.LASTMODIFIEDDATE AS lastModP, A.ISSUEDATE AS ISD,A.DOCUMENTNUMBER AS LCNO,CONCAT( COALESCE(A.APPLICANTNAME,'') , COALESCE(A.IMPORTERNAME,'') ) AS APPIMP,A.EXPORTERNAME AS BENSUP,A.GENERALDESCRIPTIONOFGOODS AS COMMODITY, Z.CURRENCY AS CURRENCY, B.CURRENTAMOUNT AS AMOUNT, date(A.EXPIRYDATE) as EXPIRYDATE,date(A.ISSUEDATE) as ISSUEDATE,CONCAT (COALESCE(b_name.institution_name,''), COALESCE(A.ADVISETHROUGHBANKNAMEANDADDRESS,'')) AS ADVISINGBANK, r_name.institution_name AS REIBNK, A.DOCUMENTTYPE AS DOCUMENTTYPE, TYPE AS TYPE
+FROM    LETTEROFCREDIT A
+
+
+  LEFT OUTER JOIN
+        (
+    SELECT I.DOCUMENTNUMBER, I.lastMod, T.CURRENTAMOUNT FROM LETTEROFCREDIT_AUDIT T
+      LEFT OUTER JOIN
+     (
+            SELECT DOCUMENTNUMBER, MIN(TIMESTAMP(LASTMODIFIEDDATE)) AS lastMod
+            FROM    LETTEROFCREDIT_AUDIT
+
+		  GROUP BY DOCUMENTNUMBER
+		) I ON T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+		 WHERE T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+        ) B on a.DOCUMENTNUMBER = b.DOCUMENTNUMBER
+
+
+	LEFT OUTER JOIN
+	(
+		SELECT DOCUMENTNUMBER, CURRENCY
+		FROM TRADEPRODUCT
+		GROUP BY DOCUMENTNUMBER, CURRENCY
+	) Z ON a.DOCUMENTNUMBER = Z.DOCUMENTNUMBER
+
+	LEFT OUTER JOIN
+	(
+		SELECT CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,''))  AS bank_code, institution_name
+		FROM REF_BANK
+		GROUP BY CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,'')) , institution_name
+	) b_name ON a.DESTINATIONBANK = b_name.bank_code
+
+LEFT OUTER JOIN
+(
+SELECT CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,''))  AS bank_code, institution_name
+FROM REF_BANK
+GROUP BY CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,'')) , institution_name
+) r_name ON a.REIMBURSINGBANKIDENTIFIERCODE = r_name.bank_code
+WHERE TYPE = 'STANDBY' AND DOCUMENTTYPE = 'FOREIGN' AND WEEK(A.ISSUEDATE) = $P{currentWeek}  AND year(A.ISSUEDATE) = $P{currentYear}
+
+--
+--ORDER BY A.REV_ID DESC
+--]]>
+		</queryString>
+		<field name="ISD" class="java.lang.String"/>
+		<field name="LCNO" class="java.lang.String"/>
+		<field name="APPIMP" class="java.lang.String"/>
+		<field name="BENSUP" class="java.lang.String"/>
+		<field name="COMMODITY" class="java.lang.String"/>
+		<field name="CURRENCY" class="java.lang.String"/>
+		<field name="AMOUNT" class="java.lang.Double"/>
+		<field name="ADVISINGBANK" class="java.lang.String"/>
+		<field name="REIBNK" class="java.lang.String"/>
+		<field name="DOCUMENTTYPE" class="java.lang.String"/>
+		<field name="TYPE" class="java.lang.String"/>
+		<field name="EXPIRYDATE" class="java.util.Date"/>
+		<field name="ISSUEDATE" class="java.util.Date"/>
+		<variable name="SUBTOTAL" class="java.lang.Double" resetType="Group" resetGroup="group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{AMOUNT}]]></variableExpression>
+		</variable>
+		<group name="group1">
+			<groupExpression><![CDATA[$F{CURRENCY}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="domesticregDATAset">
+		<parameter name="currentYear" class="java.lang.String"/>
+		<parameter name="currentWeek" class="java.lang.String"/>
+		<parameter name="brUnitCode" class="java.lang.String"/>
+		<parameter name="brUnitName" class="java.lang.String"/>
+		<parameter name="taxRate" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[0.02]]></defaultValueExpression>
+		</parameter>
+		<parameter name="currentMonth" class="java.lang.String"/>
+		<parameter name="cal" class="java.util.Calendar" isForPrompting="false">
+			<defaultValueExpression><![CDATA[Calendar.getInstance()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="runDate" class="java.util.Date">
+			<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="endDaterep" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[-- DOMESTIC REGULAR
+SELECT  A.LASTMODIFIEDDATE AS lastModP, A.ISSUEDATE AS ISD,A.DOCUMENTNUMBER AS LCNO,CONCAT( COALESCE(A.APPLICANTNAME,'') , COALESCE(A.IMPORTERNAME,'') ) AS APPIMP,A.BENEFICIARYNAME AS BENSUP,A.GENERALDESCRIPTIONOFGOODS AS COMMODITY, Z.CURRENCY AS CURRENCY, B.CURRENTAMOUNT AS AMOUNT, date(A.EXPIRYDATE) as EXPIRYDATE,date(A.ISSUEDATE) as ISSUEDATE,CONCAT (COALESCE(b_name.institution_name,''), COALESCE(A.ADVISETHROUGHBANKNAMEANDADDRESS,'')) AS ADVISINGBANK, r_name.institution_name AS REIBNK, A.DOCUMENTTYPE AS DOCUMENTTYPE, TYPE AS TYPE
+FROM    LETTEROFCREDIT A
+
+  LEFT OUTER JOIN
+        (
+    SELECT I.DOCUMENTNUMBER, I.lastMod, T.CURRENTAMOUNT FROM LETTEROFCREDIT_AUDIT T
+      LEFT OUTER JOIN
+     (
+            SELECT DOCUMENTNUMBER, MIN(TIMESTAMP(LASTMODIFIEDDATE)) AS lastMod
+            FROM    LETTEROFCREDIT_AUDIT
+
+		  GROUP BY DOCUMENTNUMBER
+		) I ON T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+		 WHERE T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+        ) B on a.DOCUMENTNUMBER = b.DOCUMENTNUMBER
+
+
+	LEFT OUTER JOIN
+	(
+		SELECT DOCUMENTNUMBER, CURRENCY
+		FROM TRADEPRODUCT
+		GROUP BY DOCUMENTNUMBER, CURRENCY
+	) Z ON a.DOCUMENTNUMBER = Z.DOCUMENTNUMBER
+
+	LEFT OUTER JOIN
+	(
+		SELECT CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,''))  AS bank_code, institution_name
+		FROM REF_BANK
+		GROUP BY CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,'')) , institution_name
+	) b_name ON a.DESTINATIONBANK = b_name.bank_code
+
+
+
+LEFT OUTER JOIN
+(
+SELECT CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,''))  AS bank_code, institution_name
+FROM REF_BANK
+GROUP BY CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,'')) , institution_name
+) r_name ON a.REIMBURSINGBANKIDENTIFIERCODE = r_name.bank_code
+
+WHERE TYPE IN ('REGULAR','CASH')  AND DOCUMENTTYPE = 'DOMESTIC' AND WEEK(A.ISSUEDATE) = $P{currentWeek}  AND year(A.ISSUEDATE) = $P{currentYear}
+
+--ORDER BY A.REV_ID DESC
+--]]>
+		</queryString>
+		<field name="ISD" class="java.lang.String"/>
+		<field name="LCNO" class="java.lang.String"/>
+		<field name="APPIMP" class="java.lang.String"/>
+		<field name="BENSUP" class="java.lang.String"/>
+		<field name="COMMODITY" class="java.lang.String"/>
+		<field name="CURRENCY" class="java.lang.String"/>
+		<field name="AMOUNT" class="java.lang.Double"/>
+		<field name="ADVISINGBANK" class="java.lang.String"/>
+		<field name="REIBNK" class="java.lang.String"/>
+		<field name="DOCUMENTTYPE" class="java.lang.String"/>
+		<field name="TYPE" class="java.lang.String"/>
+		<field name="EXPIRYDATE" class="java.util.Date"/>
+		<field name="ISSUEDATE" class="java.util.Date"/>
+		<variable name="SUBTOTAL" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{AMOUNT}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="domesticstanDATAset">
+		<parameter name="currentYear" class="java.lang.String"/>
+		<parameter name="currentWeek" class="java.lang.String"/>
+		<parameter name="brUnitCode" class="java.lang.String"/>
+		<parameter name="brUnitName" class="java.lang.String"/>
+		<parameter name="taxRate" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[0.02]]></defaultValueExpression>
+		</parameter>
+		<parameter name="currentMonth" class="java.lang.String"/>
+		<parameter name="cal" class="java.util.Calendar" isForPrompting="false">
+			<defaultValueExpression><![CDATA[Calendar.getInstance()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="runDate" class="java.util.Date">
+			<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="endDaterep" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[-- DOMESTIC STANDBY
+SELECT  A.LASTMODIFIEDDATE AS lastModP, A.ISSUEDATE AS ISD,A.DOCUMENTNUMBER AS LCNO,CONCAT( COALESCE(A.APPLICANTNAME,'') , COALESCE(A.IMPORTERNAME,'') ) AS APPIMP,A.BENEFICIARYNAME AS BENSUP,CONCAT (COALESCE(A.GENERALDESCRIPTIONOFGOODS,''), CONCAT(COALESCE(A.PURPOSE,''),COALESCE(A.NARRATIVE,''))) AS COMMODITY, Z.CURRENCY AS CURRENCY, B.CURRENTAMOUNT AS AMOUNT, date(A.EXPIRYDATE) as EXPIRYDATE,date(A.ISSUEDATE) as ISSUEDATE,CONCAT (COALESCE(b_name.institution_name,''), COALESCE(A.ADVISETHROUGHBANKNAMEANDADDRESS,'')) AS ADVISINGBANK,r_name.institution_name AS REIBNK, A.DOCUMENTTYPE AS DOCUMENTTYPE, TYPE AS TYPE
+FROM    LETTEROFCREDIT A
+
+
+  LEFT OUTER JOIN
+        (
+    SELECT I.DOCUMENTNUMBER, I.lastMod, T.CURRENTAMOUNT FROM LETTEROFCREDIT_AUDIT T
+      LEFT OUTER JOIN
+     (
+            SELECT DOCUMENTNUMBER, MIN(TIMESTAMP(LASTMODIFIEDDATE)) AS lastMod
+            FROM    LETTEROFCREDIT_AUDIT
+
+		  GROUP BY DOCUMENTNUMBER
+		) I ON T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+		 WHERE T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+        ) B on a.DOCUMENTNUMBER = b.DOCUMENTNUMBER
+
+
+	LEFT OUTER JOIN
+	(
+		SELECT DOCUMENTNUMBER, CURRENCY
+		FROM TRADEPRODUCT
+		GROUP BY DOCUMENTNUMBER, CURRENCY
+	) Z ON a.DOCUMENTNUMBER = Z.DOCUMENTNUMBER
+
+	LEFT OUTER JOIN
+	(
+		SELECT CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,''))  AS bank_code, institution_name
+		FROM REF_BANK
+		GROUP BY CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,'')) , institution_name
+	) b_name ON a.DESTINATIONBANK = b_name.bank_code
+
+
+LEFT OUTER JOIN
+(
+SELECT CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,''))  AS bank_code, institution_name
+FROM REF_BANK
+GROUP BY CONCAT(COALESCE(bic_code,'') , COALESCE(branch_code,'')) , institution_name
+) r_name ON a.REIMBURSINGBANKIDENTIFIERCODE = r_name.bank_code
+
+
+
+WHERE TYPE = 'STANDBY' AND DOCUMENTTYPE = 'DOMESTIC' AND WEEK(A.ISSUEDATE) = $P{currentWeek}  AND year(A.ISSUEDATE) = $P{currentYear}
+--ORDER BY A.REV_ID DESC
+--]]>
+		</queryString>
+		<field name="ISD" class="java.lang.String"/>
+		<field name="LCNO" class="java.lang.String"/>
+		<field name="APPIMP" class="java.lang.String"/>
+		<field name="BENSUP" class="java.lang.String"/>
+		<field name="COMMODITY" class="java.lang.String"/>
+		<field name="CURRENCY" class="java.lang.String"/>
+		<field name="AMOUNT" class="java.lang.Double"/>
+		<field name="ADVISINGBANK" class="java.lang.String"/>
+		<field name="REIBNK" class="java.lang.String"/>
+		<field name="DOCUMENTTYPE" class="java.lang.String"/>
+		<field name="TYPE" class="java.lang.String"/>
+		<field name="EXPIRYDATE" class="java.util.Date"/>
+		<field name="ISSUEDATE" class="java.util.Date"/>
+		<variable name="SUBTOTAL" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{AMOUNT}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="grndTotal">
+		<parameter name="currentYear" class="java.lang.String"/>
+		<parameter name="currentWeek" class="java.lang.String"/>
+		<parameter name="brUnitCode" class="java.lang.String"/>
+		<parameter name="brUnitName" class="java.lang.String"/>
+		<parameter name="taxRate" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[0.02]]></defaultValueExpression>
+		</parameter>
+		<parameter name="currentMonth" class="java.lang.String"/>
+		<parameter name="cal" class="java.util.Calendar" isForPrompting="false">
+			<defaultValueExpression><![CDATA[Calendar.getInstance()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="runDate" class="java.util.Date">
+			<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT  Z.CURRENCY AS CURRENCY, sum(B.CURRENTAMOUNT) AS AMOUNT
+FROM    LETTEROFCREDIT A
+
+
+  LEFT OUTER JOIN
+        (
+    SELECT I.DOCUMENTNUMBER, I.lastMod, T.CURRENTAMOUNT FROM LETTEROFCREDIT_AUDIT T
+      LEFT OUTER JOIN
+     (
+            SELECT DOCUMENTNUMBER, MIN(TIMESTAMP(LASTMODIFIEDDATE)) AS lastMod
+            FROM    LETTEROFCREDIT_AUDIT
+
+		  GROUP BY DOCUMENTNUMBER
+		) I ON T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+		 WHERE T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+        ) B on a.DOCUMENTNUMBER = b.DOCUMENTNUMBER
+
+	LEFT OUTER JOIN
+	(
+		SELECT DOCUMENTNUMBER, CURRENCY
+		FROM TRADEPRODUCT
+		GROUP BY DOCUMENTNUMBER, CURRENCY
+	) Z ON a.DOCUMENTNUMBER = Z.DOCUMENTNUMBER
+
+WHERE WEEK(A.ISSUEDATE) = $P{currentWeek}  AND year(A.ISSUEDATE) = $P{currentYear}
+GROUP BY Z.CURRENCY]]>
+		</queryString>
+		<field name="CURRENCY" class="java.lang.String"/>
+		<field name="AMOUNT" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="SUBTOTALDOMESTICSTAN">
+		<parameter name="currentYear" class="java.lang.String"/>
+		<parameter name="currentWeek" class="java.lang.String"/>
+		<parameter name="brUnitCode" class="java.lang.String"/>
+		<parameter name="brUnitName" class="java.lang.String"/>
+		<parameter name="taxRate" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[0.02]]></defaultValueExpression>
+		</parameter>
+		<parameter name="currentMonth" class="java.lang.String"/>
+		<parameter name="cal" class="java.util.Calendar" isForPrompting="false">
+			<defaultValueExpression><![CDATA[Calendar.getInstance()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="runDate" class="java.util.Date">
+			<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="endDaterep" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT   Z.CURRENCY AS CURRENCY, SUM(B.CURRENTAMOUNT) AS AMOUNT
+FROM    LETTEROFCREDIT A
+  LEFT OUTER JOIN
+        (
+    SELECT I.DOCUMENTNUMBER, I.lastMod, T.CURRENTAMOUNT FROM LETTEROFCREDIT_AUDIT T
+      LEFT OUTER JOIN
+     (
+            SELECT DOCUMENTNUMBER, MIN(TIMESTAMP(LASTMODIFIEDDATE)) AS lastMod
+            FROM    LETTEROFCREDIT_AUDIT
+
+		  GROUP BY DOCUMENTNUMBER
+		) I ON T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+		 WHERE T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+        ) B on a.DOCUMENTNUMBER = b.DOCUMENTNUMBER
+
+
+	LEFT OUTER JOIN
+	(
+		SELECT DOCUMENTNUMBER, CURRENCY
+		FROM TRADEPRODUCT
+		GROUP BY DOCUMENTNUMBER, CURRENCY
+	) Z ON a.DOCUMENTNUMBER = Z.DOCUMENTNUMBER
+
+WHERE TYPE ='STANDBY'  AND DOCUMENTTYPE = 'DOMESTIC' AND WEEK(A.ISSUEDATE) = $P{currentWeek} AND year(A.ISSUEDATE) = $P{currentYear}
+GROUP BY CURRENCY]]>
+		</queryString>
+		<field name="CURRENCY" class="java.lang.String"/>
+		<field name="AMOUNT" class="java.lang.Double"/>
+		<variable name="SUBTOTAL" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{AMOUNT}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="SUBTOTALDOMESTICREG">
+		<parameter name="currentYear" class="java.lang.String"/>
+		<parameter name="currentWeek" class="java.lang.String"/>
+		<parameter name="brUnitCode" class="java.lang.String"/>
+		<parameter name="brUnitName" class="java.lang.String"/>
+		<parameter name="taxRate" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[0.02]]></defaultValueExpression>
+		</parameter>
+		<parameter name="currentMonth" class="java.lang.String"/>
+		<parameter name="cal" class="java.util.Calendar" isForPrompting="false">
+			<defaultValueExpression><![CDATA[Calendar.getInstance()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="runDate" class="java.util.Date">
+			<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="endDaterep" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT   Z.CURRENCY AS CURRENCY, SUM(B.CURRENTAMOUNT) AS AMOUNT
+FROM    LETTEROFCREDIT A
+  LEFT OUTER JOIN
+        (
+    SELECT I.DOCUMENTNUMBER, I.lastMod, T.CURRENTAMOUNT FROM LETTEROFCREDIT_AUDIT T
+      LEFT OUTER JOIN
+     (
+            SELECT DOCUMENTNUMBER, MIN(TIMESTAMP(LASTMODIFIEDDATE)) AS lastMod
+            FROM    LETTEROFCREDIT_AUDIT
+
+		  GROUP BY DOCUMENTNUMBER
+		) I ON T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+		 WHERE T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+        ) B on a.DOCUMENTNUMBER = b.DOCUMENTNUMBER
+
+
+	LEFT OUTER JOIN
+	(
+		SELECT DOCUMENTNUMBER, CURRENCY
+		FROM TRADEPRODUCT
+		GROUP BY DOCUMENTNUMBER, CURRENCY
+	) Z ON a.DOCUMENTNUMBER = Z.DOCUMENTNUMBER
+
+WHERE TYPE IN ('REGULAR','CASH')  AND DOCUMENTTYPE = 'DOMESTIC' AND WEEK(A.ISSUEDATE) = $P{currentWeek} AND year(A.ISSUEDATE) = $P{currentYear}
+GROUP BY CURRENCY]]>
+		</queryString>
+		<field name="CURRENCY" class="java.lang.String"/>
+		<field name="AMOUNT" class="java.lang.Double"/>
+		<variable name="SUBTOTAL" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{AMOUNT}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="SUBTOTALFORSTAN">
+		<parameter name="currentYear" class="java.lang.String"/>
+		<parameter name="currentWeek" class="java.lang.String"/>
+		<parameter name="brUnitCode" class="java.lang.String"/>
+		<parameter name="brUnitName" class="java.lang.String"/>
+		<parameter name="taxRate" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[0.02]]></defaultValueExpression>
+		</parameter>
+		<parameter name="currentMonth" class="java.lang.String"/>
+		<parameter name="cal" class="java.util.Calendar" isForPrompting="false">
+			<defaultValueExpression><![CDATA[Calendar.getInstance()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="runDate" class="java.util.Date">
+			<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="endDaterep" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT   Z.CURRENCY AS CURRENCY, SUM(B.CURRENTAMOUNT) AS AMOUNT
+FROM    LETTEROFCREDIT A
+  LEFT OUTER JOIN
+        (
+    SELECT I.DOCUMENTNUMBER, I.lastMod, T.CURRENTAMOUNT FROM LETTEROFCREDIT_AUDIT T
+      LEFT OUTER JOIN
+     (
+            SELECT DOCUMENTNUMBER, MIN(TIMESTAMP(LASTMODIFIEDDATE)) AS lastMod
+            FROM    LETTEROFCREDIT_AUDIT
+
+		  GROUP BY DOCUMENTNUMBER
+		) I ON T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+		 WHERE T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+        ) B on a.DOCUMENTNUMBER = b.DOCUMENTNUMBER
+
+
+	LEFT OUTER JOIN
+	(
+		SELECT DOCUMENTNUMBER, CURRENCY
+		FROM TRADEPRODUCT
+		GROUP BY DOCUMENTNUMBER, CURRENCY
+	) Z ON a.DOCUMENTNUMBER = Z.DOCUMENTNUMBER
+
+WHERE TYPE ='STANDBY'  AND DOCUMENTTYPE = 'FOREIGN' AND WEEK(A.ISSUEDATE) = $P{currentWeek} AND year(A.ISSUEDATE) = $P{currentYear}
+GROUP BY CURRENCY]]>
+		</queryString>
+		<field name="CURRENCY" class="java.lang.String"/>
+		<field name="AMOUNT" class="java.lang.Double"/>
+		<variable name="SUBTOTAL" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{AMOUNT}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="SUBTOTALFORREG">
+		<parameter name="currentYear" class="java.lang.String"/>
+		<parameter name="currentWeek" class="java.lang.String"/>
+		<parameter name="brUnitCode" class="java.lang.String"/>
+		<parameter name="brUnitName" class="java.lang.String"/>
+		<parameter name="taxRate" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[0.02]]></defaultValueExpression>
+		</parameter>
+		<parameter name="currentMonth" class="java.lang.String"/>
+		<parameter name="cal" class="java.util.Calendar" isForPrompting="false">
+			<defaultValueExpression><![CDATA[Calendar.getInstance()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="runDate" class="java.util.Date">
+			<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+		</parameter>
+		<parameter name="endDaterep" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT   Z.CURRENCY AS CURRENCY, SUM(B.CURRENTAMOUNT) AS AMOUNT
+FROM    LETTEROFCREDIT A
+  LEFT OUTER JOIN
+        (
+    SELECT I.DOCUMENTNUMBER, I.lastMod, T.CURRENTAMOUNT FROM LETTEROFCREDIT_AUDIT T
+      LEFT OUTER JOIN
+     (
+            SELECT DOCUMENTNUMBER, MIN(TIMESTAMP(LASTMODIFIEDDATE)) AS lastMod
+            FROM    LETTEROFCREDIT_AUDIT
+
+		  GROUP BY DOCUMENTNUMBER
+		) I ON T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+		 WHERE T.DOCUMENTNUMBER =  I.DOCUMENTNUMBER AND I.lastMod = T.LASTMODIFIEDDATE
+        ) B on a.DOCUMENTNUMBER = b.DOCUMENTNUMBER
+
+
+	LEFT OUTER JOIN
+	(
+		SELECT DOCUMENTNUMBER, CURRENCY
+		FROM TRADEPRODUCT
+		GROUP BY DOCUMENTNUMBER, CURRENCY
+	) Z ON a.DOCUMENTNUMBER = Z.DOCUMENTNUMBER
+
+WHERE TYPE IN ('REGULAR','CASH')  AND DOCUMENTTYPE = 'FOREIGN' AND WEEK(A.ISSUEDATE) = $P{currentWeek} AND year(A.ISSUEDATE) = $P{currentYear}
+GROUP BY CURRENCY]]>
+		</queryString>
+		<field name="CURRENCY" class="java.lang.String"/>
+		<field name="AMOUNT" class="java.lang.Double"/>
+		<variable name="SUBTOTAL" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{AMOUNT}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="brUnitCode" class="java.lang.String"/>
+	<parameter name="brUnitName" class="java.lang.String"/>
+	<parameter name="taxRate" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.02]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentWeek" class="java.lang.String"/>
+	<parameter name="currentMonth" class="java.lang.String"/>
+	<parameter name="currentYear" class="java.lang.String"/>
+	<parameter name="cal" class="java.util.Calendar" isForPrompting="false">
+		<defaultValueExpression><![CDATA[Calendar.getInstance()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="runDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="startDaterep" class="java.lang.String"/>
+	<parameter name="endDaterep" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT ISSUEDATE from LETTEROFCREDIT
+FETCH FIRST 1 rows only]]>
+	</queryString>
+	<variable name="blankVariable" class="java.lang.String">
+		<variableExpression><![CDATA["\'"]]></variableExpression>
+		<initialValueExpression><![CDATA["\'"]]></initialValueExpression>
+	</variable>
+	<variable name="lastSunday" class="java.util.Date">
+		<initialValueExpression><![CDATA[(
+    $P{cal}.set($P{runDate}.getYear()+1900, $P{runDate}.getMonth(), $P{runDate}.getDate()) ||
+    $P{cal}.add(Calendar.DAY_OF_MONTH, $P{cal}.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? -7 : Calendar.SUNDAY - $P{cal}.get(Calendar.DAY_OF_WEEK))
+)
+? null : $P{cal}.getTime()]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="170">
+			<staticText>
+				<reportElement x="495" y="0" width="191" height="20"/>
+				<textElement/>
+				<text><![CDATA[   UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="495" y="20" width="191" height="20"/>
+				<textElement/>
+				<text><![CDATA[      TRADE SERVICES DEPARTMENT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="495" y="40" width="191" height="20"/>
+				<textElement/>
+				<text><![CDATA[          LC's OPENED FOR THE WEEK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="395" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="195" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="495" y="60" width="191" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Top"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["               ".concat($P{startDaterep}.concat( " - " ).concat( $P{endDaterep}.toString()))]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="42"/>
+	</pageHeader>
+	<detail>
+		<band height="530" splitType="Stretch">
+			<elementGroup/>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="115" width="1224" height="55" isPrintInFirstWholeBand="true"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="frsDATAset">
+						<datasetParameter name="currentWeek">
+							<datasetParameterExpression><![CDATA[$P{currentWeek}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="currentYear">
+							<datasetParameterExpression><![CDATA[$P{currentYear}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="endDaterep">
+							<datasetParameterExpression><![CDATA[$P{endDaterep}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[FOREIGN STANDBY LETTER OF CREDIT]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="MMMMM dd, yyyy" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{ISD}.concat( "PM" ).substring( 0, 11 )]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{LCNO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{APPIMP}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{BENSUP}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{COMMODITY}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{CURRENCY}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{AMOUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[((new Integer($F{EXPIRYDATE}.getYear()+1900) * 365) + (new Integer($F{EXPIRYDATE}.getMonth()+1) * 30) + (new Integer($F{EXPIRYDATE}.getDate()))) - ((new Integer($F{ISSUEDATE}.getYear()+1900) * 365) + (new Integer($F{ISSUEDATE}.getMonth()+1) * 30) + (new Integer($F{ISSUEDATE}.getDate())))]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{ADVISINGBANK} == null ? "N/A" : $F{ADVISINGBANK}.trim() == "" ? "N/A" : $F{ADVISINGBANK}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{REIBNK} == null ? "N/A" : $F{REIBNK}.trim() == "" ? "N/A" : $F{REIBNK}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="224" width="1224" height="68" isPrintInFirstWholeBand="true"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="domesticregDATAset">
+						<datasetParameter name="currentWeek">
+							<datasetParameterExpression><![CDATA[$P{currentWeek}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="currentYear">
+							<datasetParameterExpression><![CDATA[$P{currentYear}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="endDaterep">
+							<datasetParameterExpression><![CDATA[$P{endDaterep}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[DOMESTIC REGULAR LETTER OF CREDIT AUDIT]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="MMMMM dd, yyyy" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{ISD}.concat( "PM" ).substring( 0, 11 )]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{LCNO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{APPIMP}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{BENSUP}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{COMMODITY}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{CURRENCY}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{AMOUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[((new Integer($F{EXPIRYDATE}.getYear()+1900) * 365) + (new Integer($F{EXPIRYDATE}.getMonth()+1) * 30) + (new Integer($F{EXPIRYDATE}.getDate()))) - ((new Integer($F{ISSUEDATE}.getYear()+1900) * 365) + (new Integer($F{ISSUEDATE}.getMonth()+1) * 30) + (new Integer($F{ISSUEDATE}.getDate())))]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{ADVISINGBANK} == null ? "N/A" : $F{ADVISINGBANK}.trim() == "" ? "N/A" : $F{ADVISINGBANK}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{REIBNK} == null ? "N/A" : $F{REIBNK}.trim() == "" ? "N/A" : $F{REIBNK}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="347" width="1224" height="64" isPrintInFirstWholeBand="true"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="domesticstanDATAset">
+						<datasetParameter name="currentYear">
+							<datasetParameterExpression><![CDATA[$P{currentYear}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="currentWeek">
+							<datasetParameterExpression><![CDATA[$P{currentWeek}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="endDaterep">
+							<datasetParameterExpression><![CDATA[$P{endDaterep}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30" isPrintInFirstWholeBand="true"/>
+								<textElement>
+									<font isUnderline="false"/>
+								</textElement>
+								<text><![CDATA[DOMESTIC STANDBY LETTER OF CREDIT]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="MMMMM dd, yyyy" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{ISD}.concat( "PM" ).substring( 0, 11 )]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{LCNO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{APPIMP}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{BENSUP}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{COMMODITY}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{CURRENCY}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{AMOUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[((new Integer($F{EXPIRYDATE}.getYear()+1900) * 365) + (new Integer($F{EXPIRYDATE}.getMonth()+1) * 30) + (new Integer($F{EXPIRYDATE}.getDate()))) - ((new Integer($F{ISSUEDATE}.getYear()+1900) * 365) + (new Integer($F{ISSUEDATE}.getMonth()+1) * 30) + (new Integer($F{ISSUEDATE}.getDate())))]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{ADVISINGBANK} == null ? "N/A" : $F{ADVISINGBANK}.trim() == "" ? "N/A" : $F{ADVISINGBANK}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="20"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{REIBNK} == null ? "N/A" : $F{REIBNK}.trim() == "" ? "N/A" : $F{REIBNK}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="465" width="1224" height="34" isPrintInFirstWholeBand="true"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="grndTotal">
+						<datasetParameter name="currentYear">
+							<datasetParameterExpression><![CDATA[$P{currentYear}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="currentWeek">
+							<datasetParameterExpression><![CDATA[$P{currentWeek}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="90" height="30" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[GRAND TOTAL]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{CURRENCY}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{AMOUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="14" width="1224" height="55" isPrintInFirstWholeBand="true"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 2">
+						<datasetParameter name="currentYear">
+							<datasetParameterExpression><![CDATA[$P{currentYear}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="currentWeek">
+							<datasetParameterExpression><![CDATA[$P{currentWeek}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="endDaterep">
+							<datasetParameterExpression><![CDATA[$P{endDaterep}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader height="60" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[ISSUANCE DATE]]></text>
+							</staticText>
+							<staticText>
+								<reportElement positionType="Float" x="0" y="30" width="90" height="30" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[FOREIGN REGULAR LETTER OF CREDIT]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="yyyy/MM/dd" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{ISD}.concat( "PM" ).substring( 0, 11 )]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="60" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="60" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[LC NO.]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{LCNO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="60" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="60" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[APPLICANT/IMPORTER]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{APPIMP}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="60" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="60" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[BENEFICIARY/SUPPLIER]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{BENSUP}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="60" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="60" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[COMMODITY PROJECT/CONTRACT]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{COMMODITY}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="60" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="60" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[CURRENCY]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{CURRENCY}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="60" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="60" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[AMOUNT]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{AMOUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="60" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="60" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[TERM(DAYS)]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[((new Integer($F{EXPIRYDATE}.getYear()+1900) * 365) + (new Integer($F{EXPIRYDATE}.getMonth()+1) * 30) + (new Integer($F{EXPIRYDATE}.getDate()))) - ((new Integer($F{ISSUEDATE}.getYear()+1900) * 365) + (new Integer($F{ISSUEDATE}.getMonth()+1) * 30) + (new Integer($F{ISSUEDATE}.getDate())))]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="60" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="60" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[ADVISING BANK]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{ADVISINGBANK} == null ? "N/A" : $F{ADVISINGBANK}.trim() == "" ? "N/A" : $F{ADVISINGBANK}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="60" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="60" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[REIMBURSING BANK]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{REIBNK} == null ? "N/A" : $F{REIBNK}.trim() == "" ? "N/A" : $F{REIBNK}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="421" width="1224" height="34" isPrintInFirstWholeBand="true"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="SUBTOTALDOMESTICSTAN">
+						<datasetParameter name="currentYear">
+							<datasetParameterExpression><![CDATA[$P{currentYear}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="currentWeek">
+							<datasetParameterExpression><![CDATA[$P{currentWeek}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1">
+							<staticText>
+								<reportElement isPrintRepeatedValues="false" x="0" y="0" width="90" height="30" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[SUB-TOTAL]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{CURRENCY}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{AMOUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="302" width="1224" height="34" isPrintInFirstWholeBand="true"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="SUBTOTALDOMESTICREG">
+						<datasetParameter name="currentYear">
+							<datasetParameterExpression><![CDATA[$P{currentYear}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="currentWeek">
+							<datasetParameterExpression><![CDATA[$P{currentWeek}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1">
+							<staticText>
+								<reportElement isPrintRepeatedValues="false" x="0" y="0" width="90" height="30" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[SUB-TOTAL]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{CURRENCY}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{AMOUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="74" width="1224" height="34" isPrintInFirstWholeBand="true"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="SUBTOTALFORREG">
+						<datasetParameter name="currentYear">
+							<datasetParameterExpression><![CDATA[$P{currentYear}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="currentWeek">
+							<datasetParameterExpression><![CDATA[$P{currentWeek}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1">
+							<staticText>
+								<reportElement isPrintRepeatedValues="false" x="0" y="0" width="90" height="30" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[SUB-TOTAL]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{CURRENCY}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{AMOUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement positionType="Float" x="0" y="176" width="1224" height="34" isPrintInFirstWholeBand="true"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="SUBTOTALFORSTAN">
+						<datasetParameter name="currentYear">
+							<datasetParameterExpression><![CDATA[$P{currentYear}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="currentWeek">
+							<datasetParameterExpression><![CDATA[$P{currentWeek}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1">
+							<staticText>
+								<reportElement isPrintRepeatedValues="false" x="0" y="0" width="90" height="30" isPrintInFirstWholeBand="true"/>
+								<textElement/>
+								<text><![CDATA[SUB-TOTAL]]></text>
+							</staticText>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{CURRENCY}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{AMOUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="30"/>
+								<textElement/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell height="30" rowSpan="1"/>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

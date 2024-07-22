@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Schedule_4_Text" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="792" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.text.page.width" value="206"/>
+	<property name="net.sf.jasperreports.export.text.character.height" value="15"/>
+	<parameter name="currentDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="brUnitCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA["909"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitName" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Trade Services Department"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+	'000470' AS BANKCDE,
+	REPLACE(DATE(TS.PROCESSDATE), '-', '') AS REFDATE,
+	'TRD04' AS FORMNO,
+	'040' AS TRANCDE,
+	RIGHT(REPLACE(AP.DOCUMENTNUMBER, '-', ''), 15) AS REFNO,
+	'          ' AS CDAN,
+	--AP.ACCT_NUMBER AS CDAN,
+	CASE
+		WHEN AP.CREDITFACILITY='LONGTERM'
+		THEN '2'
+		ELSE '1'
+	END AS CRFCDE,
+	'          ' AS DEBTCDE,
+	LPAD(AP.IMPORTERCBCODE, 12, '0') AS CREDCDE,
+	LPAD(REPLACE(RIGHT(AP.COUNTRY_CODE, 3), ' ', ''), 3, '0') AS CTRYCDE,
+	REPLACE(DATE(AP.SHIP_DATE), '-', '') AS DUEDTE,
+	TP.CURRENCY AS CURRCDE,
+	CASE
+		WHEN AP.ACCT_TYPE = 'FCDU' THEN '2'
+		ELSE '1'
+	END AS BOOKCDE,
+	' ' AS FEECDE,
+	'               ' AS FEEORIG,
+	'               ' AS FEEDOLR,
+	'               ' AS INTORIG,
+	'               ' AS INTDOLR,
+	TP.AMOUNT AS PRINORIG,
+	CASE
+		WHEN TP.CURRENCY='USD' THEN TP.AMOUNT
+		WHEN TP.CURRENCY='PHP' THEN TP.AMOUNT / TS.SPECIALRATEURR
+		ELSE TP.AMOUNT * TS.SPECIALRATETHIRDTOUSD
+	END AS PRINDOLR,
+	CASE
+		WHEN RCE.CL_TAN IS NOT NULL AND RCE.CL_TAN!=''
+			THEN RPAD(REPLACE(REPLACE(RCE.CL_TAN, ' ', ''), '-', ''), 20, '0')
+		WHEN TP.TINNUMBER IS NOT NULL AND TP.TINNUMBER!=''
+			THEN RPAD(REPLACE(REPLACE(TP.TINNUMBER, ' ', ''), '-', ''), 20, '0')
+		ELSE RPAD(REPLACE(REPLACE(TS.TINNUMBER, ' ', ''), '-', ''), 20, '0')
+	END AS DOCNO,
+	RPAD(REPLACE(REPLACE(RCI.CL_TAN, ' ', ''), '-', ''), 25, '0') AS COMDES
+FROM ADVANCEPAYMENT AP
+LEFT JOIN TRADEPRODUCT TP ON AP.DOCUMENTNUMBER=TP.DOCUMENTNUMBER
+LEFT JOIN TRADESERVICE TS ON AP.DOCUMENTNUMBER=TS.TRADEPRODUCTNUMBER
+LEFT JOIN REF_TFCUSTMR RCE ON AP.EXPORTERCBCODE=RCE.CB_CD
+LEFT JOIN REF_TFCUSTMR RCI ON AP.IMPORTERCBCODE=RCI.CB_CD
+WHERE
+	AP.ADV_PAYMENT_TYPE = 'IMPORT'
+	AND TS.STATUS IN ('APPROVED', 'POST_APPROVED', 'POSTED')
+	AND DATE(TS.PROCESSDATE)=$P{currentDate}]]>
+	</queryString>
+	<field name="BANKCDE" class="java.lang.String"/>
+	<field name="REFDATE" class="java.lang.String"/>
+	<field name="FORMNO" class="java.lang.String"/>
+	<field name="TRANCDE" class="java.lang.String"/>
+	<field name="REFNO" class="java.lang.String"/>
+	<field name="CDAN" class="java.lang.String"/>
+	<field name="CRFCDE" class="java.lang.String"/>
+	<field name="DEBTCDE" class="java.lang.String"/>
+	<field name="CREDCDE" class="java.lang.String"/>
+	<field name="CTRYCDE" class="java.lang.String"/>
+	<field name="DUEDTE" class="java.lang.String"/>
+	<field name="CURRCDE" class="java.lang.String"/>
+	<field name="BOOKCDE" class="java.lang.String"/>
+	<field name="FEECDE" class="java.lang.String"/>
+	<field name="FEEORIG" class="java.lang.String"/>
+	<field name="FEEDOLR" class="java.lang.String"/>
+	<field name="INTORIG" class="java.lang.String"/>
+	<field name="INTDOLR" class="java.lang.String"/>
+	<field name="PRINORIG" class="java.math.BigDecimal"/>
+	<field name="PRINDOLR" class="java.math.BigDecimal"/>
+	<field name="DOCNO" class="java.lang.String"/>
+	<field name="COMDES" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="792" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BANKCDE} +
+(($F{REFDATE}==null || $F{REFDATE}=="") ? "        " : $F{REFDATE}) +
+$F{FORMNO} +
+$F{TRANCDE} +
+$F{REFNO} +
+$F{CDAN} +
+$F{CRFCDE} +
+$F{DEBTCDE} +
+$F{CREDCDE} +
+(($F{CTRYCDE}==null || $F{CTRYCDE}=="") ? "000" : $F{CTRYCDE}) +
+(($F{DUEDTE}==null || $F{DUEDTE}=="") ? "        " : $F{DUEDTE}) +
+$F{CURRCDE} +
+$F{BOOKCDE} +
+$F{FEECDE} +
+$F{FEEORIG} +
+$F{FEEDOLR} +
+$F{INTORIG} +
+$F{INTDOLR} +
+new DecimalFormat("000000000000.00").format($F{PRINORIG}==null ? 0 : $F{PRINORIG}) +
+new DecimalFormat("000000000000.00").format($F{PRINDOLR}==null ? 0 : $F{PRINDOLR}) +
+(($F{DOCNO}==null || $F{DOCNO}=="") ? "               " : ($F{DOCNO}.substring(0, 3) + "-" + $F{DOCNO}.substring(3, 6) + "-" + $F{DOCNO}.substring(6, 9) + "-" + $F{DOCNO}.substring(9, 12))) +
+(($F{COMDES}==null || $F{COMDES}=="") ? "               " : ($F{COMDES}.substring(0, 3) + "-" + $F{COMDES}.substring(3, 6) + "-" + $F{COMDES}.substring(6, 9) + "-" + $F{COMDES}.substring(9, 12)))]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

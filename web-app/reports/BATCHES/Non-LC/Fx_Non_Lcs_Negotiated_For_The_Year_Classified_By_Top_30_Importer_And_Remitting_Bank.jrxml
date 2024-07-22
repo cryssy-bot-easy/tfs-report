@@ -1,0 +1,762 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank" language="groovy" pageWidth="1008" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="968" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="118"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="brUnitCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA["909"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitName" class="java.lang.String"/>
+	<parameter name="dateNow" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="month" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="year" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\ucpb-tfs\\workspace\\tfs-report\\web-app\\reports\\BATCHES\\Non-LC\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentYear" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--FX NON-LC TOP 30
+SELECT row_number() over (order by TOTALAMTINUSD DESC) as rn, CLIENTBANK, CIFFULLNAME, DPTOTALINUSD, DATOTALINUSD, OATOTALINUSD, DRTOTALINUSD, DPTOTALTRANSACT, DATOTALTRANSACT, OATOTALTRANSACT,
+                         DRTOTALTRANSACT, TOTALAMTINUSD, TOTALTRANSACTION
+
+FROM (
+	SELECT row_number() over () as rn,
+	  	   nonfxlcTabOut.clientBank,
+	  	   nonfxlcTabOut.CIFFULLNAME,
+	  	   SUM(nonfxlcTabOut.dpTotalinUSD) AS dpTotalinUSD,
+	  	   SUM(nonfxlcTabOut.daTotalinUSD) AS daTotalinUSD,
+	  	   SUM(nonfxlcTabOut.oaTotalinUSD) AS oaTotalinUSD,
+	  	   SUM(nonfxlcTabOut.drTotalinUSD) AS drTotalinUSD,
+	  	   SUM(nonfxlcTabOut.dpTotalTransact) AS dpTotalTransact,
+	  	   SUM(nonfxlcTabOut.daTotalTransact) AS daTotalTransact,
+	  	   SUM(nonfxlcTabOut.oaTotalTransact) AS oaTotalTransact,
+	  	   SUM(nonfxlcTabOut.drTotalTransact) AS drTotalTransact,
+	  	   SUM(nonfxlcTabOut.totalAmtInUSD) AS totalAmtInUSD,
+	  	   SUM(nonfxlcTabOut.totalTransaction) AS totalTransaction
+	 FROM (SELECT  nonfxlcTab.*,
+		   	    (nonfxlcTab.dpTotalinUSD + nonfxlcTab.daTotalinUSD + nonfxlcTab.oaTotalinUSD + nonfxlcTab.drTotalinUSD) AS totalAmtInUSD,
+		   	    (nonfxlcTab.dpTotalTransact + nonfxlcTab.daTotalTransact + nonfxlcTab.oaTotalTransact + nonfxlcTab.drTotalTransact) AS totalTransaction
+	 	   FROM (SELECT dptabOut.CIFNAME AS clientBank,
+	 	   			 dptabOut.CIFFULLNAME,
+	 		    		 SUM(dptabOut.dpUSDAmt) AS dpTotalinUSD,
+	 		    		 0 AS daTotalinUSD,
+	 		    		 0 AS oaTotalinUSD,
+	 		    		 0 AS drTotalinUSD,
+			    		 COUNT(*) AS dpTotalTransact,
+			    		 0 AS daTotalTransact,
+			    		 0 AS oaTotalTransact,
+			    		 0 AS drTotalTransact
+			    FROM (SELECT dpTab.CIFNAME,
+			    			  dpTab.CIFFULLNAME,
+				   		  (CASE WHEN dpTab.CURRENCY = 'PHP' THEN dpTab.dpAmount * (1/dpTab.SPECIALRATEUSDTOPHP)
+						 	   WHEN dpTab.CURRENCY = 'USD' THEN dpTab.dpAmount
+						 	   ELSE dpTab.dpAmount * dpTab.SPECIALRATETHIRDTOUSD
+					 	   END) AS dpUSDAmt
+
+			   		FROM (SELECT DISTINCT(DP.DOCUMENTNUMBER) AS DOCUMENTNUMBER,
+			   				   TS.CIFNAME,
+							   NULLIF(TS.CIFFULLNAME, '') AS CIFFULLNAME,
+							   DP.AMOUNT AS dpAmount,
+							   DP.CURRENCY,
+							   TS.SPECIALRATETHIRDTOUSD,
+							   TS.SPECIALRATEUSDTOPHP
+
+	  		   			 FROM DOCUMENTAGAINSTPAYMENT AS DP
+
+		 	   			 LEFT JOIN TRADESERVICE AS TS
+		 	   			 ON TS.TRADEPRODUCTNUMBER = DP.DOCUMENTNUMBER
+
+						 WHERE TS.DOCUMENTTYPE = 'FOREIGN'
+	 	 	   			 AND TS.STATUS IN('APPROVED', 'POST_APPROVED', 'POSTED', 'PRE_APPROVED')
+	 	 	   			 AND TS.SERVICETYPE = 'NEGOTIATION'
+	 	 	   			 AND TS.PROCESSINGUNITCODE = '909'
+	 	 	   			 AND TS.CIFNAME <> ''
+	 	 	   			 AND year(TS.MODIFIEDDATE)= $P{currentYear}
+
+				   		) AS dpTab
+
+			  		) AS dptabOut
+
+		  	    GROUP BY dptabOut.CIFNAME, dptabOut.CIFFULLNAME
+
+		  	    UNION
+
+		  	    SELECT databOut.CIFNAME AS clientBank,
+		  	    	   	 databOut.CIFFULLNAME,
+			    		 0 AS dpTotalinUSD,
+			    		 SUM(databOut.daUSDAmt) AS daTotalinUSD,
+			    		 0 AS oaTotalinUSD,
+			    		 0 AS drTotalinUSD,
+			    		 0 AS dpTotalTransact,
+			    		 COUNT(*) AS daTotalTransact,
+			    		 0 AS oaTotalTransact,
+			    		 0 AS drTotalTransact
+
+		  	    FROM (SELECT daTab.CIFNAME,
+		  	    			  daTab.CIFFULLNAME,
+				     	  (CASE WHEN daTab.CURRENCY = 'PHP' THEN daTab.daAmount * (1/SPECIALRATEUSDTOPHP)
+						 	   WHEN daTab.CURRENCY = 'USD' THEN daTab.daAmount
+						 	   ELSE daTab.daAmount * daTab.SPECIALRATETHIRDTOUSD
+				      	   END) AS daUSDAmt
+
+			   		FROM (SELECT DISTINCT(DA.DOCUMENTNUMBER) AS DOCUMENTNUMBER,
+			   				   TS.CIFNAME,
+							   NULLIF(TS.CIFFULLNAME, '') AS CIFFULLNAME,
+							   DA.AMOUNT AS daAmount,
+							   DA.CURRENCY,
+							   TS.SPECIALRATETHIRDTOUSD,
+							   TS.SPECIALRATEUSDTOPHP
+
+		 	   			 FROM DOCUMENTAGAINSTACCEPTANCE AS DA
+
+		 	   			 LEFT JOIN TRADESERVICE AS TS
+		 	   			 ON TS.TRADEPRODUCTNUMBER = DA.DOCUMENTNUMBER
+
+						 WHERE TS.DOCUMENTTYPE = 'FOREIGN'
+	 	 	   			 AND TS.STATUS IN('APPROVED', 'POST_APPROVED', 'POSTED', 'PRE_APPROVED')
+	 	 	   			 AND TS.SERVICETYPE = 'NEGOTIATION_ACCEPTANCE'
+	 	 	   			 AND TS.PROCESSINGUNITCODE = '909'
+	 	 	   			 AND TS.CIFNAME <> ''
+	 	 	   			 AND year(TS.MODIFIEDDATE)= $P{currentYear}
+
+			  	     	) AS daTab
+
+		  	    	    ) AS databOut
+
+		  	    GROUP BY databOut.CIFNAME, databOut.CIFFULLNAME
+
+		  	    UNION
+
+		  	    SELECT oatabOut.CIFNAME AS clientBank,
+		  	    		 oatabOut.CIFFULLNAME,
+			    		 0 AS dpTotalinUSD,
+			    		 0 AS daTotalinUSD,
+			    		 SUM(oatabOut.oaUSDAmt) AS oaTotalinUSD,
+			    		 0 AS drTotalinUSD,
+			    		 0 AS dpTotalTransact,
+			    		 0 AS daTotalTransact,
+			    		 COUNT(*) AS oaTotalTransact,
+			    		 0 AS drTotalTransact
+
+		  	    FROM (SELECT oaTab.CIFNAME,
+		  	    			  oaTab.CIFFULLNAME,
+				     	  (CASE WHEN oaTab.CURRENCY = 'PHP' THEN oaTab.oaAmount * (1/SPECIALRATEUSDTOPHP)
+						 	   WHEN oaTab.CURRENCY = 'USD' THEN oaTab.oaAmount
+						 	   ELSE oaTab.oaAmount * oaTab.SPECIALRATETHIRDTOUSD
+				      	   END) AS oaUSDAmt
+
+			   		FROM (SELECT DISTINCT(OA.DOCUMENTNUMBER) AS DOCUMENTNUMBER,
+			   				   TS.CIFNAME,
+							   NULLIF(TS.CIFFULLNAME, '') AS CIFFULLNAME,
+							   OA.AMOUNT AS oaAmount,
+							   OA.CURRENCY,
+							   TS.SPECIALRATETHIRDTOUSD,
+							   TS.SPECIALRATEUSDTOPHP
+
+		 	   			 FROM OPENACCOUNT AS OA
+
+		 	   			 LEFT JOIN TRADESERVICE AS TS
+		 	   			 ON TS.TRADEPRODUCTNUMBER = OA.DOCUMENTNUMBER
+
+						 WHERE TS.DOCUMENTTYPE = 'FOREIGN'
+	 	 	   			 AND TS.STATUS IN('APPROVED', 'POST_APPROVED', 'POSTED', 'PRE_APPROVED')
+	 	 	   			 AND TS.SERVICETYPE = 'NEGOTIATION'
+	 	 	   			 AND TS.PROCESSINGUNITCODE = '909'
+	 	 	   			 AND TS.CIFNAME <> ''
+	 	 	   			 AND year(TS.MODIFIEDDATE)= $P{currentYear}
+
+				     	) AS oaTab
+
+		         	    ) AS oatabOut
+
+		  	    GROUP BY oatabOut.CIFNAME, oatabOut.CIFFULLNAME
+
+		  	    UNION
+
+		  	    SELECT drtabOut.CIFNAME AS clientBank,
+		  	    		 drtabOut.CIFFULLNAME,
+			    		 0 AS dpTotalinUSD,
+			    		 0 AS daTotalinUSD,
+			    		 0 AS oaTotalinUSD,
+			    		 SUM(drtabOut.drUSDAmt) AS drTotalinUSD,
+			    		 0 AS dpTotalTransact,
+			    		 0 AS daTotalTransact,
+			    		 0 AS oaTotalTransact,
+			    		 COUNT(*) AS drTotalTransact
+
+		  	    FROM (SELECT drTab.CIFNAME,
+		  	    			  drTab.CIFFULLNAME,
+				     	  (CASE WHEN drTab.CURRENCY = 'PHP' THEN drTab.drAmount * (1/SPECIALRATEUSDTOPHP)
+						 	   WHEN drTab.CURRENCY = 'USD' THEN drTab.drAmount
+						 	   ELSE drTab.drAmount * drTab.SPECIALRATETHIRDTOUSD
+				      	   END) AS drUSDAmt
+
+			   		FROM (SELECT DISTINCT(DR.DOCUMENTNUMBER) AS DOCUMENTNUMBER,
+			   				   TS.CIFNAME,
+							   NULLIF(TS.CIFFULLNAME, '') AS CIFFULLNAME,
+							   DR.AMOUNT AS drAmount,
+							   DR.CURRENCY,
+							   TS.SPECIALRATETHIRDTOUSD,
+							   TS.SPECIALRATEUSDTOPHP
+
+		 	   			 FROM DIRECTREMITTANCE AS DR
+
+		 	   			 LEFT JOIN TRADESERVICE AS TS
+		 	   			 ON TS.TRADEPRODUCTNUMBER = DR.DOCUMENTNUMBER
+
+						 WHERE TS.DOCUMENTTYPE = 'FOREIGN'
+	 	 	   			 AND TS.STATUS IN('APPROVED', 'POST_APPROVED', 'POSTED', 'PRE_APPROVED')
+	 	 	   			 AND TS.SERVICETYPE = 'NEGOTIATION'
+	 	 	   			 AND TS.PROCESSINGUNITCODE = '909'
+	 	 	   			 AND TS.CIFNAME <> ''
+	 	 	   			 AND year(TS.MODIFIEDDATE)= $P{currentYear}
+
+				           ) AS drTab
+
+			         ) AS drtabOut
+
+		  	    GROUP BY drtabOut.CIFNAME, drtabOut.CIFFULLNAME
+
+	 		   ) AS nonfxlcTab
+
+		 ) AS nonfxlcTabOut
+
+	 GROUP BY nonfxlcTabOut.clientbank, nonfxlcTabOut.CIFFULLNAME
+	 ORDER BY totalAmtInUSD DESC
+
+	) AS tabB]]>
+	</queryString>
+	<field name="RN" class="java.lang.Long"/>
+	<field name="CLIENTBANK" class="java.lang.String"/>
+	<field name="CIFFULLNAME" class="java.lang.String"/>
+	<field name="DPTOTALINUSD" class="java.math.BigDecimal"/>
+	<field name="DATOTALINUSD" class="java.math.BigDecimal"/>
+	<field name="OATOTALINUSD" class="java.math.BigDecimal"/>
+	<field name="DRTOTALINUSD" class="java.math.BigDecimal"/>
+	<field name="DPTOTALTRANSACT" class="java.lang.Integer"/>
+	<field name="DATOTALTRANSACT" class="java.lang.Integer"/>
+	<field name="OATOTALTRANSACT" class="java.lang.Integer"/>
+	<field name="DRTOTALTRANSACT" class="java.lang.Integer"/>
+	<field name="TOTALAMTINUSD" class="java.math.BigDecimal"/>
+	<field name="TOTALTRANSACTION" class="java.lang.Integer"/>
+	<variable name="negotiationYear" class="java.lang.String">
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="ytd" class="java.lang.String">
+		<variableExpression><![CDATA["YTD (" +$P{month} + ", " + $P{year}+ ")"]]></variableExpression>
+		<initialValueExpression><![CDATA["YTD (" +$P{month} + ", " + $P{year}+ ")"]]></initialValueExpression>
+	</variable>
+	<variable name="brUnitName" class="java.lang.String">
+		<variableExpression><![CDATA[($P{brUnitCode}=="909")? "Trade Services Department":$P{brUnitName}]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{brUnitCode}=="909")? "Trade Services Department":$P{brUnitName}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="130">
+			<staticText>
+				<reportElement x="0" y="60" width="65" height="30"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT NAME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="334" y="0" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="865" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN TIME:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="915" y="0" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="75" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="45" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="15" width="75" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportId}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="915" y="15" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPORT ID:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="334" y="45" width="300" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ytd}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="45" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{brUnitCode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="334" y="15" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[FOREIGN NON-LCs NEGOTIATED FOR THE YEAR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="865" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PAGE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="65" y="60" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{brUnitName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="334" y="30" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CLASSIFIED BY TOP 30 IMPORTER AND REMITTING BANK (in US Dollar)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="679" y="90" width="143" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="536" y="110" width="110" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="822" y="90" width="143" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="789" y="110" width="33" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[NO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="110" width="110" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="822" y="110" width="110" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[IN USD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="110" width="33" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[NO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="503" y="110" width="33" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[NO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="536" y="90" width="143" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="393" y="90" width="143" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="250" height="40"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CLIENT/ IMPORTER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="932" y="110" width="33" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[NO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="90" width="143" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="393" y="110" width="110" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="679" y="110" width="110" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="646" y="110" width="33" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[NO.]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20">
+			<textField isBlankWhenNull="true">
+				<reportElement x="360" y="0" width="33" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DPTOTALTRANSACT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="822" y="0" width="110" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALAMTINUSD}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="932" y="0" width="33" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALTRANSACTION}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="646" y="0" width="33" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OATOTALTRANSACT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="250" y="0" width="110" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DPTOTALINUSD}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="503" y="0" width="33" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATOTALTRANSACT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="536" y="0" width="110" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OATOTALINUSD}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="679" y="0" width="110" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DRTOTALINUSD}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="789" y="0" width="33" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DRTOTALTRANSACT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="393" y="0" width="110" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATOTALINUSD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="250" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIFFULLNAME} != null ? $F{CIFFULLNAME}.toUpperCase() : $F{CLIENTBANK} != null ? $F{CLIENTBANK}.toUpperCase() : " "]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="40">
+			<subreport>
+				<reportElement x="0" y="0" width="968" height="20"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dateNow"/>
+				<subreportParameter name="currentYear">
+					<subreportParameterExpression><![CDATA[$P{currentYear}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="month">
+					<subreportParameterExpression><![CDATA[$P{month}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="year">
+					<subreportParameterExpression><![CDATA[$P{year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitCode">
+					<subreportParameterExpression><![CDATA[$P{brUnitCode}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitName">
+					<subreportParameterExpression><![CDATA[$P{brUnitName}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="reportId">
+					<subreportParameterExpression><![CDATA[$P{reportId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank_Subreport_Importer_Others.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="20" width="968" height="20"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dateNow"/>
+				<subreportParameter name="currentYear">
+					<subreportParameterExpression><![CDATA[$P{currentYear}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="month">
+					<subreportParameterExpression><![CDATA[$P{month}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="year">
+					<subreportParameterExpression><![CDATA[$P{year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitCode">
+					<subreportParameterExpression><![CDATA[$P{brUnitCode}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitName">
+					<subreportParameterExpression><![CDATA[$P{brUnitName}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="reportId">
+					<subreportParameterExpression><![CDATA[$P{reportId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank_Subreport_Importer_GRANDTOTAL.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

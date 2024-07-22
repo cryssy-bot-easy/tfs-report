@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Export_Negotiation_Advice_DM" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.3310000000000022"/>
+	<property name="ireport.x" value="6"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="refNo" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="issuingCollectingBank" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="issuingCollectingBankAddress" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="lcNumber" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="amount" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="shipment" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="sellerName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="buyerName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="usanceTenorTerm" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="approver" class="java.lang.String"/>
+	<parameter name="instructions" class="java.util.Collection" isForPrompting="false"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\ucpb-tfs\\hackspace\\tfs-report\\web-app\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currency" class="java.lang.String"/>
+	<field name="documentName" class="java.lang.String"/>
+	<field name="original1" class="java.lang.String"/>
+	<field name="duplicate1" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="377" splitType="Stretch">
+			<staticText>
+				<reportElement x="420" y="45" width="35" height="15"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[DATE : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="0" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="15" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[Makati Ave., Makati City, Philippines]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="30" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[P.O. BOX 4230. MCC P.O. BOX 3029]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="45" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[Cable Address: UNIBANK. Phones: 811-9000]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="455" y="45" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="105" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[EXPORT NEGOTIATION ADVICE]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="420" y="105" width="135" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{refNo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="345" y="105" width="75" height="15"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[OUR REF NO. : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="215" width="80" height="26"/>
+				<textElement/>
+				<text><![CDATA[L/C NO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="241" width="80" height="26"/>
+				<textElement/>
+				<text><![CDATA[ISSUED BY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="267" width="80" height="26"/>
+				<textElement/>
+				<text><![CDATA[DRAFT AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="215" width="79" height="26"/>
+				<textElement/>
+				<text><![CDATA[SELLER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="267" width="10" height="26"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="241" width="10" height="26"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="215" width="10" height="26"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="356" y="215" width="10" height="26"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="90" y="215" width="187" height="26"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{lcNumber}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="90" y="267" width="187" height="26"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[($P{currency} + " " + $P{amount}).toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="356" y="241" width="10" height="26"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="241" width="79" height="26"/>
+				<textElement/>
+				<text><![CDATA[BUYER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="356" y="267" width="10" height="26"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="267" width="79" height="26"/>
+				<textElement/>
+				<text><![CDATA[USANCE TERM]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="367" y="267" width="188" height="26"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{usanceTenorTerm}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="20" y="135" width="257" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{issuingCollectingBank} == "undefined" ? "" : $P{issuingCollectingBank}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="20" y="150" width="257" height="50"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{issuingCollectingBankAddress}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="135" width="20" height="15"/>
+				<textElement/>
+				<text><![CDATA[TO : ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="90" y="241" width="187" height="26"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{issuingCollectingBank} == "undefined" ? "" : $P{issuingCollectingBank}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="240" y="75" width="75" height="15"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[ORIGINAL]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="60" height="60"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement mode="Opaque" x="356" y="327" width="191" height="50" backcolor="#FFFFFF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Duplicate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="165" y="327" width="191" height="50" backcolor="#FFFFFF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Original]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="327" width="165" height="50" backcolor="#FFFFFF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOCUMENTS
+ENCLOSED]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="367" y="215" width="188" height="26"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{sellerName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="367" y="241" width="188" height="26"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{buyerName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="20">
+			<textField>
+				<reportElement x="0" y="0" width="165" height="20"/>
+				<box leftPadding="18">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{documentName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="165" y="0" width="191" height="20"/>
+				<box rightPadding="10">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{original1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="356" y="0" width="191" height="20"/>
+				<box rightPadding="10">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{duplicate1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="79" splitType="Stretch">
+			<line>
+				<reportElement x="380" y="49" width="175" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="380" y="0" width="175" height="50"/>
+				<textElement/>
+				<text><![CDATA[Very truly yours,]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="380" y="49" width="175" height="30"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{approver}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="51" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="51"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{instructions})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Export_Negotiation_Advice_subreport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank" language="groovy" pageWidth="968" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="968" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="0.9090909090909091"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="brUnitCode" class="java.lang.String"/>
+	<parameter name="brUnitName" class="java.lang.String"/>
+	<parameter name="dateNow" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("MM").format(new Date()).toString()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentYear" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--FX NON-LC TOP 30 (OTHERS)
+SELECT SUM(FX.DPTOTALINUSD) AS DPTOTALINUSD,
+	  SUM(FX.DATOTALINUSD) AS DATOTALINUSD,
+	  SUM(FX.OATOTALINUSD) AS OATOTALINUSD,
+	  SUM(FX.DRTOTALINUSD) AS DRTOTALINUSD,
+	  SUM(FX.DPTOTALTRANSACT) AS DPTOTALTRANSACT,
+	  SUM(FX.DATOTALTRANSACT) AS DATOTALTRANSACT,
+	  SUM(FX.OATOTALTRANSACT) AS OATOTALTRANSACT,
+	  SUM(FX.DRTOTALTRANSACT) AS DRTOTALTRANSACT,
+	  SUM(FX.TOTALAMTINUSD) AS TOTALAMTINUSD,
+	  SUM(FX.TOTALTRANSACTION) AS TOTALTRANSACTION
+
+FROM (
+
+SELECT row_number() over (order by TOTALAMTINUSD DESC) as rn, CLIENTBANK, CIFFULLNAME, DPTOTALINUSD, DATOTALINUSD, OATOTALINUSD, DRTOTALINUSD, DPTOTALTRANSACT, DATOTALTRANSACT, OATOTALTRANSACT,
+                         DRTOTALTRANSACT, TOTALAMTINUSD, TOTALTRANSACTION
+
+FROM (
+	SELECT row_number() over () as rn,
+	  	   nonfxlcTabOut.clientBank,
+	  	   nonfxlcTabOut.CIFFULLNAME,
+	  	   SUM(nonfxlcTabOut.dpTotalinUSD) AS dpTotalinUSD,
+	  	   SUM(nonfxlcTabOut.daTotalinUSD) AS daTotalinUSD,
+	  	   SUM(nonfxlcTabOut.oaTotalinUSD) AS oaTotalinUSD,
+	  	   SUM(nonfxlcTabOut.drTotalinUSD) AS drTotalinUSD,
+	  	   SUM(nonfxlcTabOut.dpTotalTransact) AS dpTotalTransact,
+	  	   SUM(nonfxlcTabOut.daTotalTransact) AS daTotalTransact,
+	  	   SUM(nonfxlcTabOut.oaTotalTransact) AS oaTotalTransact,
+	  	   SUM(nonfxlcTabOut.drTotalTransact) AS drTotalTransact,
+	  	   SUM(nonfxlcTabOut.totalAmtInUSD) AS totalAmtInUSD,
+	  	   SUM(nonfxlcTabOut.totalTransaction) AS totalTransaction
+	 FROM (SELECT  nonfxlcTab.*,
+		   	    (nonfxlcTab.dpTotalinUSD + nonfxlcTab.daTotalinUSD + nonfxlcTab.oaTotalinUSD + nonfxlcTab.drTotalinUSD) AS totalAmtInUSD,
+		   	    (nonfxlcTab.dpTotalTransact + nonfxlcTab.daTotalTransact + nonfxlcTab.oaTotalTransact + nonfxlcTab.drTotalTransact) AS totalTransaction
+	 	   FROM (SELECT dptabOut.CIFNAME AS clientBank,
+	 	   			 dptabOut.CIFFULLNAME,
+	 		    		 SUM(dptabOut.dpUSDAmt) AS dpTotalinUSD,
+	 		    		 0 AS daTotalinUSD,
+	 		    		 0 AS oaTotalinUSD,
+	 		    		 0 AS drTotalinUSD,
+			    		 COUNT(*) AS dpTotalTransact,
+			    		 0 AS daTotalTransact,
+			    		 0 AS oaTotalTransact,
+			    		 0 AS drTotalTransact
+			    FROM (SELECT dpTab.CIFNAME,
+			    			  dpTab.CIFFULLNAME,
+				   		  (CASE WHEN dpTab.CURRENCY = 'PHP' THEN dpTab.dpAmount * (1/SPECIALRATEUSDTOPHP)
+						 	   WHEN dpTab.CURRENCY = 'USD' THEN dpTab.dpAmount
+						 	   ELSE dpTab.dpAmount * dpTab.SPECIALRATETHIRDTOUSD
+					 	   END) AS dpUSDAmt
+
+			   		FROM (SELECT DISTINCT(DP.DOCUMENTNUMBER) AS DOCUMENTNUMBER,
+			   				   TS.CIFNAME,
+							   NULLIF(TS.CIFFULLNAME, '') AS CIFFULLNAME,
+							   DP.AMOUNT AS dpAmount,
+							   DP.CURRENCY,
+							   TS.SPECIALRATETHIRDTOUSD,
+							   TS.SPECIALRATEUSDTOPHP
+
+	  		   			 FROM DOCUMENTAGAINSTPAYMENT AS DP
+
+		 	   			 LEFT JOIN TRADESERVICE AS TS
+		 	   			 ON TS.TRADEPRODUCTNUMBER = DP.DOCUMENTNUMBER
+
+						 WHERE TS.DOCUMENTTYPE = 'FOREIGN'
+	 	 	   			 AND TS.STATUS IN('APPROVED', 'POST_APPROVED', 'POSTED', 'PRE_APPROVED')
+	 	 	   			 AND TS.SERVICETYPE = 'NEGOTIATION'
+	 	 	   			 AND TS.PROCESSINGUNITCODE = '909'
+	 	 	   			 AND TS.CIFNAME <> ''
+	 	 	   			 AND year(TS.MODIFIEDDATE)= $P{currentYear}
+
+				   		) AS dpTab
+
+			  		) AS dptabOut
+
+		  	    GROUP BY dptabOut.CIFNAME, dptabOut.CIFFULLNAME
+
+		  	    UNION
+
+		  	    SELECT databOut.CIFNAME AS clientBank,
+		  	    	   	 databOut.CIFFULLNAME,
+			    		 0 AS dpTotalinUSD,
+			    		 SUM(databOut.daUSDAmt) AS daTotalinUSD,
+			    		 0 AS oaTotalinUSD,
+			    		 0 AS drTotalinUSD,
+			    		 0 AS dpTotalTransact,
+			    		 COUNT(*) AS daTotalTransact,
+			    		 0 AS oaTotalTransact,
+			    		 0 AS drTotalTransact
+
+		  	    FROM (SELECT daTab.CIFNAME,
+		  	    			  daTab.CIFFULLNAME,
+				     	  (CASE WHEN daTab.CURRENCY = 'PHP' THEN daTab.daAmount * (1/SPECIALRATEUSDTOPHP)
+						 	   WHEN daTab.CURRENCY = 'USD' THEN daTab.daAmount
+						 	   ELSE daTab.daAmount * daTab.SPECIALRATETHIRDTOUSD
+				      	   END) AS daUSDAmt
+
+			   		FROM (SELECT DISTINCT(DA.DOCUMENTNUMBER) AS DOCUMENTNUMBER,
+			   				   TS.CIFNAME,
+							   NULLIF(TS.CIFFULLNAME, '') AS CIFFULLNAME,
+							   DA.AMOUNT AS daAmount,
+							   DA.CURRENCY,
+							   TS.SPECIALRATETHIRDTOUSD,
+							   TS.SPECIALRATEUSDTOPHP
+
+		 	   			 FROM DOCUMENTAGAINSTACCEPTANCE AS DA
+
+		 	   			 LEFT JOIN TRADESERVICE AS TS
+		 	   			 ON TS.TRADEPRODUCTNUMBER = DA.DOCUMENTNUMBER
+
+						 WHERE TS.DOCUMENTTYPE = 'FOREIGN'
+	 	 	   			 AND TS.STATUS IN('APPROVED', 'POST_APPROVED', 'POSTED', 'PRE_APPROVED')
+	 	 	   			 AND TS.SERVICETYPE = 'NEGOTIATION_ACCEPTANCE'
+	 	 	   			 AND TS.PROCESSINGUNITCODE = '909'
+	 	 	   			 AND TS.CIFNAME <> ''
+	 	 	   			 AND year(TS.MODIFIEDDATE)= $P{currentYear}
+
+			  	     	) AS daTab
+
+		  	    	    ) AS databOut
+
+		  	    GROUP BY databOut.CIFNAME, databOut.CIFFULLNAME
+
+		  	    UNION
+
+		  	    SELECT oatabOut.CIFNAME AS clientBank,
+		  	    		 oatabOut.CIFFULLNAME,
+			    		 0 AS dpTotalinUSD,
+			    		 0 AS daTotalinUSD,
+			    		 SUM(oatabOut.oaUSDAmt) AS oaTotalinUSD,
+			    		 0 AS drTotalinUSD,
+			    		 0 AS dpTotalTransact,
+			    		 0 AS daTotalTransact,
+			    		 COUNT(*) AS oaTotalTransact,
+			    		 0 AS drTotalTransact
+
+		  	    FROM (SELECT oaTab.CIFNAME,
+		  	    			  oaTab.CIFFULLNAME,
+				     	  (CASE WHEN oaTab.CURRENCY = 'PHP' THEN oaTab.oaAmount * (1/SPECIALRATEUSDTOPHP)
+						 	   WHEN oaTab.CURRENCY = 'USD' THEN oaTab.oaAmount
+						 	   ELSE oaTab.oaAmount * oaTab.SPECIALRATETHIRDTOUSD
+				      	   END) AS oaUSDAmt
+
+			   		FROM (SELECT DISTINCT(OA.DOCUMENTNUMBER) AS DOCUMENTNUMBER,
+			   				   TS.CIFNAME,
+							   NULLIF(TS.CIFFULLNAME, '') AS CIFFULLNAME,
+							   OA.AMOUNT AS oaAmount,
+							   OA.CURRENCY,
+							   TS.SPECIALRATETHIRDTOUSD,
+							   TS.SPECIALRATEUSDTOPHP
+
+		 	   			 FROM OPENACCOUNT AS OA
+
+		 	   			 LEFT JOIN TRADESERVICE AS TS
+		 	   			 ON TS.TRADEPRODUCTNUMBER = OA.DOCUMENTNUMBER
+
+						 WHERE TS.DOCUMENTTYPE = 'FOREIGN'
+	 	 	   			 AND TS.STATUS IN('APPROVED', 'POST_APPROVED', 'POSTED', 'PRE_APPROVED')
+	 	 	   			 AND TS.SERVICETYPE = 'NEGOTIATION'
+	 	 	   			 AND TS.PROCESSINGUNITCODE = '909'
+	 	 	   			 AND TS.CIFNAME <> ''
+	 	 	   			 AND year(TS.MODIFIEDDATE)= $P{currentYear}
+
+				     	) AS oaTab
+
+		         	    ) AS oatabOut
+
+		  	    GROUP BY oatabOut.CIFNAME, oatabOut.CIFFULLNAME
+
+		  	    UNION
+
+		  	    SELECT drtabOut.CIFNAME AS clientBank,
+		  	    		 drtabOut.CIFFULLNAME,
+			    		 0 AS dpTotalinUSD,
+			    		 0 AS daTotalinUSD,
+			    		 0 AS oaTotalinUSD,
+			    		 SUM(drtabOut.drUSDAmt) AS drTotalinUSD,
+			    		 0 AS dpTotalTransact,
+			    		 0 AS daTotalTransact,
+			    		 0 AS oaTotalTransact,
+			    		 COUNT(*) AS drTotalTransact
+
+		  	    FROM (SELECT drTab.CIFNAME,
+		  	    			  drTab.CIFFULLNAME,
+				     	  (CASE WHEN drTab.CURRENCY = 'PHP' THEN drTab.drAmount * (1/SPECIALRATEUSDTOPHP)
+						 	   WHEN drTab.CURRENCY = 'USD' THEN drTab.drAmount
+						 	   ELSE drTab.drAmount * drTab.SPECIALRATETHIRDTOUSD
+				      	   END) AS drUSDAmt
+
+			   		FROM (SELECT DISTINCT(DR.DOCUMENTNUMBER) AS DOCUMENTNUMBER,
+			   				   TS.CIFNAME,
+							   NULLIF(TS.CIFFULLNAME, '') AS CIFFULLNAME,
+							   DR.AMOUNT AS drAmount,
+							   DR.CURRENCY,
+							   TS.SPECIALRATETHIRDTOUSD,
+							   TS.SPECIALRATEUSDTOPHP
+
+		 	   			 FROM DIRECTREMITTANCE AS DR
+
+		 	   			 LEFT JOIN TRADESERVICE AS TS
+		 	   			 ON TS.TRADEPRODUCTNUMBER = DR.DOCUMENTNUMBER
+
+						 WHERE TS.DOCUMENTTYPE = 'FOREIGN'
+	 	 	   			 AND TS.STATUS IN('APPROVED', 'POST_APPROVED', 'POSTED', 'PRE_APPROVED')
+	 	 	   			 AND TS.SERVICETYPE = 'NEGOTIATION'
+	 	 	   			 AND TS.PROCESSINGUNITCODE = '909'
+	 	 	   			 AND TS.CIFNAME <> ''
+	 	 	   			 AND year(TS.MODIFIEDDATE)= $P{currentYear}
+
+				           ) AS drTab
+
+			         ) AS drtabOut
+
+		  	    GROUP BY drtabOut.CIFNAME, drtabOut.CIFFULLNAME
+
+	 		   ) AS nonfxlcTab
+
+		 ) AS nonfxlcTabOut
+
+	 GROUP BY nonfxlcTabOut.clientbank, nonfxlcTabOut.CIFFULLNAME
+	 ORDER BY totalAmtInUSD DESC
+
+	) AS tabB
+
+
+) AS FX
+WHERE RN > 30]]>
+	</queryString>
+	<field name="DPTOTALINUSD" class="java.math.BigDecimal"/>
+	<field name="DATOTALINUSD" class="java.math.BigDecimal"/>
+	<field name="OATOTALINUSD" class="java.math.BigDecimal"/>
+	<field name="DRTOTALINUSD" class="java.math.BigDecimal"/>
+	<field name="DPTOTALTRANSACT" class="java.lang.Integer"/>
+	<field name="DATOTALTRANSACT" class="java.lang.Integer"/>
+	<field name="OATOTALTRANSACT" class="java.lang.Integer"/>
+	<field name="DRTOTALTRANSACT" class="java.lang.Integer"/>
+	<field name="TOTALAMTINUSD" class="java.math.BigDecimal"/>
+	<field name="TOTALTRANSACTION" class="java.lang.Integer"/>
+	<variable name="negotiationYear" class="java.lang.String">
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="ytd" class="java.lang.String">
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="totalInUsd" class="java.math.BigDecimal" resetType="None">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="totalNumber" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{dpNumber} + $V{daNumber} + $V{oaNumber} + $V{drNumber}]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{dpNumber} + $V{daNumber} + $V{oaNumber} + $V{drNumber}]]></initialValueExpression>
+	</variable>
+	<variable name="daNumber" class="java.lang.Integer">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="drNumber" class="java.lang.Integer">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="dpNumber" class="java.lang.Integer">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="oaNumber" class="java.lang.Integer">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="250" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[OTHERS]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="393" y="0" width="110" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATOTALINUSD}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="536" y="0" width="110" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OATOTALINUSD}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="679" y="0" width="110" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DRTOTALINUSD}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="250" y="0" width="110" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DPTOTALINUSD}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="932" y="0" width="33" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALTRANSACTION}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="789" y="0" width="33" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DRTOTALTRANSACT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="822" y="0" width="110" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALAMTINUSD}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="646" y="0" width="33" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OATOTALTRANSACT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="503" y="0" width="33" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATOTALTRANSACT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="360" y="0" width="33" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DPTOTALTRANSACT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="1"/>
+	</summary>
+</jasperReport>

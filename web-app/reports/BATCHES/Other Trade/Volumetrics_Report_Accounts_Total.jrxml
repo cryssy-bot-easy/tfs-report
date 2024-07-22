@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Volumetrics_Report_CLS" language="groovy" pageWidth="500" pageHeight="792" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="currentMonth" class="java.lang.String"/>
+	<parameter name="currentYear" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--ACCOUNTS TOTAL
+		SELECT SUM(TOTAL) AS TOTAL
+		FROM (
+
+		--IMPORTS
+		--FXREGULARDISTINCT
+		SELECT count(distinct DOCUMENTNUMBER) AS TOTAL
+	 	FROM LETTEROFCREDIT
+
+	 	WHERE DOCUMENTTYPE = 'FOREIGN'
+	 	AND TYPE = 'REGULAR'
+	 	AND (month(PROCESSDATE)=$P{currentMonth}
+		 	and year(PROCESSDATE)=$P{currentYear})
+
+		UNION ALL
+
+		--FXCASHDISTINCT
+		SELECT count(distinct DOCUMENTNUMBER) AS TOTAL
+	 	FROM LETTEROFCREDIT
+
+	 	WHERE DOCUMENTTYPE = 'FOREIGN'
+	 	AND TYPE = 'CASH'
+	 	AND (month(PROCESSDATE)=$P{currentMonth}
+		 	and year(PROCESSDATE)=$P{currentYear})
+
+		UNION ALL
+
+		--FXSTANDBYDISTINCT
+		SELECT count(distinct DOCUMENTNUMBER) AS TOTAL
+	 	FROM LETTEROFCREDIT
+
+	 	WHERE DOCUMENTTYPE = 'FOREIGN'
+	 	AND TYPE = 'STANDBY'
+	 	AND (month(PROCESSDATE)=$P{currentMonth}
+		 	and year(PROCESSDATE)=$P{currentYear})
+
+		UNION ALL
+
+		--DMREGULARDISTINCT
+		SELECT count(distinct DOCUMENTNUMBER) AS TOTAL
+	 	FROM LETTEROFCREDIT
+
+	 	WHERE DOCUMENTTYPE = 'DOMESTIC'
+	 	AND TYPE = 'REGULAR'
+	 	AND (month(PROCESSDATE)=$P{currentMonth}
+		 	and year(PROCESSDATE)=$P{currentYear})
+
+		UNION ALL
+
+		--DMCASHDISTINCT
+		SELECT count(distinct DOCUMENTNUMBER) AS TOTAL
+	 	FROM LETTEROFCREDIT
+
+	 	WHERE DOCUMENTTYPE = 'DOMESTIC'
+	 	AND TYPE = 'CASH'
+	 	AND (month(PROCESSDATE)=$P{currentMonth}
+		 	and year(PROCESSDATE)=$P{currentYear})
+
+		UNION ALL
+
+		--DMSTANDBYDISTINCT
+		SELECT count(distinct DOCUMENTNUMBER) AS TOTAL
+	 	FROM LETTEROFCREDIT
+
+	 	WHERE DOCUMENTTYPE = 'DOMESTIC'
+	 	AND TYPE = 'STANDBY'
+	 	AND (month(PROCESSDATE)=$P{currentMonth}
+		 	and year(PROCESSDATE)=$P{currentYear})
+
+		UNION ALL
+
+		--FXDADISTINCT
+		SELECT count(distinct DOCUMENTNUMBER) AS TOTAL
+	 	FROM DOCUMENTAGAINSTACCEPTANCE
+
+	 	WHERE (month(PROCESSDATE)=$P{currentMonth}
+	  	   	  and year(PROCESSDATE)=$P{currentYear})
+
+		UNION ALL
+
+		--FXDPDISTINCT
+		SELECT count(distinct DOCUMENTNUMBER) AS TOTAL
+	 	FROM DOCUMENTAGAINSTPAYMENT
+
+	 	WHERE DOCUMENTTYPE = 'FOREIGN'
+	 	AND (month(PROCESSDATE)=$P{currentMonth}
+	  	   and year(PROCESSDATE)=$P{currentYear})
+
+		UNION ALL
+
+		--FXDRDISTINCT
+		SELECT count(distinct DOCUMENTNUMBER) AS TOTAL
+	 	FROM DIRECTREMITTANCE
+
+	 	WHERE (month(PROCESSDATE)=$P{currentMonth}
+	  	   	  and year(PROCESSDATE)=$P{currentYear})
+
+		UNION ALL
+
+		--FXOADISTINCT
+		SELECT count(distinct DOCUMENTNUMBER) AS TOTAL
+	 	FROM OPENACCOUNT
+
+	 	WHERE (month(PROCESSDATE)=$P{currentMonth}
+	  	   	  and year(PROCESSDATE)=$P{currentYear})
+
+		UNION ALL
+
+		--DMNONLCDISTINCT
+		SELECT count(distinct DOCUMENTNUMBER) AS TOTAL
+	 	FROM DOCUMENTAGAINSTPAYMENT
+
+	 	WHERE DOCUMENTTYPE = 'DOMESTIC'
+	 	AND (month(PROCESSDATE)=$P{currentMonth}
+	  	   	and year(PROCESSDATE)=$P{currentYear})
+
+		UNION ALL
+
+		--OTHERSCDTDISTINCT
+		SELECT count(amount) AS TOTAL
+	 	FROM CDTPAYMENTREQUEST
+
+	 	WHERE (month(DATE_SENT)=$P{currentMonth}
+		   	  and year(DATE_SENT)=$P{currentYear})
+
+		UNION ALL
+
+		--OTHERSIMPORTADVANCEDISTINCT
+		select count(distinct tradeproductnumber) AS TOTAL from tradeservice ts
+		where documentclass='IMPORT_ADVANCE'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+
+		UNION ALL
+
+
+
+		--EXPORTS
+		--EXPORTADVISINGDISTINCT
+		select count(distinct documentnumber) AS TOTAL from tradeservice ts
+		where documentclass='EXPORT_ADVISING'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--DBCNEGOTIATIONDISTINCT
+		select count(distinct documentnumber) AS TOTAL from tradeservice ts
+		where servicetype='NEGOTIATION'
+		and documentType='DOMESTIC' and documentclass='BC'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--DBPNEGOTIATIONDISTINCT
+		select count(distinct documentnumber) AS TOTAL from tradeservice ts
+		where servicetype='NEGOTIATION'
+		and documentType='DOMESTIC' and documentclass='BP'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--EBCNEGOTIATIONDISTINCT
+		select count(distinct documentnumber) AS TOTAL from tradeservice ts
+		where servicetype='NEGOTIATION'
+		and documentType='FOREIGN' and documentclass='BC'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--EBPNEGOTIATIONDISTINCT
+		select count(distinct documentnumber) AS TOTAL from tradeservice ts
+		where servicetype='NEGOTIATION'
+		and documentType='FOREIGN' and documentclass='BP'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--OTHERSEXPORTADVANCEDISTINCT
+		select count(distinct documentnumber) AS TOTAL from tradeservice ts
+		where documentclass='EXPORT_ADVANCE'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+
+		)]]>
+	</queryString>
+	<field name="TOTAL" class="java.lang.Integer"/>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="375" y="0" width="125" height="20" forecolor="#FF0000"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="150" y="0" width="225" height="20" forecolor="#FF0000"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[TOTAL NO. OF ACCOUNTS]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

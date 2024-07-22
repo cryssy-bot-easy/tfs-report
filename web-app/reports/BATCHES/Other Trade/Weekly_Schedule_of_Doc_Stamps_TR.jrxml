@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Weekly_Schedule_of_Doc_Stamps" language="groovy" pageWidth="777" pageHeight="572" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="777" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="brUnitCode" class="java.lang.String"/>
+	<parameter name="brUnitName" class="java.lang.String"/>
+	<parameter name="taxRate" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.02]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentWeek" class="java.lang.String"/>
+	<parameter name="currentMonth" class="java.lang.String"/>
+	<parameter name="currentYear" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--WEEKLY SCHED OF DOCSTAMPS 121 (LOAN)
+SELECT COALESCE(SUBSTR(REPLACE(TS.TINNUMBER, '-', ''),1,9), '' ) AS TIN9,
+	  CASE WHEN (TS.TINNUMBER IS NULL OR TRIM(TS.TINNUMBER) = '') THEN '' WHEN COALESCE(SUBSTR(REPLACE(TS.TINNUMBER, '-', ''),9,1), '' ) = '0' THEN '0' ELSE COALESCE(SUBSTR(REPLACE(TS.TINNUMBER, '-', ''),9,1), '' ) || '000' END AS TIN4,
+	  TS.TINNUMBER,
+	  TS.CIFNAME,
+	  TS.CIFFULLNAME,
+	  PD.SPECIALRATETHIRDTOUSD,
+	  PD.SPECIALRATEUSDTOPHP,
+	  SCAMT.AMOUNT AS DOCSTAMPAMT,
+	  AMT.AMOUNT,
+	  TS.MODIFIEDDATE AS DATEAPPROVED,
+	  TS.TRADEPRODUCTNUMBER,
+	  PD.LOANTERM,
+	  PD.PAYMENTINSTRUMENTTYPE,
+	  TS.DOCUMENTCLASS
+
+FROM TRADESERVICE TS
+
+INNER JOIN PAYMENT P
+ON TS.TRADESERVICEID=P.TRADESERVICEID
+
+INNER JOIN (SELECT P.ID,
+			    SUM(PD.AMOUNT) AS AMOUNT
+		  FROM PAYMENT P
+		  JOIN PAYMENTDETAIL PD ON P.ID=PD.PAYMENTID
+		  GROUP BY P.ID) AS AMT
+ON P.ID=AMT.ID
+
+INNER JOIN (SELECT TRADESERVICEID,
+		  	    AMOUNT
+		  FROM SERVICECHARGE
+		  WHERE CHARGEID = 'DOCSTAMPS') AS SCAMT
+ON TS.TRADESERVICEID=SCAMT.TRADESERVICEID
+
+INNER JOIN PAYMENTDETAIL PD
+ON P.ID=PD.PAYMENTID
+
+WHERE PD.PAYMENTINSTRUMENTTYPE='TR_LOAN'
+AND TS.STATUS IN ('APPROVED', 'POSTED', 'POST_APPROVED')
+AND SCAMT.AMOUNT > 0
+AND WEEK(TS.MODIFIEDDATE)= $P{currentWeek}
+AND YEAR(TS.MODIFIEDDATE) = $P{currentYear}]]>
+	</queryString>
+	<field name="TIN9" class="java.lang.String"/>
+	<field name="TIN4" class="java.lang.String"/>
+	<field name="TINNUMBER" class="java.lang.String"/>
+	<field name="CIFNAME" class="java.lang.String"/>
+	<field name="CIFFULLNAME" class="java.lang.String"/>
+	<field name="SPECIALRATETHIRDTOUSD" class="java.math.BigDecimal"/>
+	<field name="SPECIALRATEUSDTOPHP" class="java.math.BigDecimal"/>
+	<field name="DOCSTAMPAMT" class="java.math.BigDecimal"/>
+	<field name="AMOUNT" class="java.math.BigDecimal"/>
+	<field name="DATEAPPROVED" class="java.sql.Timestamp"/>
+	<field name="TRADEPRODUCTNUMBER" class="java.lang.String"/>
+	<field name="LOANTERM" class="java.lang.String"/>
+	<field name="PAYMENTINSTRUMENTTYPE" class="java.lang.String"/>
+	<field name="DOCUMENTCLASS" class="java.lang.String"/>
+	<variable name="blankVariable" class="java.lang.String">
+		<variableExpression><![CDATA["\'"]]></variableExpression>
+		<initialValueExpression><![CDATA["\'"]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField pattern="000000000" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="100" height="15" isRemoveLineWhenBlank="true"/>
+				<textElement textAlignment="Center" markup="none"/>
+				<textFieldExpression><![CDATA[$F{TIN9}.replaceAll("\\s","") != "" ? $F{TIN9}.replaceAll("\\s","") : $V{blankVariable}]]></textFieldExpression>
+			</textField>
+			<textField pattern="000#" isBlankWhenNull="true">
+				<reportElement x="100" y="0" width="100" height="15" isRemoveLineWhenBlank="true"/>
+				<textElement textAlignment="Center" markup="none"/>
+				<textFieldExpression><![CDATA[$F{TIN9}.replaceAll("\\s","") != "" ? ($F{TIN4}.replaceAll("\\s","") != "" ? ("'"+$F{TIN4}) : "'000") : $V{blankVariable}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="251" y="0" width="118" height="15" isRemoveLineWhenBlank="true"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA[$F{CIFFULLNAME} != null ? $F{CIFFULLNAME} : $F{CIFNAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0" isBlankWhenNull="true">
+				<reportElement x="669" y="0" width="100" height="15" isRemoveLineWhenBlank="true"/>
+				<textElement textAlignment="Right" markup="none"/>
+				<textFieldExpression><![CDATA[$F{DOCSTAMPAMT} != null ? Math.ceil( (($F{DOCSTAMPAMT}-20)/0.002) + 5000) : $V{blankVariable}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="0" width="51" height="15"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA[$V{blankVariable}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="369" y="0" width="100" height="15"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA[$V{blankVariable}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="469" y="0" width="100" height="15"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA[$V{blankVariable}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="569" y="0" width="100" height="15"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA[$V{blankVariable}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

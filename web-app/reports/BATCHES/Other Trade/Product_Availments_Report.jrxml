@@ -1,0 +1,1220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Product_Availments_Report" language="groovy" pageWidth="2016" pageHeight="720" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="1976" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="465"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="brUnitCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA["909"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitName" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Trade Services Department"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="forMonth" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="forYear" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentMonth" class="java.lang.String"/>
+	<parameter name="currentYear" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--PRODUCT AVAILMENTS REPORT
+--FOR LC
+SELECT TS.PROCESSINGUNITCODE,
+	  TP.PROCESSINGUNITCODE AS PROCESSINGUNITCODE2,
+	  LC.DOCUMENTNUMBER AS APPLICATIONACCOUNTID,
+	  TP.FACILITYREFERENCENUMBER,
+	  TP.CIFNUMBER,
+	  TP.CIFNAME AS CLIENTNAME,
+	  TP.LONGNAME,
+	  TP.STATUS AS ACCTSTATUS,
+	  TP.CCBDBRANCHUNITCODE AS BRANCH,
+	  'RG' as BOOKCD,
+	  29 AS BANKCD,
+	  TP.CURRENCY AS ORIGINALCURRENCY,
+	  RF.UCPBPRODUCTID AS PRODUCTID,
+	  LC.PROCESSDATE AS OPENDATE,
+	  LC.LASTNEGOTIATIONDATE AS NEGODATE,
+	  LC.DATECLOSED AS CLOSEDDATE,
+	  LC.EXPIRYDATE AS MATURITYDATE,
+	  LC.LASTAMENDMENTDATE AS AMENDDATE,
+	  LC.LASTREINSTATEMENTDATE AS REINSTATEDATE,
+	  LC.OUTSTANDINGBALANCE,
+	  NEGO.NEGOTIATIONAMOUNT,
+	  RF.CONTINGENTACCOUNTINGCODE AS GLACCTCDASSET,
+	  RF.CONTRACONTINGENTACCOUNTINGCODE AS GLACCTCDLIAB,
+	  TS.SPECIALRATETHIRDTOUSD,
+	  TS.SPECIALRATEUSDTOPHP,
+	  TS.EXCEPTIONCODE,
+	  RF.GL_ACCT_TYPE
+
+FROM LETTEROFCREDIT LC
+
+INNER JOIN TRADEPRODUCT TP
+ON TP.DOCUMENTNUMBER = LC.DOCUMENTNUMBER
+
+LEFT JOIN (SELECT TEMP00.DOCUMENTNUMBER,
+			   TEMP00.NEGOTIATIONVALUEDATE,
+			   SUM(TEMP00.NEGOTIATIONAMOUNT) as NEGOTIATIONAMOUNT,
+			   UAMATURITYDATE
+
+		 FROM (SELECT LCN.ID,
+				    LCN.DOCUMENTNUMBER,
+				    NEGOTIATIONAMOUNT,
+				    NEGOTIATIONVALUEDATE,
+				    UAMATURITYDATE
+
+			  FROM LCNEGOTIATION LCN
+			  INNER JOIN (SELECT DOCUMENTNUMBER,
+						 	 MAX(NEGOTIATIONVALUEDATE) NEGOVALDATE,
+							 MAX(LOANMATURITYDATE) AS UAMATURITYDATE
+
+					    FROM LCNEGOTIATION
+					    GROUP BY DOCUMENTNUMBER
+					   ) as MLCN
+			  ON LCN.DOCUMENTNUMBER=MLCN.DOCUMENTNUMBER AND LCN.NEGOTIATIONVALUEDATE= MLCN.NEGOVALDATE
+			 ) as TEMP00
+
+		 GROUP BY TEMP00.DOCUMENTNUMBER,
+			    	TEMP00.NEGOTIATIONVALUEDATE,
+			    	TEMP00.UAMATURITYDATE
+		) NEGO
+ON NEGO.DOCUMENTNUMBER = LC.DOCUMENTNUMBER
+
+INNER JOIN (SELECT TRADESERVICE.TRADEPRODUCTNUMBER,
+			   MAX(CREATEDDATE),
+			   PROCESSINGUNITCODE,
+			   DOCUMENTTYPE,
+			   DOCUMENTSUBTYPE1,
+			   DOCUMENTSUBTYPE2,
+			   TRADESERVICE.TRADESERVICEID,
+			   SPECIALRATETHIRDTOUSD,
+			   SPECIALRATEUSDTOPHP,
+			   EXCEPTIONCODE
+
+		 FROM TRADESERVICE TRADESERVICE
+		 WHERE DOCUMENTCLASS = 'LC'
+		 AND SERVICETYPE = 'OPENING'
+		 AND (STATUS = 'APPROVED' OR STATUS = 'POST_APPROVED' OR STATUS = 'POSTED' OR STATUS IS NULL)
+		 AND (EXCEPTIONCODE = '00' OR EXCEPTIONCODE IS NULL)
+
+		 GROUP BY TRADEPRODUCTNUMBER,
+				TRADESERVICEID,
+				PROCESSINGUNITCODE,
+				DOCUMENTTYPE,
+				DOCUMENTSUBTYPE1,
+				DOCUMENTSUBTYPE2,
+				SPECIALRATETHIRDTOUSD,
+				SPECIALRATEUSDTOPHP,
+			   	EXCEPTIONCODE
+		) TS
+ON TS.TRADEPRODUCTNUMBER = LC.DOCUMENTNUMBER
+
+LEFT JOIN REFPRODUCT RF
+ON LC.DOCUMENTTYPE=RF.DOCUMENTTYPE
+AND RF.DOCUMENTCLASS = 'LC'
+AND LC.TYPE = RF.DOCUMENTSUBTYPE1
+AND ((RF.DOCUMENTSUBTYPE2 = LC.TENOR) OR (RF.DOCUMENTSUBTYPE2 IS NULL AND LC.TENOR IS NULL))
+AND ( LC.STANDBYTAGGING = RF.DOCUMENTSUBTYPE3 or LC.STANDBYTAGGING IS NULL)
+
+LEFT JOIN REF_TFCUSTMR CUSTOMER
+ON LC.IMPORTERCBCODE = CUSTOMER.CB_CD
+
+LEFT JOIN BOOKINGSETTLEMENT BOOK
+ON BOOK.DOCUMENTNUMBER = LC.DOCUMENTNUMBER
+
+WHERE (TP.STATUS = 'OPEN' OR TP.STATUS = 'REINSTATED'
+	  OR (TP.STATUS = 'CLOSED' AND MONTH(LC.DATECLOSED) = $P{currentMonth} AND YEAR(LC.DATECLOSED) = $P{currentYear})
+	  OR (TP.STATUS = 'EXPIRED' AND MONTH(LC.EXPIRYDATE) = $P{currentMonth} AND YEAR(LC.EXPIRYDATE) = $P{currentYear})
+	  OR (TP.STATUS = 'CANCELLED' AND MONTH(LC.CANCELLATIONDATE) = $P{currentMonth} AND YEAR(LC.CANCELLATIONDATE) = $P{currentYear})
+	 )
+
+
+UNION ALL
+
+
+--FOR DA
+SELECT TS.PROCESSINGUNITCODE,
+	  TP.PROCESSINGUNITCODE AS PROCESSINGUNITCODE2,
+	  TP.DOCUMENTNUMBER AS APPLICATIONACCOUNTID,
+	  TP.FACILITYREFERENCENUMBER,
+	  TP.CIFNUMBER,
+	  TP.CIFNAME AS CLIENTNAME,
+	  TP.LONGNAME,
+	  TP.STATUS AS ACCTSTATUS,
+	  TP.CCBDBRANCHUNITCODE AS BRANCH,
+	  PRODUCT.BOOKCODE AS BOOKCD,
+	  29 AS BANKCD,
+	  TP.CURRENCY AS ORIGINALCURRENCY,
+	  PRODUCT.UCPBPRODUCTID AS PRODUCTID,
+	  DA.PROCESSDATE AS OPENDATE,
+	  DA.SETTLEDDATE AS NEGODATE,
+	  DA.CANCELLEDDATE AS CLOSEDDATE,
+	  DA.MATURITYDATE,
+	  cast(NULL as timestamp) AS AMENDDATE,
+	  cast(NULL as timestamp) AS REINSTATEDATE,
+	  DA.OUTSTANDINGAMOUNT AS OUTSTANDINGBALANCE,
+	  NEGO.NEGOTIATIONAMOUNT,
+	  PRODUCT.CONTINGENTACCOUNTINGCODE AS GLACCTCDASSET,
+       PRODUCT.CONTRACONTINGENTACCOUNTINGCODE AS GLACCTCDLIAB,
+	  TS.SPECIALRATETHIRDTOUSD,
+	  TS.SPECIALRATEUSDTOPHP,
+	  TS.EXCEPTIONCODE,
+	  PRODUCT.GL_ACCT_TYPE
+
+FROM DOCUMENTAGAINSTACCEPTANCE DA
+
+INNER JOIN TRADEPRODUCT TP
+ON TP.DOCUMENTNUMBER = DA.DOCUMENTNUMBER
+
+LEFT JOIN REF_TFCUSTMR CUSTOMER
+ON DA.IMPORTERCBCODE = CUSTOMER.CB_CD
+
+LEFT JOIN BOOKINGSETTLEMENT BOOK
+ON BOOK.DOCUMENTNUMBER = DA.DOCUMENTNUMBER
+
+INNER JOIN (SELECT MAX(CREATEDDATE) AS LASTNEGOTIATIONDATE,
+			   AMOUNT AS NEGOTIATIONAMOUNT,
+			   DOCUMENTNUMBER,
+			   EXCEPTIONCODE
+
+		 FROM TRADESERVICE TS
+		 WHERE SERVICETYPE = 'SETTLEMENT'
+		 AND DOCUMENTCLASS = 'DA'
+		 AND (STATUS = 'APPROVED' OR STATUS = 'POST_APPROVED'
+			 OR STATUS = 'POSTED' OR STATUS IS NULL)
+		 AND (EXCEPTIONCODE = '00' OR EXCEPTIONCODE IS NULL)
+
+		 GROUP BY CREATEDDATE,
+		 		AMOUNT,
+		 		DOCUMENTNUMBER,
+			   	EXCEPTIONCODE
+
+		) NEGO
+ON NEGO.DOCUMENTNUMBER = DA.DOCUMENTNUMBER
+
+INNER JOIN TRADESERVICE TS
+ON TS.DOCUMENTNUMBER = DA.DOCUMENTNUMBER
+
+LEFT JOIN REFPRODUCT PRODUCT
+ON TS.DOCUMENTCLASS = PRODUCT.DOCUMENTCLASS
+
+WHERE (TP.STATUS = 'ACKNOWLEDGED' OR TP.STATUS = 'NEGOTIATED'
+	  OR TP.STATUS = 'ACCEPTED' OR (TP.STATUS = 'CLOSED'
+AND MONTH(DA.SETTLEDDATE) = $P{currentMonth}
+AND YEAR(DA.SETTLEDDATE) = $P{currentYear}))
+AND TS.DOCUMENTCLASS = 'DA' AND TS.SERVICETYPE = 'NEGOTIATION_ACKNOWLEDGEMENT'
+AND PRODUCT.DOCUMENTTYPE = TS.DOCUMENTTYPE
+AND PRODUCT.DOCUMENTCLASS = TS.DOCUMENTCLASS
+
+
+UNION ALL
+
+
+--FOR DP
+SELECT TS.PROCESSINGUNITCODE,
+	  TP.PROCESSINGUNITCODE AS PROCESSINGUNITCODE2,
+	  TP.DOCUMENTNUMBER AS APPLICATIONACCOUNTID,
+	  TP.FACILITYREFERENCENUMBER,
+	  TP.CIFNUMBER,
+	  TP.CIFNAME AS CLIENTNAME,
+	  TP.LONGNAME,
+	  TP.STATUS AS ACCTSTATUS,
+	  TP.CCBDBRANCHUNITCODE AS BRANCH,
+	  PRODUCT.BOOKCODE AS BOOKCD,
+	  29 AS BANKCD,
+	  TP.CURRENCY AS ORIGINALCURRENCY,
+	  PRODUCT.UCPBPRODUCTID AS PRODUCTID,
+	  DP.PROCESSDATE AS OPENDATE,
+	  DP.SETTLEDDATE AS NEGODATE,
+	  DP.CANCELLEDDATE AS CLOSEDDATE,
+	  DP.MATURITYDATE,
+	  cast(NULL as timestamp) AS AMENDDATE,
+	  cast(NULL as timestamp) AS REINSTATEDATE,
+	  DP.OUTSTANDINGAMOUNT AS OUTSTANDINGBALANCE,
+	  NEGO.NEGOTIATIONAMOUNT,
+	  PRODUCT.CONTINGENTACCOUNTINGCODE AS GLACCTCDASSET,
+       PRODUCT.CONTRACONTINGENTACCOUNTINGCODE AS GLACCTCDLIAB,
+	  TS.SPECIALRATETHIRDTOUSD,
+	  TS.SPECIALRATEUSDTOPHP,
+	  TS.EXCEPTIONCODE,
+	  PRODUCT.GL_ACCT_TYPE
+
+FROM DOCUMENTAGAINSTPAYMENT DP
+
+INNER JOIN TRADEPRODUCT TP
+ON TP.DOCUMENTNUMBER = DP.DOCUMENTNUMBER
+
+INNER JOIN (SELECT MAX(CREATEDDATE) AS LASTNEGOTIATIONDATE,
+			   AMOUNT AS NEGOTIATIONAMOUNT,
+			   DOCUMENTNUMBER,
+			   EXCEPTIONCODE
+
+		 FROM TRADESERVICE TS
+		 WHERE SERVICETYPE = 'SETTLEMENT'
+		 AND DOCUMENTCLASS = 'DP'
+		 AND (STATUS = 'APPROVED' OR STATUS = 'POST_APPROVED'
+			 OR STATUS = 'POSTED' OR STATUS IS NULL)
+		 AND (EXCEPTIONCODE = '00' OR EXCEPTIONCODE IS NULL)
+
+		 GROUP BY CREATEDDATE,
+		 		AMOUNT,
+		 		DOCUMENTNUMBER,
+			   	EXCEPTIONCODE
+
+	) NEGO
+ON NEGO.DOCUMENTNUMBER = DP.DOCUMENTNUMBER
+
+LEFT JOIN REF_TFCUSTMR CUSTOMER
+ON DP.IMPORTERCBCODE = CUSTOMER.CB_CD
+
+LEFT JOIN BOOKINGSETTLEMENT BOOK
+ON BOOK.DOCUMENTNUMBER = DP.DOCUMENTNUMBER
+
+INNER JOIN TRADESERVICE TS
+ON TS.DOCUMENTNUMBER = DP.DOCUMENTNUMBER
+
+LEFT JOIN REFPRODUCT PRODUCT
+ON TS.DOCUMENTCLASS = PRODUCT.DOCUMENTCLASS
+
+WHERE (TP.STATUS = 'NEGOTIATED' OR TP.STATUS = 'ACCEPTED' OR
+ 	  (TP.STATUS = 'CLOSED'
+	   AND MONTH(DP.SETTLEDDATE) = $P{currentMonth}
+	   AND YEAR(DP.SETTLEDDATE ) = $P{currentYear}
+	   )
+	  )
+AND TS.DOCUMENTCLASS = 'DP' AND TS.SERVICETYPE = 'NEGOTIATION'
+AND PRODUCT.DOCUMENTTYPE = TS.DOCUMENTTYPE
+AND PRODUCT.DOCUMENTCLASS = TS.DOCUMENTCLASS
+
+
+UNION ALL
+
+
+--FOR DR
+SELECT TS.PROCESSINGUNITCODE,
+	  TP.PROCESSINGUNITCODE AS PROCESSINGUNITCODE2,
+	  TP.DOCUMENTNUMBER AS APPLICATIONACCOUNTID,
+	  TP.FACILITYREFERENCENUMBER,
+	  TP.CIFNUMBER,
+	  TP.CIFNAME AS CLIENTNAME,
+	  TP.LONGNAME,
+	  TP.STATUS AS ACCTSTATUS,
+	  TP.CCBDBRANCHUNITCODE AS BRANCH,
+	  PRODUCT.BOOKCODE AS BOOKCD,
+	  29 AS BANKCD,
+	  TP.CURRENCY AS ORIGINALCURRENCY,
+	  PRODUCT.UCPBPRODUCTID AS PRODUCTID,
+	  DR.PROCESSDATE AS OPENDATE,
+	  DR.SETTLEDDATE AS NEGODATE,
+	  DR.CANCELLEDDATE AS CLOSEDDATE,
+	  DR.MATURITYDATE,
+	  cast(NULL as timestamp) AS AMENDDATE,
+	  cast(NULL as timestamp) AS REINSTATEDATE,
+	  DR.OUTSTANDINGAMOUNT AS OUTSTANDINGBALANCE,
+	  NEGO.NEGOTIATIONAMOUNT,
+	  PRODUCT.CONTINGENTACCOUNTINGCODE AS GLACCTCDASSET,
+       PRODUCT.CONTRACONTINGENTACCOUNTINGCODE AS GLACCTCDLIAB,
+	  TS.SPECIALRATETHIRDTOUSD,
+	  TS.SPECIALRATEUSDTOPHP,
+	  TS.EXCEPTIONCODE,
+	  PRODUCT.GL_ACCT_TYPE
+
+FROM DIRECTREMITTANCE DR
+
+INNER JOIN TRADEPRODUCT TP
+ON TP.DOCUMENTNUMBER = DR.DOCUMENTNUMBER
+
+INNER JOIN (SELECT MAX(CREATEDDATE) AS LASTNEGOTIATIONDATE,
+			   AMOUNT AS NEGOTIATIONAMOUNT,
+			   DOCUMENTNUMBER,
+			   EXCEPTIONCODE
+
+		 FROM TRADESERVICE TS
+		 WHERE SERVICETYPE = 'SETTLEMENT'
+		 AND DOCUMENTCLASS = 'DR'
+		 AND (STATUS = 'APPROVED' OR STATUS = 'POST_APPROVED'
+			 OR STATUS = 'POSTED' OR STATUS IS NULL)
+		 AND (EXCEPTIONCODE = '00' OR EXCEPTIONCODE IS NULL)
+
+		 GROUP BY CREATEDDATE,
+		 		AMOUNT,
+		 		DOCUMENTNUMBER,
+			   	EXCEPTIONCODE
+
+	) NEGO
+ON NEGO.DOCUMENTNUMBER = DR.DOCUMENTNUMBER
+
+LEFT JOIN REF_TFCUSTMR CUSTOMER
+ON DR.IMPORTERCBCODE = CUSTOMER.CB_CD
+
+LEFT JOIN BOOKINGSETTLEMENT BOOK
+ON BOOK.DOCUMENTNUMBER = DR.DOCUMENTNUMBER
+
+INNER JOIN TRADESERVICE TS
+ON TS.DOCUMENTNUMBER = DR.DOCUMENTNUMBER
+
+LEFT JOIN REFPRODUCT PRODUCT
+ON TS.DOCUMENTCLASS = PRODUCT.DOCUMENTCLASS
+
+WHERE (TP.STATUS = 'NEGOTIATED' OR TP.STATUS = 'ACCEPTED' OR
+	  (TP.STATUS = 'CLOSED'
+	   AND MONTH(DR.SETTLEDDATE) = $P{currentMonth}
+	   AND YEAR(DR.SETTLEDDATE) = $P{currentYear}
+	   )
+	  )
+AND TS.DOCUMENTCLASS = 'DR' AND TS.SERVICETYPE = 'NEGOTIATION'
+AND PRODUCT.DOCUMENTTYPE = TS.DOCUMENTTYPE
+AND PRODUCT.DOCUMENTCLASS = TS.DOCUMENTCLASS
+
+
+UNION ALL
+
+
+--FOR OA
+SELECT TS.PROCESSINGUNITCODE,
+	  TP.PROCESSINGUNITCODE AS PROCESSINGUNITCODE2,
+	  TP.DOCUMENTNUMBER AS APPLICATIONACCOUNTID,
+	  TP.FACILITYREFERENCENUMBER,
+	  TP.CIFNUMBER,
+	  TP.CIFNAME AS CLIENTNAME,
+	  TP.LONGNAME,
+	  TP.STATUS AS ACCTSTATUS,
+	  TP.CCBDBRANCHUNITCODE AS BRANCH,
+	  PRODUCT.BOOKCODE AS BOOKCD,
+	  29 AS BANKCD,
+	  TP.CURRENCY AS ORIGINALCURRENCY,
+	  PRODUCT.UCPBPRODUCTID AS PRODUCTID,
+	  OA.PROCESSDATE AS OPENDATE,
+	  OA.SETTLEDDATE AS NEGODATE,
+	  OA.CANCELLEDDATE AS CLOSEDDATE,
+	  OA.MATURITYDATE,
+	  cast(NULL as timestamp) AS AMENDDATE,
+	  cast(NULL as timestamp) AS REINSTATEDATE,
+	  OA.OUTSTANDINGAMOUNT AS OUTSTANDINGBALANCE,
+	  NEGO.NEGOTIATIONAMOUNT,
+	  PRODUCT.CONTINGENTACCOUNTINGCODE AS GLACCTCDASSET,
+       PRODUCT.CONTRACONTINGENTACCOUNTINGCODE AS GLACCTCDLIAB,
+	  TS.SPECIALRATETHIRDTOUSD,
+	  TS.SPECIALRATEUSDTOPHP,
+	  TS.EXCEPTIONCODE,
+	  PRODUCT.GL_ACCT_TYPE
+
+FROM OPENACCOUNT OA
+
+INNER JOIN TRADEPRODUCT TP
+ON TP.DOCUMENTNUMBER = OA.DOCUMENTNUMBER
+
+INNER JOIN (SELECT MAX(CREATEDDATE) AS LASTNEGOTIATIONDATE,
+			   AMOUNT AS NEGOTIATIONAMOUNT,
+			   DOCUMENTNUMBER,
+			   EXCEPTIONCODE
+
+		 FROM TRADESERVICE TS
+		 WHERE SERVICETYPE = 'SETTLEMENT'
+		 AND DOCUMENTCLASS = 'OA'
+		 AND (STATUS = 'APPROVED' OR STATUS = 'POST_APPROVED'
+			 OR STATUS = 'POSTED' OR STATUS IS NULL)
+		 AND (EXCEPTIONCODE = '00' OR EXCEPTIONCODE IS NULL)
+
+		 GROUP BY	CREATEDDATE,
+		 		AMOUNT,
+		 		DOCUMENTNUMBER,
+			   	EXCEPTIONCODE
+
+	) NEGO
+ON NEGO.DOCUMENTNUMBER = OA.DOCUMENTNUMBER
+
+LEFT JOIN REF_TFCUSTMR CUSTOMER
+ON OA.IMPORTERCBCODE = CUSTOMER.CB_CD
+
+LEFT JOIN BOOKINGSETTLEMENT BOOK
+ON BOOK.DOCUMENTNUMBER = OA.DOCUMENTNUMBER
+
+INNER JOIN TRADESERVICE TS
+ON TS.DOCUMENTNUMBER = OA.DOCUMENTNUMBER
+
+LEFT JOIN REFPRODUCT PRODUCT
+ON TS.DOCUMENTCLASS = PRODUCT.DOCUMENTCLASS
+
+WHERE (TP.STATUS = 'NEGOTIATED' OR TP.STATUS = 'ACCEPTED' OR
+	  (TP.STATUS = 'CLOSED'
+	   AND MONTH(OA.SETTLEDDATE) = $P{currentMonth}
+	   AND YEAR(OA.SETTLEDDATE) = $P{currentYear}
+	   )
+	  )
+AND TS.DOCUMENTCLASS = 'OA' AND TS.SERVICETYPE = 'NEGOTIATION'
+AND PRODUCT.DOCUMENTTYPE = TS.DOCUMENTTYPE
+AND PRODUCT.DOCUMENTCLASS = TS.DOCUMENTCLASS
+
+
+UNION ALL
+
+
+--FOR EXPORT BILLS
+SELECT TS.PROCESSINGUNITCODE,
+	  TP.PROCESSINGUNITCODE AS PROCESSINGUNITCODE2,
+	  TP.DOCUMENTNUMBER AS APPLICATIONACCOUNTID,
+	  TP.FACILITYREFERENCENUMBER,
+	  TP.CIFNUMBER,
+	  TP.CIFNAME AS CLIENTNAME,
+	  TP.LONGNAME,
+	  TP.STATUS AS ACCTSTATUS,
+	  TP.CCBDBRANCHUNITCODE AS BRANCH,
+	  RF.BOOKCODE AS BOOKCD,
+	  29 AS BANKCD,
+	  TP.CURRENCY AS ORIGINALCURRENCY,
+	  RF.UCPBPRODUCTID AS PRODUCTID,
+	  EB.NEGOTIATIONDATE AS OPENDATE,
+	  EB.SETTLEMENTDATE AS NEGODATE,
+	  EB.SETTLEMENTDATE AS CLOSEDDATE,
+	  EB.DUEDATE AS MATURITYDATE,
+	  cast(NULL as timestamp) AS AMENDDATE,
+	  cast(NULL as timestamp) AS REINSTATEDATE,
+	  EB.OUTSTANDINGAMOUNT AS OUTSTANDINGBALANCE,
+	  TP.AMOUNT AS NEGOTIATIONAMOUNT,
+	  RF.CONTINGENTACCOUNTINGCODE AS GLACCTCDASSET,
+	  RF.CONTRACONTINGENTACCOUNTINGCODE AS GLACCTCDLIAB,
+	  TS.SPECIALRATETHIRDTOUSD,
+	  TS.SPECIALRATEUSDTOPHP,
+	  TS.EXCEPTIONCODE,
+	  RF.GL_ACCT_TYPE
+
+FROM EXPORTBILLS EB
+
+INNER JOIN TRADEPRODUCT TP
+ON TP.DOCUMENTNUMBER = EB.DOCUMENTNUMBER
+
+INNER JOIN (SELECT TRADESERVICE.TRADEPRODUCTNUMBER,
+        		   MAX(CREATEDDATE),
+        	 	   PROCESSINGUNITCODE,
+        		   DOCUMENTTYPE,
+        		   DOCUMENTSUBTYPE1,
+        	 	   DOCUMENTSUBTYPE2,
+        		   TRADESERVICE.TRADESERVICEID,
+			   EXCEPTIONCODE,
+			   SPECIALRATETHIRDTOUSD,
+			   SPECIALRATEUSDTOPHP
+
+        	 FROM TRADESERVICE TRADESERVICE
+        	 WHERE DOCUMENTCLASS IN('BC')
+        	 AND SERVICETYPE = 'NEGOTIATION'
+        	 AND (STATUS = 'APPROVED' OR STATUS = 'POST_APPROVED' OR STATUS = 'POSTED' OR STATUS IS NULL)
+		 AND (EXCEPTIONCODE = '00' OR EXCEPTIONCODE IS NULL)
+
+        	 GROUP BY TRADEPRODUCTNUMBER,
+        	 		TRADESERVICEID,
+        	 		PROCESSINGUNITCODE,
+        	 		DOCUMENTTYPE,
+        	 		DOCUMENTSUBTYPE1,
+        	 		DOCUMENTSUBTYPE2,
+			   	EXCEPTIONCODE,
+			     SPECIALRATETHIRDTOUSD,
+			     SPECIALRATEUSDTOPHP) TS
+ON TS.TRADEPRODUCTNUMBER = EB.DOCUMENTNUMBER
+
+LEFT JOIN REFPRODUCT RF
+ON RF.DOCUMENTTYPE = 'FOREIGN'
+AND RF.DOCUMENTCLASS = 'BC'
+
+LEFT JOIN REF_TFCUSTMR CUSTOMER
+ON EB.EXPORTERCBCODE = CUSTOMER.CB_CD
+
+WHERE TP.STATUS = 'OPEN'
+OR TP.STATUS = 'NEGOTIATED'
+OR (TP.STATUS = 'CLOSED'
+    AND MONTH(EB.SETTLEMENTDATE) = $P{currentMonth}
+    AND YEAR(EB.SETTLEMENTDATE) = $P{currentYear}
+   )
+OR (TP.STATUS = 'SETTLED'
+    AND MONTH(EB.SETTLEMENTDATE) = $P{currentMonth}
+    AND YEAR(EB.SETTLEMENTDATE) = $P{currentYear}
+   )]]>
+	</queryString>
+	<field name="PROCESSINGUNITCODE" class="java.lang.String"/>
+	<field name="PROCESSINGUNITCODE2" class="java.lang.String"/>
+	<field name="APPLICATIONACCOUNTID" class="java.lang.String"/>
+	<field name="FACILITYREFERENCENUMBER" class="java.lang.String"/>
+	<field name="CIFNUMBER" class="java.lang.String"/>
+	<field name="CLIENTNAME" class="java.lang.String"/>
+	<field name="LONGNAME" class="java.lang.String"/>
+	<field name="ACCTSTATUS" class="java.lang.String"/>
+	<field name="BRANCH" class="java.lang.String"/>
+	<field name="BOOKCD" class="java.lang.String"/>
+	<field name="BANKCD" class="java.lang.Integer"/>
+	<field name="ORIGINALCURRENCY" class="java.lang.String"/>
+	<field name="PRODUCTID" class="java.lang.String"/>
+	<field name="OPENDATE" class="java.sql.Timestamp"/>
+	<field name="NEGODATE" class="java.sql.Timestamp"/>
+	<field name="CLOSEDDATE" class="java.sql.Timestamp"/>
+	<field name="MATURITYDATE" class="java.sql.Timestamp"/>
+	<field name="AMENDDATE" class="java.sql.Timestamp"/>
+	<field name="REINSTATEDATE" class="java.sql.Timestamp"/>
+	<field name="OUTSTANDINGBALANCE" class="java.math.BigDecimal"/>
+	<field name="NEGOTIATIONAMOUNT" class="java.math.BigDecimal"/>
+	<field name="GLACCTCDASSET" class="java.lang.String"/>
+	<field name="GLACCTCDLIAB" class="java.lang.String"/>
+	<field name="SPECIALRATETHIRDTOUSD" class="java.math.BigDecimal"/>
+	<field name="SPECIALRATEUSDTOPHP" class="java.math.BigDecimal"/>
+	<field name="EXCEPTIONCODE" class="java.lang.String"/>
+	<field name="GL_ACCT_TYPE" class="java.lang.String"/>
+	<variable name="reportId" class="java.lang.String">
+		<variableExpression><![CDATA[$P{reportId}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{reportId}]]></initialValueExpression>
+	</variable>
+	<variable name="contLcl" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[($F{ORIGINALCURRENCY}!="PHP" && $F{ORIGINALCURRENCY}!="USD")
+?
+($F{OUTSTANDINGBALANCE}*$F{SPECIALRATETHIRDTOUSD}*$F{SPECIALRATEUSDTOPHP})
+:
+$F{ORIGINALCURRENCY}=="USD"
+?
+($F{OUTSTANDINGBALANCE}*$F{SPECIALRATEUSDTOPHP})
+:
+$F{OUTSTANDINGBALANCE}]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{ORIGINALCURRENCY}!="PHP" && $F{ORIGINALCURRENCY}!="USD")   ?  ($F{OUTSTANDINGBALANCE}*$F{SPECIALRATETHIRDTOUSD}*$F{SPECIALRATEUSDTOPHP})  :  $F{ORIGINALCURRENCY}!="USD"  ?  ($F{OUTSTANDINGBALANCE}*$F{SPECIALRATEUSDTOPHP})  :  $F{OUTSTANDINGBALANCE}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="125">
+			<staticText>
+				<reportElement x="975" y="90" width="75" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[NEGO DT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="75" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[PROCOESSING UNIT CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1750" y="90" width="100" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[GL ACCT.
+CD ASSET]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1845" y="0" width="55" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN TIME:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="75" y="60" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{brUnitCode}=="909" ? "Trade Services Department" : $P{brUnitName}).toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1450" y="90" width="100" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CONT.
+ASSETS
+FCY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="90" width="75" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CIF NO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1050" y="90" width="75" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CLOSED DT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1550" y="90" width="100" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CONT.
+LIAB
+LCL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="750" y="90" width="50" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[BANK CD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1850" y="90" width="100" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[GL ACCT.
+CD LIAB]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="55" y="0" width="150" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="75" y="90" width="125" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[APPLICATION
+ACCOUNT ID]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="55" y="15" width="150" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1650" y="90" width="100" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CONT.
+LIAB
+FCY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="800" y="90" width="50" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[ORIG
+CURR.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1125" y="90" width="75" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[MAT DT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="850" y="90" width="50" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[PROD ID.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1275" y="90" width="75" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[REINST DT]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="75" y="45" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{brUnitCode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="200" y="90" width="100" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[FACILITY
+REF. NO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="700" y="90" width="50" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[BOOK CD]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="1900" y="0" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1845" y="15" width="55" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PAGE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="900" y="90" width="75" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OPEN DT]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1900" y="15" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="838" y="30" width="300" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["FOR THE " + $P{forMonth}.toUpperCase() + ", " + $P{forYear}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="55" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="838" y="15" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[PRODUCT AVAILMENTS REPORT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="90" width="200" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CLIENT
+NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="650" y="90" width="50" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[BRANCH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="75" height="30"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT NAME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="575" y="90" width="75" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[ACCT.
+STATUS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="838" y="0" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1350" y="90" width="100" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CONT.
+ASSETS
+LCL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1200" y="90" width="75" height="35"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[AMEND DT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="75" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="55" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPORT ID:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="75" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PROCESSINGUNITCODE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="75" y="0" width="125" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{APPLICATIONACCOUNTID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FACILITYREFERENCENUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="300" y="0" width="75" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIFNUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="375" y="0" width="200" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LONGNAME} == "" ?  $F{CLIENTNAME} : $F{LONGNAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="575" y="0" width="75" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACCTSTATUS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="650" y="0" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BRANCH}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="700" y="0" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BOOKCD}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="750" y="0" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BANKCD}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="800" y="0" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ORIGINALCURRENCY}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="850" y="0" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRODUCTID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="900" y="0" width="75" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OPENDATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="975" y="0" width="75" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NEGODATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1050" y="0" width="75" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CLOSEDDATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1125" y="0" width="75" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MATURITYDATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1200" y="0" width="75" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AMENDDATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1275" y="0" width="75" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REINSTATEDATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1750" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GLACCTCDASSET}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1850" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GLACCTCDLIAB}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+				<reportElement x="1350" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GL_ACCT_TYPE}=="A"
+?
+$V{contLcl}
+:
+""]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+				<reportElement x="1650" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GL_ACCT_TYPE}=="L"
+?
+$F{OUTSTANDINGBALANCE}
+:
+""]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+				<reportElement x="1450" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GL_ACCT_TYPE}=="A"
+?
+$F{OUTSTANDINGBALANCE}
+:
+""]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+				<reportElement x="1550" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GL_ACCT_TYPE}=="L"
+?
+$V{contLcl}
+:
+""]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Volumetrics_Report_CLS" language="groovy" pageWidth="500" pageHeight="792" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="currentMonth" class="java.lang.String"/>
+	<parameter name="currentYear" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--EXPORTS
+		SELECT SUM(TOTAL) AS TOTAL
+		FROM (
+
+		--EXPORTADVISINGDISTINCT
+		select count(distinct documentnumber) AS TOTAL from tradeservice ts
+		where documentclass='EXPORT_ADVISING'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--DBCNEGOTIATIONDISTINCT
+		select count(distinct documentnumber) AS TOTAL from tradeservice ts
+		where servicetype='NEGOTIATION'
+		and documentType='DOMESTIC' and documentclass='BC'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--DBPNEGOTIATIONDISTINCT
+		select count(distinct documentnumber) AS TOTAL from tradeservice ts
+		where servicetype='NEGOTIATION'
+		and documentType='DOMESTIC' and documentclass='BP'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--EBCNEGOTIATIONDISTINCT
+		select count(distinct documentnumber) AS TOTAL from tradeservice ts
+		where servicetype='NEGOTIATION'
+		and documentType='FOREIGN' and documentclass='BC'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--EBPNEGOTIATIONDISTINCT
+		select count(distinct documentnumber) AS TOTAL from tradeservice ts
+		where servicetype='NEGOTIATION'
+		and documentType='FOREIGN' and documentclass='BP'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		UNION ALL
+
+		--OTHERSEXPORTADVANCEDISTINCT
+		select count(distinct documentnumber) AS TOTAL from tradeservice ts
+		where documentclass='EXPORT_ADVANCE'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth} and year(modifieddate)=$P{currentYear})
+
+		)]]>
+	</queryString>
+	<field name="TOTAL" class="java.lang.Integer"/>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="375" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="150" y="0" width="225" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[EXPORT]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

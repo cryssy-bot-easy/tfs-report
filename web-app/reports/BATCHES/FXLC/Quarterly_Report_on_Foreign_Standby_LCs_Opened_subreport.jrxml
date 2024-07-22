@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Quarterly_Report_on_Foreign_Standby_LCs_Opened_subreport" language="groovy" pageWidth="572" pageHeight="555" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dateNow" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("MM").format(new Date())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitCode" class="java.lang.String"/>
+	<parameter name="currentQuarterYear" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--QUARTERLY REPORT ON FOREIGN LCS STANBY OPENED _SUBREPORT
+SELECT tabOut.currency AS GRANDTOTALLCORIGCURRENCY,
+	  SUM(tabOut.amount_sum) AS GRANDTOTALAMOUNT,
+	  SUM(tabOut.cifname_count) AS GRANDTOTALNOOFTRANSACTIONS
+
+FROM (SELECT tp.cifname,
+	  	   COUNT(tp.cifname) AS cifname_count,
+	  	   SUM(tp.amount) AS amount_sum,
+	  	   tp.currency
+
+	 FROM letterofcredit lc
+
+	 INNER JOIN tradeservice ts
+	 ON lc.documentnumber = ts.documentnumber
+
+	 INNER JOIN tradeproduct tp
+	 ON lc.documentnumber = tp.documentnumber
+
+	 WHERE lc.type = 'STANDBY'
+	 AND ts.documenttype = 'FOREIGN'
+	 AND ts.servicetype = 'OPENING'
+	 AND QUARTER(lc.processdate) = (SELECT QUARTER(TO_DATE($P{currentQuarterYear}, 'yyyy-MM-dd')) FROM SYSIBM.SYSDUMMY1)
+	 AND ts.processingunitcode = $P{brUnitCode}
+
+	 GROUP BY tp.cifname,
+	    	 	tp.currency
+	 ORDER BY tp.currency,
+	    	 	tp.cifname
+
+	) AS tabOut
+
+GROUP BY tabOut.currency]]>
+	</queryString>
+	<field name="GRANDTOTALLCORIGCURRENCY" class="java.lang.String"/>
+	<field name="GRANDTOTALAMOUNT" class="java.math.BigDecimal"/>
+	<field name="GRANDTOTALNOOFTRANSACTIONS" class="java.lang.Integer"/>
+	<variable name="grandTotalLcAmount" class="java.math.BigDecimal" resetType="Group" resetGroup="LCCURRENCY" calculation="Sum">
+		<variableExpression><![CDATA[$F{GRANDTOTALAMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{GRANDTOTALAMOUNT}]]></initialValueExpression>
+	</variable>
+	<variable name="grandTotalNoOfTransactions" class="java.lang.Integer" resetType="Group" resetGroup="LCCURRENCY" calculation="Sum">
+		<variableExpression><![CDATA[$F{GRANDTOTALNOOFTRANSACTIONS}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{GRANDTOTALNOOFTRANSACTIONS}]]></initialValueExpression>
+	</variable>
+	<group name="LCCURRENCY">
+		<groupExpression><![CDATA[$F{GRANDTOTALLCORIGCURRENCY}]]></groupExpression>
+		<groupFooter>
+			<band height="15">
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="247" height="15"/>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Right">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{GRANDTOTALLCORIGCURRENCY}.toUpperCase()]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="247" y="0" width="200" height="15"/>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Right">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{grandTotalLcAmount}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="447" y="0" width="125" height="15"/>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Center">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{grandTotalNoOfTransactions}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="15" width="247" height="15"/>
+				<box rightPadding="3"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[GRAND TOTAL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+</jasperReport>

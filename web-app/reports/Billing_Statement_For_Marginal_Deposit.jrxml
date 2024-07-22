@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Billing_Statement_For_Marginal_Deposit" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="540" leftMargin="36" rightMargin="36" topMargin="36" bottomMargin="36">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\ucpb-tfs\\workspace2\\tfs-report\\web-app\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="documentNumber" class="java.lang.String"/>
+	<parameter name="tradeServiceId" class="java.lang.String"/>
+	<parameter name="expiryDate" class="java.lang.String"/>
+	<parameter name="priceTerm" class="java.lang.String"/>
+	<parameter name="usancePeriod" class="java.lang.String"/>
+	<parameter name="outstandingBalance" class="java.lang.String"/>
+	<parameter name="modeOfPayment1" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="modeOfPayment2" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="modeOfPayment3" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="settlementCurrency1" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="settlementCurrency2" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="settlementCurrency3" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amountSettlement1" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amountSettlement2" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amountSettlement3" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amount1" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amount2" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amount3" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="totalAmountOfPaymentLc" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+	ts.amount as lcAmount,
+	ts.documentType, ts.documentSubType2, ts.serviceType, ts.cifname,
+	ts.currency as lcCurrency,
+	tp.currency as tradeproductcurrency,
+	tp.amount as tradeproductamount,
+
+	pd.currency as settlementcurrency,
+
+	pd.specialratethirdtophp as specialratethirdtophp,
+
+	pd.specialratethirdtousd as specialratethirdtousd,
+
+	pd.specialrateusdtophp as specialrateusdtophp
+
+
+from tradeservice ts
+left join tradeproduct tp on ts.documentnumber=tp.documentnumber
+left join payment pay on ts.tradeserviceid=pay.tradeserviceid
+left join paymentdetail pd on pay.id=pd.paymentid
+
+where ts.documentNumber=$P{documentNumber} and ts.tradeServiceId=$P{tradeServiceId}]]>
+	</queryString>
+	<field name="LCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="DOCUMENTTYPE" class="java.lang.String"/>
+	<field name="DOCUMENTSUBTYPE2" class="java.lang.String"/>
+	<field name="SERVICETYPE" class="java.lang.String"/>
+	<field name="CIFNAME" class="java.lang.String"/>
+	<field name="LCCURRENCY" class="java.lang.String"/>
+	<field name="TRADEPRODUCTCURRENCY" class="java.lang.String"/>
+	<field name="TRADEPRODUCTAMOUNT" class="java.math.BigDecimal"/>
+	<field name="SETTLEMENTCURRENCY" class="java.lang.String"/>
+	<field name="SPECIALRATETHIRDTOPHP" class="java.math.BigDecimal"/>
+	<field name="SPECIALRATETHIRDTOUSD" class="java.math.BigDecimal"/>
+	<field name="SPECIALRATEUSDTOPHP" class="java.math.BigDecimal"/>
+	<variable name="lcAmount" class="java.lang.String">
+		<variableExpression><![CDATA[(new DecimalFormat("#,##0.00").format(new BigDecimal($F{LCAMOUNT} ? $F{LCAMOUNT} : 0)))]]></variableExpression>
+		<initialValueExpression><![CDATA[(new DecimalFormat("#,##0.00").format(new BigDecimal($F{LCAMOUNT} ? $F{LCAMOUNT} : 0)))]]></initialValueExpression>
+	</variable>
+	<variable name="tradeProductCurrency" class="java.lang.String">
+		<variableExpression><![CDATA[($F{TRADEPRODUCTCURRENCY}==null ? "" : $F{TRADEPRODUCTCURRENCY})]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{TRADEPRODUCTCURRENCY}==null ? "" : $F{TRADEPRODUCTCURRENCY})]]></initialValueExpression>
+	</variable>
+	<variable name="tradeProductAmount" class="java.lang.String">
+		<variableExpression><![CDATA[($F{TRADEPRODUCTAMOUNT}==null ? "" : (new DecimalFormat("#,##0.00").format(new BigDecimal($F{TRADEPRODUCTAMOUNT} ? $F{TRADEPRODUCTAMOUNT} : 0))))]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{TRADEPRODUCTAMOUNT}==null ? "" : (new DecimalFormat("#,##0.00").format(new BigDecimal($F{TRADEPRODUCTAMOUNT} ? $F{TRADEPRODUCTAMOUNT} : 0))))]]></initialValueExpression>
+	</variable>
+	<variable name="outstandingBalance" class="java.lang.String">
+		<variableExpression><![CDATA[($P{outstandingBalance}=="undefined") ? "" : $P{outstandingBalance}]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{outstandingBalance}=="undefined") ? "" : $P{outstandingBalance}]]></initialValueExpression>
+	</variable>
+	<variable name="thirdToUsdRate" class="java.lang.String">
+		<variableExpression><![CDATA[$F{SPECIALRATETHIRDTOUSD}!=null ? (($F{LCCURRENCY}==null ? $F{TRADEPRODUCTCURRENCY} : $F{LCCURRENCY}) + " - USD") : ""]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{SPECIALRATETHIRDTOUSD}!=null ? (($F{LCCURRENCY}==null ? $F{TRADEPRODUCTCURRENCY} : $F{LCCURRENCY}) + " - USD") : ""]]></initialValueExpression>
+	</variable>
+	<variable name="thirdToPhpRate" class="java.lang.String">
+		<variableExpression><![CDATA[$F{SPECIALRATETHIRDTOPHP}!=null ? (($F{LCCURRENCY}==null ? $F{TRADEPRODUCTCURRENCY} : $F{LCCURRENCY}) + " - PHP") : ""]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{SPECIALRATETHIRDTOPHP}!=null ? (($F{LCCURRENCY}==null ? $F{TRADEPRODUCTCURRENCY} : $F{LCCURRENCY}) + " - PHP") : ""]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="120" y="10" width="300" height="30"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[BILLING STATEMENT]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="50" height="50"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="15" width="150" height="30"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[LC AMOUNT
+AMOUNT / CURRENCY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="150" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[REFERENCE NUMBER]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="0" width="390" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{documentNumber}.replaceAll("-", "")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="15" width="390" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{LCCURRENCY}==null ? $V{tradeProductCurrency} : $F{LCCURRENCY}) + " " + (($F{LCAMOUNT}==0 || $F{LCAMOUNT}==0.00 || $F{LCAMOUNT}==null) ? $V{tradeProductAmount} : $V{lcAmount})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="45">
+			<staticText>
+				<reportElement x="0" y="0" width="300" height="15"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[PAYMENT DETAILS, for MARGINAL DEPOSIT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="15" width="125" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[SETTLEMENT AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="150" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[SETTLEMENT CURRENCY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="15" width="150" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[MODE OF PAYMENT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="425" y="15" width="115" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[EQUIVALENT LC AMOUNT]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<summary>
+		<band height="120" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="60" width="300" height="15"/>
+				<box rightPadding="6"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[MARGINAL DEPOSIT AMOUNT]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="300" y="60" width="125" height="60"/>
+				<subreportParameter name="tradeServiceId">
+					<subreportParameterExpression><![CDATA[$P{tradeServiceId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="documentNumber">
+					<subreportParameterExpression><![CDATA[$P{documentNumber}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Settlement_Amount_Total_SubReport.jasper"]]></subreportExpression>
+			</subreport>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="15" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{modeOfPayment2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="300" y="15" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amountSettlement2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="300" y="0" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amountSettlement1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="425" y="30" width="115" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amount3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="0" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{settlementCurrency1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="300" y="30" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amountSettlement3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="425" y="0" width="115" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amount1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="15" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{settlementCurrency2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="30" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{modeOfPayment3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="425" y="15" width="115" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{amount2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="30" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{settlementCurrency3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="150" height="15"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{modeOfPayment1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

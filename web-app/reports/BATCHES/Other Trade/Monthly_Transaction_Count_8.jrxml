@@ -1,0 +1,991 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="612" pageHeight="842" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="reportDate" class="java.lang.String"/>
+	<parameter name="branchUnitCode" class="java.lang.String"/>
+	<parameter name="branchUnitName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentMonth" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentYear" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[--MONTHLY TRANSACTION COUNT
+select
+	--NOTE: Clients should be counted since the beginning of time for Volumetrics (via Mam Malou, Oct.19,2013)
+	-- CLS
+	(select count(distinct cifnumber) from tradeservice ts
+		where (cifnumber is not null and cifnumber!=''
+		and cifname is not null and cifname!=''))as cls,
+
+	-- FOR NON CLS
+	(select count(distinct cb_cd) from ref_tfcustmr) as noncls,
+
+	-- FOR IMPORTS
+	(select count(distinct tradeproductnumber) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN' and documentsubtype1='REGULAR'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxregulardistinct,
+
+	(select count(distinct tradeproductnumber) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN' and documentsubtype1='CASH'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxcashdistinct,
+
+	(select count(distinct tradeproductnumber) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN' and documentsubtype1='STANDBY'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxstandbydistinct,
+
+	(select count(distinct tradeproductnumber) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC' and documentsubtype1='REGULAR'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmregulardistinct,
+
+	(select count(distinct tradeproductnumber) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC' and documentsubtype1='CASH'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmcashdistinct,
+
+	(select count(distinct tradeproductnumber) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC' and documentsubtype1='STANDBY'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmstandbydistinct,
+
+	(select count(distinct tradeproductnumber) from tradeservice ts
+		where documentclass='DA' and documenttype='FOREIGN'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxdadistinct,
+
+	(select count(distinct tradeproductnumber) from tradeservice ts
+		where documentclass='DP' and documenttype='FOREIGN'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxdpdistinct,
+
+	(select count(distinct tradeproductnumber) from tradeservice ts
+		where documentclass='DR' and documenttype='FOREIGN'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxdrdistinct,
+
+	(select count(distinct tradeproductnumber) from tradeservice ts
+		where documentclass='OA' and documenttype='FOREIGN'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxoadistinct,
+
+	(select count(distinct tradeproductnumber) from tradeservice ts
+		where documentclass='DP' and documenttype='DOMESTIC'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmnonlcdistinct,
+
+	(select count(distinct tradeproductnumber) from tradeservice ts
+		where documentclass='CDT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as otherscdtdistinct,
+
+	(select count(distinct tradeproductnumber) from tradeservice ts
+		where documentclass='IMPORT_ADVANCE'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as othersimportadvancedistinct,
+
+	-- FOR EXPORTS
+	(select count(servicetype) from tradeservice ts
+		where documentclass='EXPORT_ADVISING'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as exportadvisingdistinct,
+
+	(select count(servicetype) from tradeservice ts
+		where servicetype='NEGOTIATION'
+		and documentType='DOMESTIC' and documentclass='BC'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))
+		as dbcnegotiationdistinct,
+
+	(select count(servicetype) from tradeservice ts
+		where servicetype='NEGOTIATION'
+		and documentType='DOMESTIC' and documentclass='BP'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))
+		as dbpnegotiationdistinct,
+
+	(select count(servicetype) from tradeservice ts
+		where servicetype='NEGOTIATION'
+		and documentType='FOREIGN' and documentclass='BC'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))
+		as ebcnegotiationdistinct,
+
+	(select count(servicetype) from tradeservice ts
+		where servicetype='NEGOTIATION'
+		and documentType='FOREIGN' and documentclass='BP'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))
+		as ebpnegotiationdistinct,
+
+	(select count(servicetype) from tradeservice ts
+		where servicetype='SETTLEMENT'
+		and (documentclass='BC' or documentclass='BP')
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as exportbillssettlementdistinct,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='EXPORT_ADVANCE'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))
+		as othersexportadvancedistinct,
+
+	-- FOR FOREIGN REGULAR
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='REGULAR' and servicetype='OPENING'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxregularopening,
+
+	-- FOR FX ADJUSTMENT REG-CASH
+	(select count(servicetype) from tradeservice ts
+		INNER JOIN TRADEPRODUCT AS TP
+		ON TP.DOCUMENTNUMBER = TS.TRADEPRODUCTNUMBER
+		JOIN LETTEROFCREDIT AS LC
+		ON LC.DOCUMENTNUMBER = TP.DOCUMENTNUMBER
+		where TS.documentclass='LC' and TS.documenttype='FOREIGN'
+		and TS.documentsubtype1='REGULAR' and TS.servicetype='ADJUSTMENT'
+		AND LC.CASHFLAG = 1
+		and (TS.status='APPROVED' or TS.status='POSTED' or TS.status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(TS.modifieddate)=$P{currentYear}))as fxregcashadjustment,
+
+	-- FOR FX ADJUSTMENT REG
+	(select count(servicetype) from tradeservice ts
+		INNER JOIN TRADEPRODUCT AS TP
+		ON TP.DOCUMENTNUMBER = TS.TRADEPRODUCTNUMBER
+		JOIN LETTEROFCREDIT AS LC
+		ON LC.DOCUMENTNUMBER = TP.DOCUMENTNUMBER
+		where TS.documentclass='LC' and TS.documenttype='FOREIGN'
+		and TS.documentsubtype1='REGULAR' and TS.servicetype='ADJUSTMENT'
+		AND LC.CASHFLAG IS NULL
+		and (TS.status='APPROVED' or TS.status='POSTED' or TS.status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(TS.modifieddate)=$P{currentYear}))as fxregadjustment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='REGULAR' and servicetype='CANCELLATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxregularcancellation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='REGULAR' and servicetype='AMENDMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxregularamendment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='INDEMNITY' and documenttype='FOREIGN'
+		and documentsubtype1='REGULAR' and servicetype='ISSUANCE'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxregularbgissuance,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='INDEMNITY' and documenttype='FOREIGN'
+		and documentsubtype1='REGULAR' and servicetype='CANCELLATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxregularbgcancellation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='REGULAR' and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxregularnegotiation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='REGULAR' and servicetype='UA_LOAN_MATURITY_ADJUSTMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxregularmaturityadjustment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='REGULAR' and servicetype='UA_LOAN_SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxregularsettlement,
+
+	-- FOR FOREIGN CASH
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='CASH' and servicetype='OPENING'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxcashopening,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='CASH' and servicetype='ADJUSTMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxcashadjustment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='CASH' and servicetype='CANCELLATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxcashcancellation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='CASH' and servicetype='AMENDMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxcashamendment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='CASH' and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxcashnegotiation,
+
+	-- FOR FOREIGN STANDBY
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='STANDBY' and servicetype='OPENING'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxstandbyopening,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='STANDBY' and servicetype='ADJUSTMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxstandbyadjustment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='STANDBY' and servicetype='CANCELLATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxstandbycancellation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='STANDBY' and servicetype='AMENDMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxstandbyamendment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='FOREIGN'
+		and documentsubtype1='STANDBY' and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxstandbynegotiation,
+
+	-- FOR DOMESTIC REGULAR
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='REGULAR' and servicetype='OPENING'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmregularopening,
+
+	-- FOR DM ADJUSTMENT REG-CASH
+	(select count(servicetype) from tradeservice ts
+		INNER JOIN TRADEPRODUCT AS TP
+		ON TP.DOCUMENTNUMBER = TS.TRADEPRODUCTNUMBER
+		JOIN LETTEROFCREDIT AS LC
+		ON LC.DOCUMENTNUMBER = TP.DOCUMENTNUMBER
+		where TS.documentclass='LC' and TS.documenttype='DOMESTIC'
+		and TS.documentsubtype1='REGULAR' and TS.servicetype='ADJUSTMENT'
+		AND LC.CASHFLAG = 1
+		and (TS.status='APPROVED' or TS.status='POSTED' or TS.status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(TS.modifieddate)=$P{currentYear}))as dmregcashadjustment,
+
+	-- FOR DM ADJUSTMENT REG
+	(select count(servicetype) from tradeservice ts
+		INNER JOIN TRADEPRODUCT AS TP
+		ON TP.DOCUMENTNUMBER = TS.TRADEPRODUCTNUMBER
+		JOIN LETTEROFCREDIT AS LC
+		ON LC.DOCUMENTNUMBER = TP.DOCUMENTNUMBER
+		where TS.documentclass='LC' and TS.documenttype='DOMESTIC'
+		and TS.documentsubtype1='REGULAR' and TS.servicetype='ADJUSTMENT'
+		AND LC.CASHFLAG IS NULL
+		and (TS.status='APPROVED' or TS.status='POSTED' or TS.status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(TS.modifieddate)=$P{currentYear}))as dmregadjustment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='REGULAR' and servicetype='CANCELLATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmregularcancellation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='REGULAR' and servicetype='AMENDMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmregularamendment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='REGULAR' and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmregularnegotiation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='REGULAR' and servicetype='UA_LOAN_MATURITY_ADJUSTMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmregularmaturityadjustment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='REGULAR' and servicetype='UA_LOAN_SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmregularsettlement,
+
+	-- FOR DOMESTIC CASH
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='CASH' and servicetype='OPENING'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmcashopening,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='CASH' and servicetype='ADJUSTMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmcashadjustment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='CASH' and servicetype='CANCELLATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmcashcancellation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='CASH' and servicetype='AMENDMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmcashamendment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='CASH' and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmcashnegotiation,
+
+	-- FOR DOMESTIC STANDBY
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='STANDBY' and servicetype='OPENING'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmstandbyopening,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='STANDBY' and servicetype='ADJUSTMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmstandbyadjustment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='STANDBY' and servicetype='CANCELLATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmstandbycancellation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='STANDBY' and servicetype='AMENDMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmstandbyamendment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and documenttype='DOMESTIC'
+		and documentsubtype1='STANDBY' and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmstandbynegotiation,
+
+	-- FOR FX NON LC
+	(select count(servicetype) from tradeservice ts
+		where (documentclass='DA' or documentclass='DP'
+		or documentclass='DR' or documentclass='OA')
+		and documenttype='FOREIGN'
+		and (servicetype='NEGOTIATION'
+			or servicetype='NEGOTIATION_ACKNOWLEDGEMENT'
+			or servicetype='NEGOTIATION_ACCEPTANCE')
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxnonlcnegotiation,
+
+	(select count(servicetype) from tradeservice ts
+		where (documentclass='DA' or documentclass='DP'
+		or documentclass='DR' or documentclass='OA')
+		and documenttype='FOREIGN' and servicetype='SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxnonlcsettlement,
+
+	(select count(servicetype) from tradeservice ts
+		where (documentclass='DA' or documentclass='DP'
+		or documentclass='DR' or documentclass='OA')
+		and documenttype='FOREIGN' and servicetype='CANCELLATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as fxnonlccancellation,
+
+	-- FOR DM NON LC
+	(select count(servicetype) from tradeservice ts
+		where documentclass='DP' and documenttype='DOMESTIC'
+		and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmnonlcnegotiation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='DP' and documenttype='DOMESTIC'
+		and servicetype='SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dmnonlcsettlement,
+
+	-- FOR IMPORT OTHERS
+	(select count(servicetype) from tradeservice ts
+		where documentclass='IMPORT_CHARGES' and servicetype='PAYMENT_OTHER'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as paymentotherimportcharges,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='CDT' and servicetype='PAYMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as cdtcollection,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='CDT' and servicetype='REMITTANCE'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as cdtremittance,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='MD' and servicetype='COLLECTION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as mdcollection,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='MD' and servicetype='APPLICATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as mdapplication,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='CORRES_CHARGE' and servicetype='SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as settlementcorrescharge,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='REBATE' and servicetype='PROCESS'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as rebates,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='IMPORT_ADVANCE' and servicetype='PAYMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as collectionimportadvance,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='IMPORT_ADVANCE' and servicetype='REFUND'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as refundimportadvance,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='LC' and servicetype='REFUND'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as refundlc,
+
+	-- FOR EXPORT ADVISING
+	(select count(servicetype) from tradeservice ts
+		where documentclass='EXPORT_ADVISING' and servicetype='OPENING_ADVISING'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as exportadvisingopening,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='EXPORT_ADVISING' and servicetype='AMENDMENT_ADVISING'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as exportadvisingamendment,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='EXPORT_ADVISING' and servicetype='CANCELLATION_ADVISING'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as exportadvisingcancellation,
+
+	-- FOR EXPORT BILLS
+	(select count(servicetype) from tradeservice ts
+		where documentclass='BC' and documenttype='FOREIGN'
+		and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as ebcnegotiation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='BP' and documenttype='FOREIGN'
+		and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as ebpnegotiation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='BC' and documenttype='DOMESTIC'
+		and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dbcnegotiation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='BP' and documenttype='DOMESTIC'
+		and servicetype='NEGOTIATION'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dbpnegotiation,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='BC' and documenttype='FOREIGN'
+		and servicetype='SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as ebcsettlement,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='BP' and documenttype='FOREIGN'
+		and servicetype='SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as ebpsettlement,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='BC' and documenttype='DOMESTIC'
+		and servicetype='SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dbcsettlement,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='BP' and documenttype='DOMESTIC'
+		and servicetype='SETTLEMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as dbpsettlement,
+
+	-- FOR EXPORT OTHERS
+	(select count(servicetype) from tradeservice ts
+		where documentclass='EXPORT_ADVANCE' and servicetype='PAYMENT'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as exportadvance,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='EXPORT_ADVANCE' and servicetype='REFUND'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as refundexportadvance,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='EXPORT_CHARGES' and servicetype='PAYMENT_OTHER'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as paymentotherexportcharges,
+
+	(select count(servicetype) from tradeservice ts
+		where documentclass='EXPORT_CHARGES' and servicetype='REFUND'
+		and (status='APPROVED' or status='POSTED' or status='POST_APPROVED')
+		and (month(modifieddate)=$P{currentMonth}
+		and year(modifieddate)=$P{currentYear}))as refundotherexportcharges
+
+from tradeservice]]>
+	</queryString>
+	<field name="CLS" class="java.lang.Integer"/>
+	<field name="NONCLS" class="java.lang.Integer"/>
+	<field name="FXREGULARDISTINCT" class="java.lang.Integer"/>
+	<field name="FXCASHDISTINCT" class="java.lang.Integer"/>
+	<field name="FXSTANDBYDISTINCT" class="java.lang.Integer"/>
+	<field name="DMREGULARDISTINCT" class="java.lang.Integer"/>
+	<field name="DMCASHDISTINCT" class="java.lang.Integer"/>
+	<field name="DMSTANDBYDISTINCT" class="java.lang.Integer"/>
+	<field name="FXDADISTINCT" class="java.lang.Integer"/>
+	<field name="FXDPDISTINCT" class="java.lang.Integer"/>
+	<field name="FXDRDISTINCT" class="java.lang.Integer"/>
+	<field name="FXOADISTINCT" class="java.lang.Integer"/>
+	<field name="DMNONLCDISTINCT" class="java.lang.Integer"/>
+	<field name="OTHERSCDTDISTINCT" class="java.lang.Integer"/>
+	<field name="OTHERSIMPORTADVANCEDISTINCT" class="java.lang.Integer"/>
+	<field name="EXPORTADVISINGDISTINCT" class="java.lang.Integer"/>
+	<field name="DBCNEGOTIATIONDISTINCT" class="java.lang.Integer"/>
+	<field name="DBPNEGOTIATIONDISTINCT" class="java.lang.Integer"/>
+	<field name="EBCNEGOTIATIONDISTINCT" class="java.lang.Integer"/>
+	<field name="EBPNEGOTIATIONDISTINCT" class="java.lang.Integer"/>
+	<field name="EXPORTBILLSSETTLEMENTDISTINCT" class="java.lang.Integer"/>
+	<field name="OTHERSEXPORTADVANCEDISTINCT" class="java.lang.Integer"/>
+	<field name="FXREGULAROPENING" class="java.lang.Integer"/>
+	<field name="FXREGCASHADJUSTMENT" class="java.lang.Integer"/>
+	<field name="FXREGADJUSTMENT" class="java.lang.Integer"/>
+	<field name="FXREGULARCANCELLATION" class="java.lang.Integer"/>
+	<field name="FXREGULARAMENDMENT" class="java.lang.Integer"/>
+	<field name="FXREGULARBGISSUANCE" class="java.lang.Integer"/>
+	<field name="FXREGULARBGCANCELLATION" class="java.lang.Integer"/>
+	<field name="FXREGULARNEGOTIATION" class="java.lang.Integer"/>
+	<field name="FXREGULARMATURITYADJUSTMENT" class="java.lang.Integer"/>
+	<field name="FXREGULARSETTLEMENT" class="java.lang.Integer"/>
+	<field name="FXCASHOPENING" class="java.lang.Integer"/>
+	<field name="FXCASHADJUSTMENT" class="java.lang.Integer"/>
+	<field name="FXCASHCANCELLATION" class="java.lang.Integer"/>
+	<field name="FXCASHAMENDMENT" class="java.lang.Integer"/>
+	<field name="FXCASHNEGOTIATION" class="java.lang.Integer"/>
+	<field name="FXSTANDBYOPENING" class="java.lang.Integer"/>
+	<field name="FXSTANDBYADJUSTMENT" class="java.lang.Integer"/>
+	<field name="FXSTANDBYCANCELLATION" class="java.lang.Integer"/>
+	<field name="FXSTANDBYAMENDMENT" class="java.lang.Integer"/>
+	<field name="FXSTANDBYNEGOTIATION" class="java.lang.Integer"/>
+	<field name="DMREGULAROPENING" class="java.lang.Integer"/>
+	<field name="DMREGCASHADJUSTMENT" class="java.lang.Integer"/>
+	<field name="DMREGADJUSTMENT" class="java.lang.Integer"/>
+	<field name="DMREGULARCANCELLATION" class="java.lang.Integer"/>
+	<field name="DMREGULARAMENDMENT" class="java.lang.Integer"/>
+	<field name="DMREGULARNEGOTIATION" class="java.lang.Integer"/>
+	<field name="DMREGULARMATURITYADJUSTMENT" class="java.lang.Integer"/>
+	<field name="DMREGULARSETTLEMENT" class="java.lang.Integer"/>
+	<field name="DMCASHOPENING" class="java.lang.Integer"/>
+	<field name="DMCASHADJUSTMENT" class="java.lang.Integer"/>
+	<field name="DMCASHCANCELLATION" class="java.lang.Integer"/>
+	<field name="DMCASHAMENDMENT" class="java.lang.Integer"/>
+	<field name="DMCASHNEGOTIATION" class="java.lang.Integer"/>
+	<field name="DMSTANDBYOPENING" class="java.lang.Integer"/>
+	<field name="DMSTANDBYADJUSTMENT" class="java.lang.Integer"/>
+	<field name="DMSTANDBYCANCELLATION" class="java.lang.Integer"/>
+	<field name="DMSTANDBYAMENDMENT" class="java.lang.Integer"/>
+	<field name="DMSTANDBYNEGOTIATION" class="java.lang.Integer"/>
+	<field name="FXNONLCNEGOTIATION" class="java.lang.Integer"/>
+	<field name="FXNONLCSETTLEMENT" class="java.lang.Integer"/>
+	<field name="FXNONLCCANCELLATION" class="java.lang.Integer"/>
+	<field name="DMNONLCNEGOTIATION" class="java.lang.Integer"/>
+	<field name="DMNONLCSETTLEMENT" class="java.lang.Integer"/>
+	<field name="PAYMENTOTHERIMPORTCHARGES" class="java.lang.Integer"/>
+	<field name="CDTCOLLECTION" class="java.lang.Integer"/>
+	<field name="CDTREMITTANCE" class="java.lang.Integer"/>
+	<field name="MDCOLLECTION" class="java.lang.Integer"/>
+	<field name="MDAPPLICATION" class="java.lang.Integer"/>
+	<field name="SETTLEMENTCORRESCHARGE" class="java.lang.Integer"/>
+	<field name="REBATES" class="java.lang.Integer"/>
+	<field name="COLLECTIONIMPORTADVANCE" class="java.lang.Integer"/>
+	<field name="REFUNDIMPORTADVANCE" class="java.lang.Integer"/>
+	<field name="REFUNDLC" class="java.lang.Integer"/>
+	<field name="EXPORTADVISINGOPENING" class="java.lang.Integer"/>
+	<field name="EXPORTADVISINGAMENDMENT" class="java.lang.Integer"/>
+	<field name="EXPORTADVISINGCANCELLATION" class="java.lang.Integer"/>
+	<field name="EBCNEGOTIATION" class="java.lang.Integer"/>
+	<field name="EBPNEGOTIATION" class="java.lang.Integer"/>
+	<field name="DBCNEGOTIATION" class="java.lang.Integer"/>
+	<field name="DBPNEGOTIATION" class="java.lang.Integer"/>
+	<field name="EBCSETTLEMENT" class="java.lang.Integer"/>
+	<field name="EBPSETTLEMENT" class="java.lang.Integer"/>
+	<field name="DBCSETTLEMENT" class="java.lang.Integer"/>
+	<field name="DBPSETTLEMENT" class="java.lang.Integer"/>
+	<field name="EXPORTADVANCE" class="java.lang.Integer"/>
+	<field name="REFUNDEXPORTADVANCE" class="java.lang.Integer"/>
+	<field name="PAYMENTOTHEREXPORTCHARGES" class="java.lang.Integer"/>
+	<field name="REFUNDOTHEREXPORTCHARGES" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="301" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="522" y="15" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[7]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="477" y="0" width="45" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN TIME:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="65" y="60" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{branchUnitCode}=="909" ? "Trade Services Department" : $P{branchUnitName})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT NAME:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="45" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{branchUnitCode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="161" y="0" width="250" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="15" width="75" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="477" y="15" width="45" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PAGE:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="522" y="0" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPORT ID:]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="75" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="161" y="15" width="250" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[MONTHLY TRANSACTION COUNT]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="161" y="30" width="250" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MMMMM, yyyy").format(new Date($P{reportDate})).toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="247" y="271" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[- Payment of Other Export Charges]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="247" y="286" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[- Refund of Export Charges]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="247" y="151" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[- LC Cancellation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="72" y="91" width="500" height="15"/>
+				<textElement/>
+				<text><![CDATA[D. EXPORTS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="166" width="450" height="15"/>
+				<textElement/>
+				<text><![CDATA[2. Negotiation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="106" width="450" height="15"/>
+				<textElement/>
+				<text><![CDATA[1. Advising]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="256" width="450" height="15"/>
+				<textElement/>
+				<text><![CDATA[4. Others]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="472" y="196" width="100" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{DBCNEGOTIATION}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="472" y="271" width="100" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{PAYMENTOTHEREXPORTCHARGES}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="472" y="181" width="100" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{EBCNEGOTIATION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="247" y="196" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[- DBC Other Local Bank's LC]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="472" y="121" width="100" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{EXPORTADVISINGOPENING}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="472" y="241" width="100" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{DBPSETTLEMENT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="247" y="226" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[- EBP FX LC/Non-LC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="211" width="450" height="15"/>
+				<textElement/>
+				<text><![CDATA[3. Settlement]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="247" y="241" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[- DBP Other Local Bank's LC]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="472" y="136" width="100" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{EXPORTADVISINGAMENDMENT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="247" y="136" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[- LC Amendment]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="472" y="151" width="100" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{EXPORTADVISINGCANCELLATION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="247" y="181" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[- EBC FX LC/Non-LC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="247" y="121" width="225" height="15"/>
+				<textElement/>
+				<text><![CDATA[- LC Opening]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="472" y="226" width="100" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{EBPSETTLEMENT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="472" y="286" width="100" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{REFUNDOTHEREXPORTCHARGES}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

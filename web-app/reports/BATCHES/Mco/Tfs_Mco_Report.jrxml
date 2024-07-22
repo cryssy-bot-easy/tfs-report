@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tfs-Mco Report" language="groovy" pageWidth="1835" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="1795" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="asOfDate" class="java.util.Date" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Date(System.currentTimeMillis() + 24*3600*1000*(new java.lang.Integer((new java.util.GregorianCalendar().getActualMaximum((java.util.GregorianCalendar.DAY_OF_MONTH))) - (new java.util.GregorianCalendar().get(java.util.GregorianCalendar.DATE)))).longValue())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\ucpb-tfs\\workspace\\tfs_project\\tfs-report\\web-app\\reports\\BATCHES\\Mco\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="creationDate" class="java.util.Date" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="foreignUsance" class="java.util.List"/>
+	<parameter name="inwardBills" class="java.util.List"/>
+	<parameter name="domesticSight" class="java.util.List"/>
+	<parameter name="domesticUsance" class="java.util.List"/>
+	<parameter name="cashLc" class="java.util.List"/>
+	<parameter name="outstandingAcceptance" class="java.util.List"/>
+	<parameter name="brUnitCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA["909"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitName" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Trade Services Department"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="CURRENCY" class="java.lang.String"/>
+	<field name="OUTSTANDINGBALANCE" class="java.math.BigDecimal"/>
+	<field name="AGE" class="java.lang.String"/>
+	<pageHeader>
+		<band height="129">
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="109" y="0" width="150" height="15"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1721" y="15" width="74" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="109" y="15" width="150" height="15"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$P{reportId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="109" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[BR/UNIT NAME:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="1721" y="0" width="74" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="672" y="45" width="450" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA["AS OF " + new SimpleDateFormat("MM/dd/yyyy").format($P{creationDate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="672" y="0" width="450" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1645" y="15" width="76" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[PAGE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="109" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[REPORT ID:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1645" y="0" width="76" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[RUN TIME:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="109" y="45" width="300" height="15"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$P{brUnitCode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="45" width="109" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="109" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[RUN DATE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="109" y="60" width="300" height="15"/>
+				<textElement verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$P{brUnitCode}=="909" ? "Trade Services Department" : $P{brUnitName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="672" y="30" width="450" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TFS - PESO MAXIMUM CUMMULATIVE OUTFLOW (MCO)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="672" y="15" width="450" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TRADE SERVICES DEPARTMENT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="90" width="1320" height="13"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MCO BUCKET]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="103" width="340" height="26">
+					<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[TYPE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="103" width="120" height="26">
+					<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[A - O/N - 6Days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="590" y="103" width="120" height="26">
+					<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[B - 1 - 4 Weeks]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="710" y="103" width="120" height="26">
+					<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[C - Greater than
+1 mo up to 2 mos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="830" y="103" width="120" height="26">
+					<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[D - Greater than
+2 mo up to 3 mos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="950" y="103" width="120" height="26">
+					<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[E - Greater than
+3 mo up to 4 mos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1070" y="103" width="120" height="26">
+					<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[F - Greater than
+4 mo up to 6 mos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1190" y="103" width="120" height="26">
+					<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[G - Greater than
+6 mo up to 12 mos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1310" y="103" width="120" height="26">
+					<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[H - Greater than
+1 yr up to 4 yrs]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1430" y="103" width="120" height="26">
+					<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[I - Greater than
+4 yrs up to 9 yrs]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1550" y="103" width="120" height="26">
+					<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[J - Greater than
+9 yrs]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1670" y="103" width="120" height="26">
+					<property name="net.sf.jasperreports.export.xls.ignore.cell.background" value="true"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[GRAND TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="103" width="130" height="26"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[CURRENCY]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<summary>
+		<band height="40">
+			<subreport>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="19" width="1790" height="21"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="outstandingAcceptance">
+					<subreportParameterExpression><![CDATA[$P{outstandingAcceptance}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="cashLc">
+					<subreportParameterExpression><![CDATA[$P{cashLc}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="domesticUsance">
+					<subreportParameterExpression><![CDATA[$P{domesticUsance}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="domesticSight">
+					<subreportParameterExpression><![CDATA[$P{domesticSight}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="inwardBills">
+					<subreportParameterExpression><![CDATA[$P{inwardBills}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="foreignUsance">
+					<subreportParameterExpression><![CDATA[$P{foreignUsance}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRMapCollectionDataSource($P{REPORT_DATA_SOURCE}.getData())]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Tfs_Mco_Foreign_Sight.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="0" y="0" width="178" height="19"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTIGENT]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

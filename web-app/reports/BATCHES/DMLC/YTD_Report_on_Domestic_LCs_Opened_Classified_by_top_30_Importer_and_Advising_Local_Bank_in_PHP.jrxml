@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="YTD_Report_on_Domestic_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Local_Bank_in_PHP" language="groovy" pageWidth="1008" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="968" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="0.75"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="brUnitCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitName" class="java.lang.String"/>
+	<parameter name="month" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="clientImporterAdvisingBank" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["CLIENT / IMPORTER"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\ucpb-tfs\\workspace\\tfs-report\\web-app\\reports\\BATCHES\\DMLC\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dateNow" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="yearNow" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[--YTD REPORT ON DOMESTIC LCs OPENED CLASSIFIED BY TOP 30 IMPORTER AND ADVISING LOCAL BANK (in PHP)
+SELECT tab_d.clientImporter,
+	  SUM(tab_d.cashLcAmount) AS cashLcAmount,
+	  SUM(tab_d.regularLcAmount) AS regularLcAmount,
+	  SUM(tab_d.standbyLcAmount) AS standbyLcAmount,
+	  SUM(tab_d.totalNoOfTransactionsCash) AS cashTransactions,
+	  SUM(tab_d.totalNoOfTransactionsRegular) AS regularTransactions,
+	  SUM(tab_d.totalNoOfTransactionsStandby) AS standbyTransactions,
+	  SUM(tab_d.totalLcAmount) AS totalLcAmount,
+	  SUM(tab_d.totalNoOfTransactions) AS totalNoOfTransactions
+
+FROM (SELECT tab_c.*,
+		   (tab_c.cashLcAmount + tab_c.regularLcAmount + tab_c.standbyLcAmount) AS totalLcAmount ,
+		   (tab_c.totalNoOfTransactionsCash + tab_c.totalNoOfTransactionsRegular + tab_c.totalNoOfTransactionsStandby) AS totalNoOfTransactions
+
+	 FROM (SELECT tab_b.clientImporter,
+			    SUM(tab_b.cashLcAmount) AS cashLcAmount,
+			    0 AS regularLcAmount,
+			    0 AS standbyLcAmount,
+			    COUNT(*) AS totalNoOfTransactionsCash,
+			    0 AS totalNoOfTransactionsRegular,
+			    0 AS totalNoOfTransactionsStandby
+
+		  FROM (SELECT tab_a.clientImporter,
+					(CASE WHEN tab_a.currency = 'USD' THEN tab_a.amount * tab_a.specialrateusdtophp
+						 WHEN  tab_a.currency = 'PHP' THEN tab_a.amount
+					 	 ELSE (tab_a.amount * tab_a.specialratethirdtousd) * tab_a.specialrateusdtophp
+					 END) AS cashLcAmount
+
+			   FROM (SELECT tp.cifname AS clientImporter,
+			   			 tp.amount,
+			   			 tp.currency,
+			   			 ts.specialratethirdtousd,
+			   			 ts.specialrateusdtophp
+
+				    FROM tradeproduct tp,
+				    	    tradeservice ts,
+		  	  		    letterofcredit lc
+
+				    WHERE tp.documentnumber = ts.documentnumber
+				    AND lc.documentnumber = ts.documentnumber
+				    AND tp.status = 'OPEN'
+				    AND ts.servicetype = 'OPENING'
+				    AND ts.documenttype = 'DOMESTIC'
+				    AND ts.documentsubtype1 = 'CASH'
+				    AND ts.processingunitcode = $P{brUnitCode}
+				    and YEAR(lc.processdate)= $P{yearNow}
+				    --AND TS.STATUS IN ('APPROVED', 'POST_APPROVED', 'POSTED')
+
+				    ) tab_a
+
+			   ) tab_b
+
+		  GROUP BY tab_b.clientImporter
+
+		  UNION
+
+		  SELECT tab_b.clientImporter,
+			    0 AS cashLcAmount,
+			    SUM(tab_b.regularLcAmount) AS regularLcAmount,
+			    0 AS standbyLcAmount,
+			    0 AS totalNoOfTransactionsCash,
+			    COUNT(*) AS totalNoOfTransactionsRegular,
+			    0 AS totalNoOfTransactionsStandby
+
+		  FROM (SELECT tab_a.clientImporter,
+					(CASE WHEN tab_a.currency = 'USD' THEN tab_a.amount * tab_a.specialrateusdtophp
+						 WHEN tab_a.currency = 'PHP' THEN tab_a.amount
+						 ELSE (tab_a.amount * tab_a.specialratethirdtousd) * tab_a.specialrateusdtophp
+					 END) AS regularLcAmount
+			   FROM (SELECT tp.cifname AS clientImporter,
+			   			 tp.amount,
+			   			 tp.currency,
+			   			 ts.specialratethirdtousd,
+			   			 ts.specialrateusdtophp
+
+				    FROM tradeproduct tp,
+				    	    tradeservice ts,
+		  	  		    letterofcredit lc
+
+				    WHERE tp.documentnumber = ts.documentnumber
+				    AND lc.documentnumber = ts.documentnumber
+				    AND tp.status = 'OPEN'
+				    AND ts.servicetype = 'OPENING'
+				    AND ts.documenttype = 'DOMESTIC'
+				    AND ts.documentsubtype1 = 'REGULAR'
+				    AND ts.processingunitcode = $P{brUnitCode}
+				    and YEAR(lc.processdate)= $P{yearNow}
+				    --AND TS.STATUS IN ('APPROVED', 'POST_APPROVED', 'POSTED')
+
+				   ) tab_a
+
+			   ) tab_b
+
+		  GROUP BY tab_b.clientImporter
+
+		  UNION
+
+		  SELECT	tab_b.clientImporter,
+				0 AS cashLcAmount,
+				0 AS regularLcAmount,
+				SUM(tab_b.standbyLcAmount) AS standbyLcAmount,
+				0 AS totalNoOfTransactionsCash,
+				0 AS totalNoOfTransactionsRegular,
+				COUNT(*) AS totalNoOfTransactionsStandby
+
+		  FROM (SELECT tab_a.clientImporter,
+					(CASE WHEN tab_a.currency = 'USD' THEN tab_a.amount * tab_a.specialrateusdtophp
+						 WHEN  tab_a.currency = 'PHP' THEN tab_a.amount
+					 	 ELSE (tab_a.amount * tab_a.specialratethirdtousd) * tab_a.specialrateusdtophp
+					 END)AS standbyLcAmount
+
+			   FROM (SELECT tp.cifname AS clientImporter,
+			   			 tp.amount,
+			   			 tp.currency,
+			   			 ts.specialratethirdtousd,
+			   			 ts.specialrateusdtophp
+
+				    FROM tradeproduct tp,
+				    	    tradeservice ts,
+		  	  		    letterofcredit lc
+
+				    WHERE tp.documentnumber = ts.documentnumber
+				    AND lc.documentnumber = ts.documentnumber
+ 				    AND tp.status = 'OPEN'
+				    AND ts.servicetype = 'OPENING'
+				    AND ts.documenttype = 'DOMESTIC'
+				    AND ts.documentsubtype1 = 'STANDBY'
+				    AND ts.processingunitcode = $P{brUnitCode}
+				    and YEAR(lc.processdate)= $P{yearNow}
+				    --AND TS.STATUS IN ('APPROVED', 'POST_APPROVED', 'POSTED')
+
+				   )tab_a
+
+			   ) tab_b
+
+		  GROUP BY tab_b.clientImporter
+
+		 )tab_c
+
+  	)tab_d
+
+GROUP BY tab_d.CLIENTIMPORTER
+ORDER BY totalLcAmount DESC
+FETCH FIRST 30 ROWS ONLY]]>
+	</queryString>
+	<field name="CLIENTIMPORTER" class="java.lang.String"/>
+	<field name="CASHLCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="REGULARLCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="STANDBYLCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="CASHTRANSACTIONS" class="java.lang.Integer"/>
+	<field name="REGULARTRANSACTIONS" class="java.lang.Integer"/>
+	<field name="STANDBYTRANSACTIONS" class="java.lang.Integer"/>
+	<field name="TOTALLCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="TOTALNOOFTRANSACTIONS" class="java.lang.Integer"/>
+	<variable name="forTheMonth" class="java.lang.String">
+		<variableExpression><![CDATA["YTD " + $P{month} + ", " + $P{year}]]></variableExpression>
+		<initialValueExpression><![CDATA["YTD " + $P{month} + ", " + $P{year}]]></initialValueExpression>
+	</variable>
+	<variable name="totalLcAmount" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{REGULARLCAMOUNT} + $F{CASHLCAMOUNT} + $F{STANDBYLCAMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{REGULARLCAMOUNT} + $F{CASHLCAMOUNT} + $F{STANDBYLCAMOUNT}]]></initialValueExpression>
+	</variable>
+	<variable name="totalTransactions" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{REGULARTRANSACTIONS} + $F{CASHTRANSACTIONS} + $F{STANDBYTRANSACTIONS}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{REGULARTRANSACTIONS} + $F{CASHTRANSACTIONS} + $F{STANDBYTRANSACTIONS}]]></initialValueExpression>
+	</variable>
+	<variable name="regularTotalLcAmount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{REGULARLCAMOUNT}]]></variableExpression>
+	</variable>
+	<variable name="regularTotalTransactions" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{REGULARTRANSACTIONS}]]></variableExpression>
+	</variable>
+	<variable name="cashTotalLcAmount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{CASHLCAMOUNT}]]></variableExpression>
+	</variable>
+	<variable name="cashTotalTransactions" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{CASHTRANSACTIONS}]]></variableExpression>
+	</variable>
+	<variable name="standbyTotalLcAmount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{STANDBYLCAMOUNT}]]></variableExpression>
+	</variable>
+	<variable name="standbyTotalTransactions" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{STANDBYTRANSACTIONS}]]></variableExpression>
+	</variable>
+	<variable name="grandTotalLcAmount" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[(($V{regularTotalLcAmount} != null) ? $V{regularTotalLcAmount} : 0) +
+(($V{cashTotalLcAmount} != null) ? $V{cashTotalLcAmount} : 0) +
+(($V{standbyTotalLcAmount} != null) ? $V{standbyTotalLcAmount} : 0)]]></variableExpression>
+		<initialValueExpression><![CDATA[(($V{regularTotalLcAmount} != null) ? $V{regularTotalLcAmount} : 0) +  (($V{cashTotalLcAmount} != null) ? $V{cashTotalLcAmount} : 0) +  (($V{standbyTotalLcAmount} != null) ? $V{standbyTotalLcAmount} : 0)]]></initialValueExpression>
+	</variable>
+	<variable name="grandTotalTransactions" class="java.lang.Integer">
+		<variableExpression><![CDATA[(($V{regularTotalTransactions} != null) ? $V{regularTotalTransactions} : 0) +
+(($V{cashTotalTransactions} != null) ? $V{cashTotalTransactions} : 0) +
+(($V{standbyTotalTransactions} != null) ? $V{standbyTotalTransactions} : 0)]]></variableExpression>
+		<initialValueExpression><![CDATA[(($V{regularTotalTransactions} != null) ? $V{regularTotalTransactions} : 0) +  (($V{cashTotalTransactions} != null) ? $V{cashTotalTransactions} : 0) +  (($V{standbyTotalTransactions} != null) ? $V{standbyTotalTransactions} : 0)]]></initialValueExpression>
+	</variable>
+	<variable name="reportId" class="java.lang.String">
+		<variableExpression><![CDATA[$P{reportId}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{reportId}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="120">
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="45" width="100" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{brUnitCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="60" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{brUnitCode}=="909" ? "TRADE SERVICES DEPARTMENT" : $P{brUnitName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="868" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN TIME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="334" y="0" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPORT ID:]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="150" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="334" y="15" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[YTD REPORT ON DOMESTIC LCs OPENED CLASSIFIED BY TOP 30]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="334" y="45" width="300" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{forTheMonth}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN DATE:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="918" y="0" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="868" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PAGE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="918" y="15" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="15" width="150" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{reportId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="65" height="30"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT NAME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="568" y="90" width="125" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[STANDBY LC
+AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="90" width="125" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REGULAR LC
+AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="293" y="90" width="75" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[NO. OF
+TRANSACTIONS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="168" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[CLIENT / IMPORTER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="90" width="125" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[CASH LC
+AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="768" y="90" width="125" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TOTAL  LC AMOUNT
+IN ORIG CURRENCY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="893" y="90" width="75" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TOTAL NO. OF
+TRANSACTIONS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="493" y="90" width="75" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[NO. OF
+TRANSACTIONS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="693" y="90" width="75" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[NO. OF
+TRANSACTIONS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="334" y="30" width="300" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[IMPORTER AND ADVISING LOCAL BANK (IN PHP)]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="168" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CLIENTIMPORTER}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="168" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REGULARLCAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="293" y="0" width="75" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REGULARTRANSACTIONS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="493" y="0" width="75" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CASHTRANSACTIONS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="693" y="0" width="75" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{STANDBYTRANSACTIONS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="893" y="0" width="75" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALNOOFTRANSACTIONS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="368" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CASHLCAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="568" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{STANDBYLCAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="768" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALLCAMOUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="101">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="51" width="968" height="50"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dateNow">
+					<subreportParameterExpression><![CDATA[$P{dateNow}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="clientImporterAdvisingBank">
+					<subreportParameterExpression><![CDATA[$P{clientImporterAdvisingBank}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="month">
+					<subreportParameterExpression><![CDATA[$P{month}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="year">
+					<subreportParameterExpression><![CDATA[$P{year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitCode">
+					<subreportParameterExpression><![CDATA[$P{brUnitCode}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitName">
+					<subreportParameterExpression><![CDATA[$P{brUnitName}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="reportId">
+					<subreportParameterExpression><![CDATA[$P{reportId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="yearNow">
+					<subreportParameterExpression><![CDATA[$P{yearNow}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "YTD_Report_on_Domestic_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Local_Bank_in_PHP_Subreport_Advising_Bank.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="0" width="968" height="25"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dateNow">
+					<subreportParameterExpression><![CDATA[$P{dateNow}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="clientImporterAdvisingBank">
+					<subreportParameterExpression><![CDATA[$P{clientImporterAdvisingBank}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="month">
+					<subreportParameterExpression><![CDATA[$P{month}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="year">
+					<subreportParameterExpression><![CDATA[$P{year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitCode">
+					<subreportParameterExpression><![CDATA[$P{brUnitCode}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitName">
+					<subreportParameterExpression><![CDATA[$P{brUnitName}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="reportId">
+					<subreportParameterExpression><![CDATA[$P{reportId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="yearNow">
+					<subreportParameterExpression><![CDATA[$P{yearNow}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "YTD_Report_on_Domestic_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Local_Bank_in_PHP_Subreport_Others.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="25" width="968" height="25"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dateNow">
+					<subreportParameterExpression><![CDATA[$P{dateNow}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="clientImporterAdvisingBank">
+					<subreportParameterExpression><![CDATA[$P{clientImporterAdvisingBank}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="month">
+					<subreportParameterExpression><![CDATA[$P{month}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="year">
+					<subreportParameterExpression><![CDATA[$P{year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitCode">
+					<subreportParameterExpression><![CDATA[$P{brUnitCode}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitName">
+					<subreportParameterExpression><![CDATA[$P{brUnitName}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="reportId">
+					<subreportParameterExpression><![CDATA[$P{reportId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="yearNow">
+					<subreportParameterExpression><![CDATA[$P{yearNow}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "YTD_Report_on_Domestic_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Local_Bank_in_PHP_Subreport_Total.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="50" width="100" height="1"/>
+			</break>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Schedule_11_Text" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="792" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.text.page.width" value="162"/>
+	<property name="net.sf.jasperreports.export.text.character.height" value="15"/>
+	<parameter name="currentDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="brUnitCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA["909"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitName" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Trade Services Department"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="BANKCDE" class="java.lang.String"/>
+	<field name="REFDATE" class="java.lang.String"/>
+	<field name="FORMNO" class="java.lang.String"/>
+	<field name="TRANCDE" class="java.lang.String"/>
+	<field name="PAYMODE" class="java.lang.String"/>
+	<field name="LCNO" class="java.lang.String"/>
+	<field name="RGIBRN" class="java.lang.String"/>
+	<field name="BLDATE" class="java.lang.String"/>
+	<field name="IMPCDE" class="java.lang.String"/>
+	<field name="CTRYCDE" class="java.lang.String"/>
+	<field name="COMMCDE" class="java.lang.String"/>
+	<field name="COMMDESC" class="java.lang.String"/>
+	<field name="LCBNKCDE" class="java.lang.String"/>
+	<field name="BOOKCDE" class="java.lang.String"/>
+	<field name="CURRCDE" class="java.lang.String"/>
+	<field name="AMTDOLR" class="java.math.BigDecimal"/>
+	<field name="DOCNO" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="792" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BANKCDE} +
+$F{REFDATE}.replaceAll("/", "") +
+$F{FORMNO} +
+$F{TRANCDE} +
+$F{PAYMODE} +
+$F{LCNO} +
+$F{RGIBRN} +
+$F{BLDATE}.replaceAll("/", "") +
+$F{IMPCDE} +
+(($F{CTRYCDE}==null || $F{CTRYCDE}=="") ? "000" : $F{CTRYCDE}) +
+$F{COMMCDE} +
+$F{COMMDESC} +
+$F{LCBNKCDE} +
+$F{BOOKCDE} +
+$F{CURRCDE} +
+new DecimalFormat("000000000000.00").format($F{AMTDOLR}==null ? 0 : $F{AMTDOLR}) +
+$F{DOCNO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

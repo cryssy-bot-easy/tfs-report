@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Consolidated Daily Report on Deposits Collected" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.3636363636363635"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="brUnitCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA["909"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitName" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Trade Services Department"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\ucpb-tfs\\workspace\\tfs-report\\web-app\\reports\\BATCHES\\Other Imports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dateOfCollectionPopup" class="java.lang.String"/>
+	<parameter name="remittanceDateDueOn" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--CONSOLIDATED DAILY REPORT ON DEPOSITS COLLECTED (ADVANCE - COLLECTION)
+SELECT DATE(CDP.DATE_SENT) AS DATE_SENT,
+	  CDP.UNITCODE AS PROCESSINGUNITCODE,
+	  BR.BRANCH_NAME,
+	  SUM(CDP.AMOUNT) AS AMOUNT,
+	  CDP.REQ_TYPE AS PAYMENTREQUESTTYPE,
+	  CRC.SHORTCODE,
+   	  CRC.FIRSTINIT
+
+FROM CDTPAYMENTREQUEST AS CDP
+
+LEFT JOIN REF_BRANCH_UNIT AS BR
+ON CDP.UNITCODE = BR.UNIT_CODE
+
+LEFT JOIN CDTREPORTCONTROLREF AS CRC
+ON CRC.UNITCODE = CDP.UNITCODE
+
+WHERE DATE(CDP.DATE_SENT) = $P{dateOfCollectionPopup}
+AND CDP.REQ_TYPE = 'ADVANCE'
+AND CDP.UNITCODE <> '909'
+
+GROUP BY CDP.UNITCODE,
+	    BR.BRANCH_NAME,
+	    DATE(CDP.DATE_SENT),
+	    CDP.REQ_TYPE,
+	    CRC.SHORTCODE,
+   	    CRC.FIRSTINIT
+
+
+
+UNION ALL
+
+
+
+SELECT DATE(CDP.DATE_SENT) AS DATE_SENT,
+	  CDP.UNITCODE AS PROCESSINGUNITCODE,
+	  BR.BRANCH_NAME,
+	  SUM(CDP.AMOUNT) AS AMOUNT,
+	  CDP.REQ_TYPE AS PAYMENTREQUESTTYPE,
+	  CRC.SHORTCODE,
+   	  CRC.FIRSTINIT
+
+FROM CDTPAYMENTREQUEST AS CDP
+
+LEFT JOIN REF_BRANCH_UNIT AS BR
+ON CDP.UNITCODE = BR.UNIT_CODE
+
+LEFT JOIN CDTREPORTCONTROLREF AS CRC
+ON CRC.UNITCODE = CDP.UNITCODE
+
+WHERE DATE(CDP.DATE_SENT) = $P{dateOfCollectionPopup}
+AND CDP.REQ_TYPE = 'ADVANCE'
+AND CDP.UNITCODE = '909'
+
+GROUP BY CDP.UNITCODE,
+	    BR.BRANCH_NAME,
+	    DATE(CDP.DATE_SENT),
+	    CDP.REQ_TYPE,
+	    CRC.SHORTCODE,
+   	    CRC.FIRSTINIT]]>
+	</queryString>
+	<field name="DATE_SENT" class="java.sql.Date"/>
+	<field name="PROCESSINGUNITCODE" class="java.lang.String"/>
+	<field name="BRANCH_NAME" class="java.lang.String"/>
+	<field name="AMOUNT" class="java.math.BigDecimal"/>
+	<field name="PAYMENTREQUESTTYPE" class="java.lang.String"/>
+	<field name="SHORTCODE" class="java.lang.String"/>
+	<field name="FIRSTINIT" class="java.lang.String"/>
+	<variable name="subTotalRegularAmount" class="java.math.BigDecimal" resetType="Group" resetGroup="Processing Unit Code" calculation="Sum">
+		<variableExpression><![CDATA[$F{AMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{AMOUNT}]]></initialValueExpression>
+	</variable>
+	<variable name="grandTotalRegularAmount" class="java.math.BigDecimal" incrementType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{subTotalRegularAmount}]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{subTotalRegularAmount}]]></initialValueExpression>
+	</variable>
+	<variable name="reportId" class="java.lang.String"/>
+	<variable name="reportControlNumber" class="java.lang.String">
+		<variableExpression><![CDATA[$F{FIRSTINIT} + "-" +
+new SimpleDateFormat("MM").format($F{DATE_SENT}) +
+new SimpleDateFormat("dd").format($F{DATE_SENT}) +
+new SimpleDateFormat("yyyy").format($F{DATE_SENT}) + "-" +
+$F{SHORTCODE} + ($F{SHORTCODE}.equals("TSD") ? "0" : "-") + "01"]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{FIRSTINIT} + "-" +
+new SimpleDateFormat("MM").format($F{DATE_SENT}) +
+new SimpleDateFormat("dd").format($F{DATE_SENT}) +
+new SimpleDateFormat("yyyy").format($F{DATE_SENT}) + "-" +
+$F{SHORTCODE} + ($F{SHORTCODE}.equals("TSD") ? "0" : "-") + "01"]]></initialValueExpression>
+	</variable>
+	<group name="Processing Unit Code">
+		<groupFooter>
+			<band height="20">
+				<staticText>
+					<reportElement x="197" y="0" width="125" height="20"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[GRAND TOTAL]]></text>
+				</staticText>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="322" y="0" width="125" height="20"/>
+					<box leftPadding="3" rightPadding="3">
+						<topPen lineWidth="0.5" lineStyle="Dashed"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{subTotalRegularAmount}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="447" y="0" width="125" height="20"/>
+					<box leftPadding="3" rightPadding="3">
+						<topPen lineWidth="0.5" lineStyle="Dashed"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[0.00]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="120">
+			<textField>
+				<reportElement x="65" y="60" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{brUnitCode}=="909" ? "Trade Services Department" : $P{brUnitName}).toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="522" y="15" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="149" y="15" width="275" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CONSOLIDATED DAILY REPORT ON DEPOSITS COLLECTED]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="65" height="30"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT NAME:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="522" y="0" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="174" y="0" width="225" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="75" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="45" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="45" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{brUnitCode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PAGE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN TIME:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="15" width="75" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPORT ID:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="197" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[HEAD OFFICE / BRANCH
+SUB BRANCH / EXT OFFICE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="322" y="90" width="125" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[REGULAR
+AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="197" y="90" width="125" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[REPORT CONTROL
+NUMBER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="447" y="90" width="125" height="30"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[ADDITIONAL
+AMOUNT]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="174" y="45" width="225" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["REMITTANCE DATE DUE ON: " + $P{remittanceDateDueOn}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="174" y="30" width="225" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DATE OF COLLECTION: " + $P{dateOfCollectionPopup}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="322" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AMOUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="447" y="0" width="125" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[0.00]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="197" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BRANCH_NAME}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="197" y="0" width="125" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{reportControlNumber}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="215">
+			<textField>
+				<reportElement x="0" y="40" width="572" height="75"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement markup="html">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["THE ACCOUNTING DEPARTMENT<br/>"+
+"CENTRAL BANK OF THE PHILIPPINES<br/><br/>"+
+"IN ACCORDANCE WITH CB CIRCULAR NO. 909 DATED JANUARY 7, 1983. PLEASE CHARGE OUR DEMAND DEPOSIT ACCOUNT FOR THE AMOUNT OF " +  ($V{grandTotalRegularAmount} != null ? new DecimalFormat("#,##0.00").format($V{grandTotalRegularAmount}) : "") + "  ON  " + ($F{DATE_SENT} != null ? new SimpleDateFormat("MM/dd/yyyy").format($F{DATE_SENT}) : "") + " AS FOLLOWS:"]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="115" width="572" height="100"/>
+				<subreportParameter name="remittanceDateDueOn">
+					<subreportParameterExpression><![CDATA[$P{remittanceDateDueOn}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitCode">
+					<subreportParameterExpression><![CDATA[$P{brUnitCode}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitName">
+					<subreportParameterExpression><![CDATA[$P{brUnitName}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dateOfCollectionPopup">
+					<subreportParameterExpression><![CDATA[$P{dateOfCollectionPopup}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="reportId">
+					<subreportParameterExpression><![CDATA[$P{reportId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Consolidated_Daily_Report_on_Deposits_Collected_subreport_2.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="0" y="10" width="572" height="30"/>
+				<box topPadding="5">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.5" lineStyle="Dashed"/>
+					<leftPen lineStyle="Dashed"/>
+					<bottomPen lineStyle="Dashed"/>
+					<rightPen lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[AUTHORITY TO DEBIT]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Consolidated_Report_on_Foreign_LCs_Opened_for_the_Month_subreport" language="groovy" pageWidth="968" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="968" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="0.75"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dateNow" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("MM").format(new Date())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="yearNow" class="java.lang.String"/>
+	<parameter name="currentMonth" class="java.lang.String"/>
+	<parameter name="currentYear" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--CONSOLIDATED REPORT ON FOREIGN LCs OPENED FOR THE MONTH _SUBREPORT
+SELECT xOut.*,
+	  (grandTotalCashLcAmount + grandTotalStandbyLcAmount + grandTotalRegularLcAmount) AS grandTotalAmount,
+	  (grandTotalNoOfTransactionsCash + grandTotalNoOfTransactionsStandby + grandTotalNoOfTransactionsRegular) AS grandTotalTransact
+
+FROM (SELECT x.lcCurrency,
+	 	   SUM(x.cashLcAmount) AS grandTotalCashLcAmount,
+	 	   SUM(x.standbyLcAmount) AS grandTotalStandbyLcAmount,
+	 	   SUM(x.regularLcAmount) AS grandTotalRegularLcAmount,
+		   SUM(x.noOfTransactCash) AS grandTotalNoOfTransactionsCash,
+		   SUM(x.noOfTransactStandby) AS grandTotalNoOfTransactionsStandby,
+		   SUM(x.noOfTransactRegular) AS grandTotalNoOfTransactionsRegular
+
+	 FROM (SELECT tp.currency AS lcCurrency,
+	 	 	    SUM(tp.amount) AS cashLcAmount,
+	 	 	    0 AS standbyLcAmount,
+	 	 	    0 AS regularLcAmount,
+			    COUNT(*) AS noOfTransactCash,
+			    0 AS noOfTransactStandby,
+			    0 AS noOfTransactRegular
+
+		  FROM LETTEROFCREDIT AS LC
+
+		  INNER JOIN TRADEPRODUCT AS TP
+		  ON TP.DOCUMENTNUMBER = LC.DOCUMENTNUMBER
+
+		  WHERE lc.type='CASH'
+	       AND lc.documenttype = 'FOREIGN'
+		  AND MONTH(LC.PROCESSDATE)= $P{currentMonth}
+		  AND YEAR(LC.PROCESSDATE)= $P{currentYear}
+
+		  GROUP BY tp.currency,
+		  		 lc.type,
+		  		 tp.cifname,
+		  		 tp.cifnumber
+
+		  UNION
+
+		  SELECT tp.currency AS lcCurrency,
+		  	    0 AS cashLcAmount,
+		  	    SUM(tp.amount) AS standbyLcAmount,
+		  	    0 AS regularLcAmount,
+			    0 AS noOfTransactCash,
+			    COUNT(*) AS noOfTransactStandby,
+			    0 AS noOfTransactRegular
+
+		  FROM LETTEROFCREDIT AS LC
+
+		  INNER JOIN TRADEPRODUCT AS TP
+		  ON TP.DOCUMENTNUMBER = LC.DOCUMENTNUMBER
+
+		  WHERE lc.type='STANDBY'
+	       AND lc.documenttype = 'FOREIGN'
+		  AND MONTH(LC.PROCESSDATE)= $P{currentMonth}
+		  AND YEAR(LC.PROCESSDATE)= $P{currentYear}
+
+		  GROUP BY tp.currency,
+		  		 lc.type,
+		  		 lc.tenor,
+		  		 tp.cifname,
+		  		 tp.cifnumber
+
+		  UNION
+
+		  SELECT tp.currency AS lcCurrency,
+		  	    0 AS cashLcAmount,
+		  	    0 AS standbyLcAmount,
+		  	    SUM(tp.amount) AS regularLcAmount,
+			    0 AS noOfTransactCash,
+			    0 AS noOfTransactStandby,
+			    COUNT(*) AS noOfTransactRegular
+
+		  FROM LETTEROFCREDIT AS LC
+
+		  INNER JOIN TRADEPRODUCT AS TP
+		  ON TP.DOCUMENTNUMBER = LC.DOCUMENTNUMBER
+
+		  WHERE lc.type='REGULAR'
+	       AND lc.documenttype = 'FOREIGN'
+		  AND MONTH(LC.PROCESSDATE)= $P{currentMonth}
+		  AND YEAR(LC.PROCESSDATE)= $P{currentYear}
+
+		  GROUP BY tp.currency,
+		  		 lc.type,
+		  		 lc.tenor,
+		  		 tp.cifname,
+		  		 tp.cifnumber
+
+		 ) AS x
+
+		 GROUP BY x.lcCurrency
+		 ORDER BY lcCurrency
+
+	) AS xOut]]>
+	</queryString>
+	<field name="LCCURRENCY" class="java.lang.String"/>
+	<field name="GRANDTOTALCASHLCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="GRANDTOTALSTANDBYLCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="GRANDTOTALREGULARLCAMOUNT" class="java.math.BigDecimal"/>
+	<field name="GRANDTOTALNOOFTRANSACTIONSCASH" class="java.lang.Integer"/>
+	<field name="GRANDTOTALNOOFTRANSACTIONSSTANDBY" class="java.lang.Integer"/>
+	<field name="GRANDTOTALNOOFTRANSACTIONSREGULAR" class="java.lang.Integer"/>
+	<field name="GRANDTOTALAMOUNT" class="java.math.BigDecimal"/>
+	<field name="GRANDTOTALTRANSACT" class="java.lang.Integer"/>
+	<variable name="grandTotalTotalLcAmount" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{GRANDTOTALREGULARLCAMOUNT}+$F{GRANDTOTALCASHLCAMOUNT}+$F{GRANDTOTALSTANDBYLCAMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{GRANDTOTALREGULARLCAMOUNT}+$F{GRANDTOTALCASHLCAMOUNT}+$F{GRANDTOTALSTANDBYLCAMOUNT}]]></initialValueExpression>
+	</variable>
+	<variable name="grandTotalTotalNoOfTransactions" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{GRANDTOTALNOOFTRANSACTIONSREGULAR}+$F{GRANDTOTALNOOFTRANSACTIONSCASH}+$F{GRANDTOTALNOOFTRANSACTIONSSTANDBY}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{GRANDTOTALNOOFTRANSACTIONSREGULAR}+$F{GRANDTOTALNOOFTRANSACTIONSCASH}+$F{GRANDTOTALNOOFTRANSACTIONSSTANDBY}]]></initialValueExpression>
+	</variable>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="5" width="168" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[GRAND TOTAL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="168" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LCCURRENCY}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="368" y="0" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GRANDTOTALCASHLCAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="568" y="0" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GRANDTOTALSTANDBYLCAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="768" y="0" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{grandTotalTotalLcAmount}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="893" y="0" width="75" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{grandTotalTotalNoOfTransactions}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="293" y="0" width="75" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GRANDTOTALNOOFTRANSACTIONSREGULAR}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="493" y="0" width="75" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GRANDTOTALNOOFTRANSACTIONSCASH}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="693" y="0" width="75" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GRANDTOTALNOOFTRANSACTIONSSTANDBY}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="168" y="0" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GRANDTOTALREGULARLCAMOUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="5" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

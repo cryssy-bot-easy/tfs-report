@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LC_Confirmation_Opening" language="groovy" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="540" leftMargin="36" rightMargin="36" topMargin="36" bottomMargin="36">
+	<property name="ireport.zoom" value="1.6105100000000012"/>
+	<property name="ireport.x" value="30"/>
+	<property name="ireport.y" value="0"/>
+	<import value="com.ibm.icu.*"/>
+	<import value="report.utils.ReportUtility"/>
+	<import value="apache.commons.lang.*"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\ucpb-tfs\\workspace2\\tfs-report\\web-app\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="documentNumber" class="java.lang.String"/>
+	<parameter name="tradeServiceId" class="java.lang.String"/>
+	<parameter name="issueDate" class="java.lang.String"/>
+	<parameter name="expiryDate" class="java.lang.String"/>
+	<parameter name="expiryPlace" class="java.lang.String"/>
+	<parameter name="applicantName" class="java.lang.String"/>
+	<parameter name="applicantAddress" class="java.lang.String"/>
+	<parameter name="beneficiaryName" class="java.lang.String"/>
+	<parameter name="beneficiaryAddress" class="java.lang.String"/>
+	<parameter name="currency" class="java.lang.String"/>
+	<parameter name="amount" class="java.lang.String"/>
+	<parameter name="partialDelivery" class="java.lang.String"/>
+	<parameter name="placeOfTakingDispatchOrReceipt" class="java.lang.String"/>
+	<parameter name="placeOfFinalDestination" class="java.lang.String"/>
+	<parameter name="generalDescriptionOfGoods" class="java.lang.String"/>
+	<parameter name="otherDocumentsInstructions" class="java.lang.String"/>
+	<parameter name="amountInWords" class="java.lang.String"/>
+	<parameter name="processDate" class="java.lang.String"/>
+	<parameter name="documentsRequired" class="java.lang.String"/>
+	<parameter name="tenor" class="java.lang.String"/>
+	<parameter name="usancePeriod" class="java.lang.String"/>
+	<parameter name="tenorOfDraftNarrative" class="java.lang.String"/>
+	<parameter name="authorizedSignatory1" class="java.lang.String"/>
+	<parameter name="authorizedSignatory1Position" class="java.lang.String"/>
+	<parameter name="authorizedSignatory2" class="java.lang.String"/>
+	<parameter name="authorizedSignatory2Position" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+	varchar(rd.description) as requireddocuments
+from requireddocument rd
+where rd.tradeserviceid=$P{tradeServiceId}
+and rd.requireddocumenttype='DEFAULT']]>
+	</queryString>
+	<field name="REQUIREDDOCUMENTS" class="java.lang.String"/>
+	<variable name="issueDate" class="java.lang.String">
+		<variableExpression><![CDATA[($P{issueDate}=="undefined" || $P{issueDate}==null || $P{issueDate}=="") ? "" : new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{issueDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{issueDate}=="undefined" || $P{issueDate}==null || $P{issueDate}=="") ? "" : new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{issueDate}))]]></initialValueExpression>
+	</variable>
+	<variable name="processDate" class="java.lang.String">
+		<variableExpression><![CDATA[($P{processDate}=="undefined" || $P{processDate}==null || $P{processDate}=="") ? "" : new SimpleDateFormat("MM-dd-yyyy").format(new Date($P{processDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{processDate}=="undefined" || $P{processDate}==null || $P{processDate}=="") ? "" : new SimpleDateFormat("MM-dd-yyyy").format(new Date($P{processDate}))]]></initialValueExpression>
+	</variable>
+	<variable name="expiryDate" class="java.lang.String">
+		<variableExpression><![CDATA[($P{expiryDate}=="undefined" || $P{expiryDate}==null || $P{expiryDate}=="") ? "" : new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{expiryDate}))]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{expiryDate}=="undefined" || $P{expiryDate}==null || $P{expiryDate}=="") ? "" : new SimpleDateFormat("MMMMM dd, yyyy").format(new Date($P{expiryDate}))]]></initialValueExpression>
+	</variable>
+	<variable name="AMOUNTINWORDS" class="java.lang.String">
+		<variableExpression><![CDATA[ReportUtility.convert((new BigDecimal($P{amount}.replaceAll(",", ""))), $P{currency})]]></variableExpression>
+		<initialValueExpression><![CDATA[ReportUtility.convert((new BigDecimal($P{amount}.replaceAll(",", ""))), $P{currency})]]></initialValueExpression>
+	</variable>
+	<variable name="partialDelivery" class="java.lang.String">
+		<variableExpression><![CDATA[$P{partialDelivery}=="undefined" ? "" : $P{partialDelivery}.replaceAll("_", " ")]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{partialDelivery}=="undefined" ? "" : $P{partialDelivery}.replaceAll("_", " ")]]></initialValueExpression>
+	</variable>
+	<variable name="placeOfReceipt" class="java.lang.String">
+		<variableExpression><![CDATA[$P{placeOfTakingDispatchOrReceipt}=="undefined" ? "" : $P{placeOfTakingDispatchOrReceipt}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{placeOfTakingDispatchOrReceipt}=="undefined" ? "" : $P{placeOfTakingDispatchOrReceipt}]]></initialValueExpression>
+	</variable>
+	<variable name="placeOfDelivery" class="java.lang.String">
+		<variableExpression><![CDATA[$P{placeOfFinalDestination}=="undefined" ? "" : $P{placeOfFinalDestination}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{placeOfFinalDestination}=="undefined" ? "" : $P{placeOfFinalDestination}]]></initialValueExpression>
+	</variable>
+	<variable name="tenor" class="java.lang.String">
+		<variableExpression><![CDATA[$P{tenor}.equalsIgnoreCase("SIGHT") ? "SIGHT" : ($P{usancePeriod} + " DAYS " + $P{tenorOfDraftNarrative})]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{tenor}.equalsIgnoreCase("SIGHT") ? "SIGHT" : ($P{usancePeriod} + " DAYS " + $P{tenorOfDraftNarrative})]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="250">
+			<staticText>
+				<reportElement x="0" y="65" width="270" height="15"/>
+				<box leftPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[APPLICANT'S NAME AND ADDRESS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="120" width="270" height="15"/>
+				<box leftPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[AMOUNT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="30" width="270" height="15"/>
+				<box leftPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DATE AND PLACE OF EXPIRY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="65" width="270" height="15"/>
+				<box leftPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[BENEFICIARY'S NAME AND ADDRESS]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="540" height="30"/>
+				<textElement markup="html">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA["IRREVOCABLE<br/>"+
+"DOMESTIC LETTER OF CREDIT NUMBER " + $P{documentNumber}.replaceAll("-", "")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="30" width="270" height="15"/>
+				<box leftPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DATE OF ISSUE]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="80" width="270" height="40"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement markup="html">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{applicantName}.toUpperCase()
++
+",<br/>"
++
+$P{applicantAddress}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="270" y="80" width="270" height="40"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement markup="html">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{beneficiaryName}.toUpperCase()
++
+",<br/>"
++
+$P{beneficiaryAddress}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy" isBlankWhenNull="true">
+				<reportElement x="0" y="45" width="270" height="20"/>
+				<box leftPadding="5">
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{issueDate}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="270" y="45" width="270" height="20"/>
+				<box leftPadding="5">
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($V{expiryDate}.toUpperCase() + ", IN " + $P{expiryPlace}.toUpperCase())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="270" y="135" width="270" height="40"/>
+				<box leftPadding="5" rightPadding="5">
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement markup="html">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{AMOUNTINWORDS}.toUpperCase() + " ONLY <br/>(" + $P{currency} + " " + new DecimalFormat("#,##0.00").format(new BigDecimal($P{amount}.replaceAll(",", ""))) + ")"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="175" width="540" height="75"/>
+				<box topPadding="5"/>
+				<textElement markup="html">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PARTIAL DELIVERY " + $V{partialDelivery}.toUpperCase()
++
+"<br/>"
++
+"DELIVERY TAKING CHARGE FROM " + $V{placeOfReceipt}.toUpperCase()
++
+"<br/>"
++
+"FOR TRANSPORTATION TO " + $V{placeOfDelivery}.toUpperCase()
++
+"<br/><br/>"
++
+"CREDIT AVAILABLE BY PAYMENT AGAINST PRESENTATION OF THE DOCUMENT DETAILED"
++
+"<br/>"
++
+"HEREIN AND YOUR DRAFTS AT " + $V{tenor}.toUpperCase() + " DRAWN ON THE ACCOUNTEE."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="120" width="270" height="15"/>
+				<box leftPadding="1">
+					<topPen lineWidth="0.5" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[ADVISING BANK]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="135" width="270" height="40"/>
+				<box leftPadding="5" rightPadding="5">
+					<leftPen lineWidth="0.5" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.5" lineStyle="Dotted"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["OURSELVES"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="15">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="540" height="15"/>
+				<box topPadding="0" bottomPadding="0"/>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font size="8"/>
+					<paragraph leftIndent="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REQUIREDDOCUMENTS}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="225">
+			<subreport>
+				<reportElement x="0" y="0" width="540" height="225"/>
+				<subreportParameter name="tradeServiceId">
+					<subreportParameterExpression><![CDATA[$P{tradeServiceId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="authorizedSignatory1Position">
+					<subreportParameterExpression><![CDATA[$P{authorizedSignatory1Position}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="generalDescriptionOfGoods">
+					<subreportParameterExpression><![CDATA[$P{generalDescriptionOfGoods}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="authorizedSignatory1">
+					<subreportParameterExpression><![CDATA[$P{authorizedSignatory1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="authorizedSignatory2">
+					<subreportParameterExpression><![CDATA[$P{authorizedSignatory2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="documentNumber">
+					<subreportParameterExpression><![CDATA[$P{documentNumber}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="issueDate">
+					<subreportParameterExpression><![CDATA[$P{issueDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="authorizedSignatory2Position">
+					<subreportParameterExpression><![CDATA[$P{authorizedSignatory2Position}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Other_Documents_Instructions.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Outgoing_MTs" language="groovy" pageWidth="620" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="580" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="mtOutgoingDate" class="java.util.Date" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+	DOCUMENTNUMBER, FILENAME, MTTYPE, DATERECEIVED, MTSTATUS
+FROM MTMESSAGE
+WHERE
+	MESSAGECLASS = 'OUTGOING'
+	AND DATE(DATERECEIVED) = $P{mtOutgoingDate}
+ORDER BY
+	MTTYPE, DATERECEIVED]]>
+	</queryString>
+	<field name="DOCUMENTNUMBER" class="java.lang.String"/>
+	<field name="FILENAME" class="java.lang.String"/>
+	<field name="MTTYPE" class="java.lang.String"/>
+	<field name="DATERECEIVED" class="java.sql.Timestamp"/>
+	<field name="MTSTATUS" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="35">
+			<staticText>
+				<reportElement x="0" y="0" width="580" height="35"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OUTGOING MTS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement x="232" y="0" width="116" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[MT TYPE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="348" y="0" width="116" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DATE APPROVED]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="464" y="0" width="116" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[STATUS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="116" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DOCUMENT NUMBER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="116" y="0" width="116" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[FILE NAME]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15">
+			<textField>
+				<reportElement x="0" y="0" width="116" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{DOCUMENTNUMBER}.replaceAll("-", "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="232" y="0" width="116" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{MTTYPE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy h:mm a">
+				<reportElement x="348" y="0" width="116" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{DATERECEIVED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="464" y="0" width="116" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{MTSTATUS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="0" width="116" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{FILENAME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

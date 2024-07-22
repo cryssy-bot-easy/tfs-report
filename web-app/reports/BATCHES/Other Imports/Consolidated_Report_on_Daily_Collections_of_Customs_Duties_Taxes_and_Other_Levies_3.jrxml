@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_3" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\ucpb-tfs\\workspace\\tfs-report\\web-app\\reports\\BATCHES\\Other Imports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA["909"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitName" class="java.lang.String"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="dateOfRemittancePopup" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--CONSOLIDATED REPORT ON DAILY COLLECTIONS OF CUSTOMS DUTIES, TAXES AND OTHER LEVIES (ALL - REMITTANCE)
+SELECT SUM(FINAL3.TOTALAMOUNT) AS TOTALAMOUNT,
+	  SUM(FINAL3.FINALCHARGES) AS FINALCHARGES,
+	  SUM(FINAL3.FINALDUTYAMT) AS FINALDUTYAMT,
+	  SUM(FINAL3.FINALSTOTAL) AS FINALSTOTAL,
+	  SUM(FINAL3.IPFAMOUNT) AS IPFAMOUNT,
+	  SUM(FINAL3.EXPORTAMOUNT) AS EXPORTAMOUNT,
+	  SUM(FINAL3.ADVANCEAMOUNT) AS ADVANCEAMOUNT,
+	  FINAL3.PROCESSINGUNITCODE,
+	  FINAL3.BRANCH_NAME,
+	  FINAL3.REMITTANCEDATE,
+	  FINAL3.DATE_SENT,
+	  FINAL3.COLLECTIONFROM,
+	  FINAL3.COLLECTIONTO,
+	  FINAL3.SHORTCODE,
+   	  FINAL3.FIRSTINIT
+
+FROM(SELECT FINAL1.TOTALAMOUNT,
+	  	  FINAL1.FINALCHARGES,
+	  	  FINAL1.FINALDUTYAMT,
+	  	  FINAL1.FINALSTOTAL,
+	  	  FINAL1.IPFAMOUNT,
+	  	  FINAL1.EXPORTAMOUNT,
+	  	  FINAL1.ADVANCEAMOUNT,
+	  	  FINAL1.PROCESSINGUNITCODE,
+	  	  FINAL1.BRANCH_NAME,
+	  	  FINAL1.REMITTANCEDATE,
+	  	  FINAL1.DATE_SENT,
+	  	  FINAL1.COLLECTIONFROM,
+	  	  FINAL1.COLLECTIONTO,
+	  	  FINAL1.SHORTCODE,
+   	  	  FINAL1.FIRSTINIT
+
+	  FROM ( --FOR '909' (FINAL)
+		    SELECT SUM(CDP.FINALDUTYAMT + CDP.FINALCHARGES + CDP.IPF) AS TOTALAMOUNT,
+	  			 SUM(CDP.FINALCHARGES) AS FINALCHARGES,
+	  			 SUM(CDP.FINALDUTYAMT) AS FINALDUTYAMT,
+	  			 SUM(CDP.FINALDUTYAMT + CDP.FINALCHARGES) AS FINALSTOTAL,
+	  			 SUM(CDP.IPF) AS IPFAMOUNT,
+	  			 0 AS EXPORTAMOUNT,
+	  			 0 AS ADVANCEAMOUNT,
+	  			 CDP.UNITCODE AS PROCESSINGUNITCODE,
+	  			 BR.BRANCH_NAME,
+	  			 DATE(CDR.REMITTANCEDATE) AS REMITTANCEDATE,
+	  			 DATE(CDP.DATE_SENT) AS DATE_SENT,
+	  			 DATE(CDR.COLLECTIONFROM) AS COLLECTIONFROM,
+	  			 DATE(CDR.COLLECTIONTO) AS COLLECTIONTO,
+	  			 CRC.SHORTCODE,
+   				 CRC.FIRSTINIT
+
+	  	    FROM CDTREMITTANCE AS CDR
+
+	  	    LEFT JOIN CDTPAYMENTREQUEST AS CDP
+	  	    ON DATE(CDP.DATE_SENT) BETWEEN CDR.COLLECTIONFROM AND CDR.COLLECTIONTO
+
+	  	    LEFT JOIN REF_BRANCH_UNIT AS BR
+	  	    ON CDP.UNITCODE = BR.UNIT_CODE
+
+	  	    LEFT JOIN CDTREPORTCONTROLREF AS CRC
+	  	    ON CRC.UNITCODE = CDP.UNITCODE
+
+	  	    WHERE DATE(CDR.REMITTANCEDATE) = $P{dateOfRemittancePopup}
+	  	    --AND CDP.REQ_TYPE = 'FINAL'
+	  	    AND (CDP.FINALCHARGES > 0 OR CDP.FINALDUTYAMT > 0)
+	  	    AND CDP.UNITCODE = '909'
+
+	  	    GROUP BY CDP.UNITCODE,
+	    		 	   BR.BRANCH_NAME,
+	    		 	   --REPORTCONTROLNUMBER,
+	    		 	   DATE(CDR.REMITTANCEDATE),
+	    		 	   DATE(CDP.DATE_SENT),
+	    		 	   DATE(CDR.COLLECTIONFROM),
+	    		 	   DATE(CDR.COLLECTIONTO),
+	    		 	   CRC.SHORTCODE,
+   				   CRC.FIRSTINIT
+
+
+	  	    UNION ALL
+
+
+		    --(EXPORT)
+	  	    SELECT SUM(CDP.AMOUNT) AS TOTALAMOUNT,
+	  			 0 AS FINALCHARGES,
+	  			 0 AS FINALDUTYAMT,
+	  			 0 AS FINALSTOTAL,
+	  			 0 AS IPFAMOUNT,
+	  			 SUM(CDP.AMOUNT) AS EXPORTAMOUNT,
+	  			 0 AS ADVANCEAMOUNT,
+	  			 CDP.UNITCODE AS PROCESSINGUNITCODE,
+	  			 BR.BRANCH_NAME,
+	  			 DATE(CDR.REMITTANCEDATE) AS REMITTANCEDATE,
+	  			 DATE(CDP.DATE_SENT) AS DATE_SENT,
+	  			 DATE(CDR.COLLECTIONFROM) AS COLLECTIONFROM,
+	  			 DATE(CDR.COLLECTIONTO) AS COLLECTIONTO,
+	  			 CRC.SHORTCODE,
+   				 CRC.FIRSTINIT
+
+	  	    FROM CDTREMITTANCE AS CDR
+
+	  	    LEFT JOIN CDTPAYMENTREQUEST AS CDP
+	  	    ON DATE(CDP.DATE_SENT) BETWEEN CDR.COLLECTIONFROM AND CDR.COLLECTIONTO
+
+	  	    LEFT JOIN REF_BRANCH_UNIT AS BR
+	  	    ON CDP.UNITCODE = BR.UNIT_CODE
+
+	  	    LEFT JOIN CDTREPORTCONTROLREF AS CRC
+	  	    ON CRC.UNITCODE = CDP.UNITCODE
+
+	  	    WHERE DATE(CDR.REMITTANCEDATE) = $P{dateOfRemittancePopup}
+	  	    AND CDP.REQ_TYPE = 'EXPORT'
+	  	    AND CDP.UNITCODE = '909'
+
+	  	    GROUP BY CDP.UNITCODE,
+	    		 	   BR.BRANCH_NAME,
+	    		 	   --REPORTCONTROLNUMBER,
+	    		 	   DATE(CDR.REMITTANCEDATE),
+	    		 	   DATE(CDP.DATE_SENT),
+	    		 	   DATE(CDR.COLLECTIONFROM),
+	    		 	   DATE(CDR.COLLECTIONTO),
+	    		 	   CRC.SHORTCODE,
+   				   CRC.FIRSTINIT
+
+
+		    UNION ALL
+
+
+		    --(ADVANCE)
+	    	    SELECT SUM(CDP.AMOUNT) AS TOTALAMOUNT,
+	  			 0 AS FINALCHARGES,
+	  			 0 AS FINALDUTYAMT,
+	  			 0 AS FINALSTOTAL,
+	  			 0 AS IPFAMOUNT,
+	  			 0 AS EXPORTAMOUNT,
+	  			 SUM(CDP.AMOUNT) AS ADVANCEAMOUNT,
+	  			 CDP.UNITCODE AS PROCESSINGUNITCODE,
+	  			 BR.BRANCH_NAME,
+	  			 DATE(CDR.REMITTANCEDATE) AS REMITTANCEDATE,
+	  			 DATE(CDP.DATE_SENT) AS DATE_SENT,
+	  			 DATE(CDR.COLLECTIONFROM) AS COLLECTIONFROM,
+	  			 DATE(CDR.COLLECTIONTO) AS COLLECTIONTO,
+	  			 CRC.SHORTCODE,
+   				 CRC.FIRSTINIT
+
+	  	    FROM CDTREMITTANCE AS CDR
+
+	  	    LEFT JOIN CDTPAYMENTREQUEST AS CDP
+	  	    ON DATE(CDP.DATE_SENT) BETWEEN CDR.COLLECTIONFROM AND CDR.COLLECTIONTO
+
+	  	    LEFT JOIN REF_BRANCH_UNIT AS BR
+	  	    ON CDP.UNITCODE = BR.UNIT_CODE
+
+	  	    LEFT JOIN CDTREPORTCONTROLREF AS CRC
+	  	    ON CRC.UNITCODE = CDP.UNITCODE
+
+	  	    WHERE DATE(CDR.REMITTANCEDATE) = $P{dateOfRemittancePopup}
+	  	    AND CDP.REQ_TYPE = 'ADVANCE'
+	  	    AND CDP.UNITCODE = '909'
+
+	  	    GROUP BY CDP.UNITCODE,
+	    		 	   BR.BRANCH_NAME,
+	    		 	   --REPORTCONTROLNUMBER,
+	    		 	   DATE(CDR.REMITTANCEDATE),
+	    		 	   DATE(CDP.DATE_SENT),
+	    		 	   DATE(CDR.COLLECTIONFROM),
+	    		 	   DATE(CDR.COLLECTIONTO),
+	    		 	   CRC.SHORTCODE,
+   				   CRC.FIRSTINIT
+
+		  ) AS FINAL1
+
+
+	  UNION ALL
+
+
+	  SELECT FINAL2.TOTALAMOUNT,
+	  	    FINAL2.FINALCHARGES,
+	  	    FINAL2.FINALDUTYAMT,
+	  	    FINAL2.FINALSTOTAL,
+	  	    FINAL2.IPFAMOUNT,
+	  	    FINAL2.EXPORTAMOUNT,
+	  	    FINAL2.ADVANCEAMOUNT,
+	  	    FINAL2.PROCESSINGUNITCODE,
+	  	    FINAL2.BRANCH_NAME,
+	  	    FINAL2.REMITTANCEDATE,
+	  	    FINAL2.DATE_SENT,
+	  	    FINAL2.COLLECTIONFROM,
+	  	    FINAL2.COLLECTIONTO,
+	  	    FINAL2.SHORTCODE,
+   		    FINAL2.FIRSTINIT
+
+	  FROM (
+	  	    --FOR NON '909' (FINAL)
+	  	    SELECT SUM(CDP.FINALDUTYAMT + CDP.FINALCHARGES + CDP.IPF) AS TOTALAMOUNT,
+	  			 SUM(CDP.FINALCHARGES) AS FINALCHARGES,
+	  			 SUM(CDP.FINALDUTYAMT) AS FINALDUTYAMT,
+	  			 SUM(CDP.FINALDUTYAMT + CDP.FINALCHARGES) AS FINALSTOTAL,
+	  			 SUM(CDP.IPF) AS IPFAMOUNT,
+	  			 0 AS EXPORTAMOUNT,
+	  			 0 AS ADVANCEAMOUNT,
+	  			 CDP.UNITCODE AS PROCESSINGUNITCODE,
+	  			 BR.BRANCH_NAME,
+	  			 DATE(CDR.REMITTANCEDATE) AS REMITTANCEDATE,
+	  			 DATE(CDP.DATE_SENT) AS DATE_SENT,
+	  			 DATE(CDR.COLLECTIONFROM) AS COLLECTIONFROM,
+	  			 DATE(CDR.COLLECTIONTO) AS COLLECTIONTO,
+	  			 CRC.SHORTCODE,
+   				 CRC.FIRSTINIT
+
+	  	    FROM CDTREMITTANCE AS CDR
+
+	  	    LEFT JOIN CDTPAYMENTREQUEST AS CDP
+	  	    ON DATE(CDP.DATE_SENT) BETWEEN CDR.COLLECTIONFROM AND CDR.COLLECTIONTO
+
+	  	    LEFT JOIN REF_BRANCH_UNIT AS BR
+	  	    ON CDP.UNITCODE = BR.UNIT_CODE
+
+	  	    LEFT JOIN CDTREPORTCONTROLREF AS CRC
+	  	    ON CRC.UNITCODE = CDP.UNITCODE
+
+	  	    WHERE DATE(CDR.REMITTANCEDATE) = $P{dateOfRemittancePopup}
+	  	    --AND CDP.REQ_TYPE = 'FINAL'
+	  	    AND (CDP.FINALCHARGES > 0 OR CDP.FINALDUTYAMT > 0)
+	  	    AND CDP.UNITCODE <> '909'
+
+	  	    GROUP BY CDP.UNITCODE,
+	    		 	   BR.BRANCH_NAME,
+	    		 	   DATE(CDR.REMITTANCEDATE),
+	    		 	   DATE(CDP.DATE_SENT),
+	    		 	   DATE(CDR.COLLECTIONFROM),
+	    		 	   DATE(CDR.COLLECTIONTO),
+	    		 	   CRC.SHORTCODE,
+   				   CRC.FIRSTINIT
+
+
+	  	    UNION ALL
+
+
+		    --(EXPORT)
+	  	    SELECT SUM(CDP.AMOUNT) AS TOTALAMOUNT,
+	  			 0 AS FINALCHARGES,
+	  			 0 AS FINALDUTYAMT,
+	  			 0 AS FINALSTOTAL,
+	  			 0 AS IPFAMOUNT,
+	  		 	 SUM(CDP.AMOUNT) AS EXPORTAMOUNT,
+	  		 	 0 AS ADVANCEAMOUNT,
+	  			 CDP.UNITCODE AS PROCESSINGUNITCODE,
+	  			 BR.BRANCH_NAME,
+	  			 DATE(CDR.REMITTANCEDATE) AS REMITTANCEDATE,
+	  			 DATE(CDP.DATE_SENT) AS DATE_SENT,
+	  			 DATE(CDR.COLLECTIONFROM) AS COLLECTIONFROM,
+	  			 DATE(CDR.COLLECTIONTO) AS COLLECTIONTO,
+	  			 CRC.SHORTCODE,
+   				 CRC.FIRSTINIT
+
+	  	    FROM CDTREMITTANCE AS CDR
+
+	  	    LEFT JOIN CDTPAYMENTREQUEST AS CDP
+	  	    ON DATE(CDP.DATE_SENT) BETWEEN CDR.COLLECTIONFROM AND CDR.COLLECTIONTO
+
+	  	    LEFT JOIN REF_BRANCH_UNIT AS BR
+	  	    ON CDP.UNITCODE = BR.UNIT_CODE
+
+	  	    LEFT JOIN CDTREPORTCONTROLREF AS CRC
+	  	    ON CRC.UNITCODE = CDP.UNITCODE
+
+	  	    WHERE DATE(CDR.REMITTANCEDATE) = $P{dateOfRemittancePopup}
+	  	    AND CDP.REQ_TYPE = 'EXPORT'
+	  	    AND CDP.UNITCODE <> '909'
+
+	  	    GROUP BY CDP.UNITCODE,
+	    		 	   BR.BRANCH_NAME,
+	    		 	   DATE(CDR.REMITTANCEDATE),
+	    		 	   DATE(CDP.DATE_SENT),
+	    		 	   DATE(CDR.COLLECTIONFROM),
+	    		 	   DATE(CDR.COLLECTIONTO),
+	    		 	   CRC.SHORTCODE,
+   				   CRC.FIRSTINIT
+
+
+
+	    	    UNION ALL
+
+
+		    --(ADVANCE)
+	    	    SELECT SUM(CDP.AMOUNT) AS TOTALAMOUNT,
+	  			 0 AS FINALCHARGES,
+	  			 0 AS FINALDUTYAMT,
+	  			 0 AS FINALSTOTAL,
+	  			 0 AS IPFAMOUNT,
+	  			 0 AS EXPORTAMOUNT,
+	  			 SUM(CDP.AMOUNT) AS ADVANCEAMOUNT,
+	  			 CDP.UNITCODE AS PROCESSINGUNITCODE,
+	  			 BR.BRANCH_NAME,
+	  			 DATE(CDR.REMITTANCEDATE) AS REMITTANCEDATE,
+	  			 DATE(CDP.DATE_SENT) AS DATE_SENT,
+	  			 DATE(CDR.COLLECTIONFROM) AS COLLECTIONFROM,
+	  			 DATE(CDR.COLLECTIONTO) AS COLLECTIONTO,
+	  			 CRC.SHORTCODE,
+   				 CRC.FIRSTINIT
+
+	  	    FROM CDTREMITTANCE AS CDR
+
+	  	    LEFT JOIN CDTPAYMENTREQUEST AS CDP
+	  	    ON DATE(CDP.DATE_SENT) BETWEEN CDR.COLLECTIONFROM AND CDR.COLLECTIONTO
+
+	  	    LEFT JOIN REF_BRANCH_UNIT AS BR
+	  	    ON CDP.UNITCODE = BR.UNIT_CODE
+
+	  	    LEFT JOIN CDTREPORTCONTROLREF AS CRC
+	  	    ON CRC.UNITCODE = CDP.UNITCODE
+
+	  	    WHERE DATE(CDR.REMITTANCEDATE) = $P{dateOfRemittancePopup}
+	  	    AND CDP.REQ_TYPE = 'ADVANCE'
+	  	    AND CDP.UNITCODE <> '909'
+
+	  	    GROUP BY CDP.UNITCODE,
+	    		 	   BR.BRANCH_NAME,
+	    		 	   DATE(CDR.REMITTANCEDATE),
+	    		 	   DATE(CDP.DATE_SENT),
+	    		 	   DATE(CDR.COLLECTIONFROM),
+	    		 	   DATE(CDR.COLLECTIONTO),
+	    		 	   CRC.SHORTCODE,
+   				   CRC.FIRSTINIT
+
+		  ) AS FINAL2
+
+	) AS FINAL3
+
+GROUP BY FINAL3.PROCESSINGUNITCODE,
+	    FINAL3.BRANCH_NAME,
+	    FINAL3.REMITTANCEDATE,
+	    FINAL3.DATE_SENT,
+	    FINAL3.COLLECTIONFROM,
+	    FINAL3.COLLECTIONTO,
+	    FINAL3.SHORTCODE,
+   	    FINAL3.FIRSTINIT
+
+ORDER BY CASE
+		 WHEN FINAL3.PROCESSINGUNITCODE <> '909' THEN FINAL3.BRANCH_NAME
+		 WHEN FINAL3.PROCESSINGUNITCODE = '909' THEN FINAL3.PROCESSINGUNITCODE
+	    END]]>
+	</queryString>
+	<field name="TOTALAMOUNT" class="java.math.BigDecimal"/>
+	<field name="FINALCHARGES" class="java.math.BigDecimal"/>
+	<field name="FINALDUTYAMT" class="java.math.BigDecimal"/>
+	<field name="FINALSTOTAL" class="java.math.BigDecimal"/>
+	<field name="IPFAMOUNT" class="java.math.BigDecimal"/>
+	<field name="EXPORTAMOUNT" class="java.math.BigDecimal"/>
+	<field name="ADVANCEAMOUNT" class="java.math.BigDecimal"/>
+	<field name="PROCESSINGUNITCODE" class="java.lang.String"/>
+	<field name="BRANCH_NAME" class="java.lang.String"/>
+	<field name="REMITTANCEDATE" class="java.sql.Date"/>
+	<field name="DATE_SENT" class="java.sql.Date"/>
+	<field name="COLLECTIONFROM" class="java.sql.Date"/>
+	<field name="COLLECTIONTO" class="java.sql.Date"/>
+	<field name="SHORTCODE" class="java.lang.String"/>
+	<field name="FIRSTINIT" class="java.lang.String"/>
+	<variable name="REMITTANCEDATE" class="java.lang.String">
+		<variableExpression><![CDATA[$F{REMITTANCEDATE}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{REMITTANCEDATE}]]></initialValueExpression>
+	</variable>
+	<variable name="COLLECTIONFROM" class="java.lang.String">
+		<variableExpression><![CDATA[$F{COLLECTIONFROM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{COLLECTIONFROM}]]></initialValueExpression>
+	</variable>
+	<variable name="COLLECTIONTO" class="java.lang.String">
+		<variableExpression><![CDATA[$F{COLLECTIONTO}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{COLLECTIONTO}]]></initialValueExpression>
+	</variable>
+	<variable name="reportControlNumber" class="java.lang.String">
+		<variableExpression><![CDATA[$F{FIRSTINIT} + "-" +
+new SimpleDateFormat("MM").format($F{DATE_SENT}) +
+new SimpleDateFormat("dd").format($F{DATE_SENT}) +
+new SimpleDateFormat("yyyy").format($F{DATE_SENT}) + "-" +
+$F{SHORTCODE} + ($F{SHORTCODE}.equals("TSD") ? "0" : "-") + "01"]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{FIRSTINIT} + "-" +
+new SimpleDateFormat("MM").format($F{DATE_SENT}) +
+new SimpleDateFormat("dd").format($F{DATE_SENT}) +
+new SimpleDateFormat("yyyy").format($F{DATE_SENT}) + "-" +
+$F{SHORTCODE} + ($F{SHORTCODE}.equals("TSD") ? "0" : "-") + "01"]]></initialValueExpression>
+	</variable>
+	<variable name="FINALSTOTAL_total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{FINALSTOTAL}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{FINALSTOTAL}]]></initialValueExpression>
+	</variable>
+	<variable name="IPFAMOUNT_total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{IPFAMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{IPFAMOUNT}]]></initialValueExpression>
+	</variable>
+	<variable name="EXPORTAMOUNT_total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{EXPORTAMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{EXPORTAMOUNT}]]></initialValueExpression>
+	</variable>
+	<variable name="ADVANCEAMOUNT_total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{ADVANCEAMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{ADVANCEAMOUNT}]]></initialValueExpression>
+	</variable>
+	<variable name="TOTALAMOUNT_total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOTALAMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{TOTALAMOUNT}]]></initialValueExpression>
+	</variable>
+	<group name="Group 1">
+		<groupFooter>
+			<band height="20">
+				<staticText>
+					<reportElement x="150" y="0" width="100" height="20"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[TOTAL]]></text>
+				</staticText>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="250" y="0" width="100" height="20"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{FINALSTOTAL_total}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="350" y="0" width="100" height="20"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{IPFAMOUNT_total}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="450" y="0" width="100" height="20"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{EXPORTAMOUNT_total}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="550" y="0" width="100" height="20"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{ADVANCEAMOUNT_total}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="650" y="0" width="100" height="20"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TOTALAMOUNT_total}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="131" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="45" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="100" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPORT ID:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN DATE:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="45" width="175" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{brUnitCode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="65" height="30"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT NAME:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="65" y="60" width="200" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{brUnitCode}=="909" ? "Trade Services Department" : $P{brUnitName}).toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="15" width="100" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportId}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="700" y="15" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="650" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN TIME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="650" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PAGE:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="700" y="0" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="251" y="15" width="250" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CONSOLIDATED REPORT ON DAILY COLLECTIONS OF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="251" y="0" width="250" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="251" y="30" width="250" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CUSTOMS DUTIES, TAXES AND OTHER LEVIES (CDTOL)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="350" y="91" width="100" height="40"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[IPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="450" y="91" width="100" height="40"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[EXPORT
+DOCUMENTARY
+STAMP FEES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="550" y="91" width="100" height="40"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[ADVANCE
+PAYMENTS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="150" y="91" width="100" height="40"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[REPORT CONTROL
+NUMBER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="650" y="91" width="100" height="40"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TOTAL PHP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="250" y="91" width="100" height="40"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DUTIES &
+TAXES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="91" width="150" height="40"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[HEAD OFFICE/
+BRANCH]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="251" y="45" width="250" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DATE OF COLLECTION: " + ($V{COLLECTIONFROM}==null ? "" : $V{COLLECTIONFROM}) + " TO " + ($V{COLLECTIONTO}==null ? "" : $V{COLLECTIONTO})]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="289" y="60" width="175" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["REMITTANCE DATE: " + ($V{REMITTANCEDATE}==null ? "" : $V{REMITTANCEDATE})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="90" width="750" height="1"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="150" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BRANCH_NAME}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="250" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FINALSTOTAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="350" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IPFAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="450" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EXPORTAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="550" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ADVANCEAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="650" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="150" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{reportControlNumber}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="111" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="11" width="750" height="100"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dateOfRemittancePopup">
+					<subreportParameterExpression><![CDATA[$P{dateOfRemittancePopup}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitCode">
+					<subreportParameterExpression><![CDATA[$P{brUnitCode}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="brUnitName">
+					<subreportParameterExpression><![CDATA[$P{brUnitName}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="reportId">
+					<subreportParameterExpression><![CDATA[$P{reportId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_3_subreport.jasper"]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement x="0" y="10" width="750" height="1"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

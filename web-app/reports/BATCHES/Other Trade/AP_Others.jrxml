@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AP_Others" language="groovy" pageWidth="1728" pageHeight="720" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="1688" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="0.75"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="forMonth" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="forYear" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitCode" class="java.lang.String"/>
+	<parameter name="brUnitName" class="java.lang.String"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="dateNow" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currentMonth" class="java.lang.String"/>
+	<parameter name="currentYear" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--AP OTHERS
+SELECT DATE(ap.bookingdate) as datebooked,
+	ap.SETTLEMENTACCOUNTNUMBER as referenceNumbers,
+	lc.importername as clientNameLC,
+	lc.APPLICANTNAME as applicantNameLC,
+	da.importername as clientNameDA,
+	dp.importername as clientNameDP,
+	oa.importername as clientNameOA,
+	dr.importername as clientNameDR,
+	ap.CIFNAME,
+	ap.natureoftransaction as particulars,
+	ap.APOUTSTANDINGBALANCE as amount,
+	DAYS(current date) - DAYS(ap.bookingdate) as diffDays,
+	(CASE WHEN (DAYS(current date) - DAYS(ap.bookingdate)) <= 30 THEN APOUTSTANDINGBALANCE ELSE 0 END) AS upTo30Days,
+	(CASE WHEN (DAYS(current date) - DAYS(ap.bookingdate)) >= 31 AND (DAYS(current date) - DAYS(ap.bookingdate)) <= 60 THEN APOUTSTANDINGBALANCE ELSE 0 END) AS over30_60Days,
+	(CASE WHEN (DAYS(current date) - DAYS(ap.bookingdate)) >= 61 AND (DAYS(current date) - DAYS(ap.bookingdate)) <= 90 THEN APOUTSTANDINGBALANCE ELSE 0 END) AS over60_90Days,
+	(CASE WHEN (DAYS(current date) - DAYS(ap.bookingdate)) >= 91 AND (DAYS(current date) - DAYS(ap.bookingdate)) <= 180 THEN APOUTSTANDINGBALANCE ELSE 0 END) AS over90_180Days,
+	(CASE WHEN (DAYS(current date) - DAYS(ap.bookingdate)) >= 181 AND (DAYS(current date) - DAYS(ap.bookingdate)) <= 360 THEN APOUTSTANDINGBALANCE ELSE 0 END) AS over180_360Days,
+	(CASE WHEN (DAYS(current date) - DAYS(ap.bookingdate)) >= 361 AND (DAYS(current date) - DAYS(ap.bookingdate)) <= 1095 THEN APOUTSTANDINGBALANCE ELSE 0 END) AS over360Days_3Years,
+	(CASE WHEN (DAYS(current date) - DAYS(ap.bookingdate)) >= 1096 AND (DAYS(current date) - DAYS(ap.bookingdate)) <= 1825 THEN APOUTSTANDINGBALANCE ELSE 0 END) AS over3_5Years,
+	(CASE WHEN (DAYS(current date) - DAYS(ap.bookingdate)) >= 1826 AND (DAYS(current date) - DAYS(ap.bookingdate)) <= 5475 THEN APOUTSTANDINGBALANCE ELSE 0 END) AS over5_15Years,
+	(CASE WHEN (DAYS(current date) - DAYS(ap.bookingdate)) >= 5476 THEN APOUTSTANDINGBALANCE ELSE 0 END) AS over15Years
+
+FROM  ACCOUNTSPAYABLE as ap
+
+LEFT JOIN  LETTEROFCREDIT as lc
+ON lc.documentnumber = ap.SETTLEMENTACCOUNTNUMBER
+
+LEFT JOIN  DOCUMENTAGAINSTACCEPTANCE as da
+ON da.documentnumber = ap.SETTLEMENTACCOUNTNUMBER
+
+LEFT JOIN  DOCUMENTAGAINSTPAYMENT as dp
+ON dp.documentnumber = ap.SETTLEMENTACCOUNTNUMBER
+
+LEFT JOIN  OPENACCOUNT as oa
+ON oa.documentnumber = ap.SETTLEMENTACCOUNTNUMBER
+
+LEFT JOIN  DIRECTREMITTANCE as dr
+ON dr.documentnumber = ap.SETTLEMENTACCOUNTNUMBER
+
+LEFT JOIN TRADESERVICE as ts
+ON ts.TRADESERVICEID = ap.TRADESERVICEID
+
+WHERE ap.APOUTSTANDINGBALANCE > 0
+
+AND (ts.status='APPROVED' or ts.status='POSTED' or ts.status='POST_APPROVED')
+AND year(ap.bookingdate)=$P{currentYear}
+
+ORDER BY DATE(ap.bookingdate), ap.SETTLEMENTACCOUNTNUMBER]]>
+	</queryString>
+	<field name="DATEBOOKED" class="java.sql.Date"/>
+	<field name="REFERENCENUMBERS" class="java.lang.String"/>
+	<field name="CLIENTNAMELC" class="java.lang.String"/>
+	<field name="APPLICANTNAMELC" class="java.lang.String"/>
+	<field name="CLIENTNAMEDA" class="java.lang.String"/>
+	<field name="CLIENTNAMEDP" class="java.lang.String"/>
+	<field name="CLIENTNAMEOA" class="java.lang.String"/>
+	<field name="CLIENTNAMEDR" class="java.lang.String"/>
+	<field name="CIFNAME" class="java.lang.String"/>
+	<field name="PARTICULARS" class="java.lang.String"/>
+	<field name="AMOUNT" class="java.math.BigDecimal"/>
+	<field name="DIFFDAYS" class="java.lang.Integer"/>
+	<field name="UPTO30DAYS" class="java.math.BigDecimal"/>
+	<field name="OVER30_60DAYS" class="java.math.BigDecimal"/>
+	<field name="OVER60_90DAYS" class="java.math.BigDecimal"/>
+	<field name="OVER90_180DAYS" class="java.math.BigDecimal"/>
+	<field name="OVER180_360DAYS" class="java.math.BigDecimal"/>
+	<field name="OVER360DAYS_3YEARS" class="java.math.BigDecimal"/>
+	<field name="OVER3_5YEARS" class="java.math.BigDecimal"/>
+	<field name="OVER5_15YEARS" class="java.math.BigDecimal"/>
+	<field name="OVER15YEARS" class="java.math.BigDecimal"/>
+	<variable name="reportId" class="java.lang.String">
+		<variableExpression><![CDATA[$P{reportId}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{reportId}]]></initialValueExpression>
+	</variable>
+	<variable name="total" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{UPTO30DAYS} + $F{OVER30_60DAYS} + $F{OVER60_90DAYS} + $F{OVER90_180DAYS} + $F{OVER180_360DAYS} + $F{OVER360DAYS_3YEARS} + $F{OVER3_5YEARS} + $F{OVER5_15YEARS} + $F{OVER15YEARS}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{UPTO30DAYS} + $F{OVER30_60DAYS} + $F{OVER60_90DAYS} + $F{OVER90_180DAYS} + $F{OVER180_360DAYS} + $F{OVER360DAYS_3YEARS} + $F{OVER3_5YEARS} + $F{OVER5_15YEARS} + $F{OVER15YEARS}]]></initialValueExpression>
+	</variable>
+	<variable name="30_Days" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{diffDays} < 31)? $F{AMOUNT}:0]]></variableExpression>
+		<initialValueExpression><![CDATA[($V{diffDays} < 31)? $F{AMOUNT}:0]]></initialValueExpression>
+	</variable>
+	<variable name="getDateToday" class="java.util.Date">
+		<variableExpression><![CDATA[new Date()]]></variableExpression>
+		<initialValueExpression><![CDATA[new Date()]]></initialValueExpression>
+	</variable>
+	<variable name="30_60_Days" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{diffDays} > 30 && $V{diffDays} < 60)?  $F{AMOUNT}:0]]></variableExpression>
+		<initialValueExpression><![CDATA[($V{diffDays} > 30 && $V{diffDays} < 60)?  $F{AMOUNT}:0]]></initialValueExpression>
+	</variable>
+	<variable name="diffDays" class="java.lang.Integer">
+		<variableExpression><![CDATA[($V{getDateToday}.getDate() - $F{DATEBOOKED}.getDate())/(1000 * 60 * 60 * 24)]]></variableExpression>
+		<initialValueExpression><![CDATA[($V{getDateToday}.getDate() - $F{DATEBOOKED}.getDate())/(1000 * 60 * 60 * 24)]]></initialValueExpression>
+	</variable>
+	<variable name="60_90_Days" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{diffDays} > 60 && $V{diffDays} < 90)?  $F{AMOUNT}:0]]></variableExpression>
+		<initialValueExpression><![CDATA[($V{diffDays} > 60 && $V{diffDays} < 90)?  $F{AMOUNT}:0]]></initialValueExpression>
+	</variable>
+	<variable name="90_180_Days" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{diffDays} > 90 && $V{diffDays} < 180)?  $F{AMOUNT}:0]]></variableExpression>
+		<initialValueExpression><![CDATA[($V{diffDays} > 90 && $V{diffDays} < 180)?  $F{AMOUNT}:0]]></initialValueExpression>
+	</variable>
+	<variable name="180_360_Days" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{diffDays} > 180 && $V{diffDays} < 360)?  $F{AMOUNT}:0]]></variableExpression>
+		<initialValueExpression><![CDATA[($V{diffDays} > 180 && $V{diffDays} < 360)?  $F{AMOUNT}:0]]></initialValueExpression>
+	</variable>
+	<variable name="360_3Yr_Days" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{diffDays} > 360 && $V{diffDays} < 1092)?  $F{AMOUNT}:0]]></variableExpression>
+		<initialValueExpression><![CDATA[($V{diffDays} > 360 && $V{diffDays} < 1092)?  $F{AMOUNT}:0]]></initialValueExpression>
+	</variable>
+	<variable name="3Yr_5Yr_Days" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{diffDays} > 1092 && $V{diffDays} < 1821)?  $F{AMOUNT}:0]]></variableExpression>
+		<initialValueExpression><![CDATA[($V{diffDays} > 1092 && $V{diffDays} < 1821)?  $F{AMOUNT}:0]]></initialValueExpression>
+	</variable>
+	<variable name="5Yr_15Yr_Days" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{diffDays} > 1821 && $V{diffDays} < 5463)? $F{AMOUNT}:0]]></variableExpression>
+		<initialValueExpression><![CDATA[($V{diffDays} > 1821 && $V{diffDays} < 5463)? $F{AMOUNT}:0]]></initialValueExpression>
+	</variable>
+	<variable name="over_15Yrs" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{diffDays} > 5463)? $F{AMOUNT}:0]]></variableExpression>
+		<initialValueExpression><![CDATA[($V{diffDays} > 5463)? $F{AMOUNT}:0]]></initialValueExpression>
+	</variable>
+	<variable name="dateBooked" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{DATEBOOKED}.getTime())]]></variableExpression>
+		<initialValueExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{DATEBOOKED}.getTime())]]></initialValueExpression>
+	</variable>
+	<variable name="brUnitName" class="java.lang.String">
+		<variableExpression><![CDATA[($P{brUnitCode}=="909")? "Trade Services Department":$P{brUnitName}]]></variableExpression>
+		<initialValueExpression><![CDATA[($P{brUnitCode}=="909")? "Trade Services Department":$P{brUnitName}]]></initialValueExpression>
+	</variable>
+	<variable name="clientName" class="java.lang.String">
+		<variableExpression><![CDATA[($F{CLIENTNAMEDA} != null) ? $F{CLIENTNAMEDA} :
+($F{CLIENTNAMEDR} != null) ? $F{CLIENTNAMEDR} :
+($F{CLIENTNAMEDP} != null) ? $F{CLIENTNAMEDP} :
+($F{CLIENTNAMEOA} != null) ? $F{CLIENTNAMEOA} :
+($F{CLIENTNAMELC} != null) ? $F{CLIENTNAMELC} :
+($F{APPLICANTNAMELC} != null) ? $F{APPLICANTNAMELC} :
+($F{CIFNAME} != null) ? $F{CIFNAME} : ""]]></variableExpression>
+		<initialValueExpression><![CDATA[($F{CLIENTNAMEDA} != null) ? $F{CLIENTNAMEDA} :
+($F{CLIENTNAMEDR} != null) ? $F{CLIENTNAMEDR} :
+($F{CLIENTNAMEDP} != null) ? $F{CLIENTNAMEDP} :
+($F{CLIENTNAMEOA} != null) ? $F{CLIENTNAMEOA} :
+($F{CLIENTNAMELC} != null) ? $F{CLIENTNAMELC} :
+($F{APPLICANTNAMELC} != null) ? $F{APPLICANTNAMELC} : ""]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="120">
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="45" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{brUnitCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="60" width="300" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{brUnitName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1580" y="0" width="45" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN TIME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="669" y="0" width="350" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[UNITED COCONUT PLANTERS BANK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[REPORT ID:]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="50" y="0" width="150" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="669" y="15" width="350" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[AP OTHERS (AGING)]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="669" y="30" width="350" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["FOR " + $P{forMonth}.toUpperCase() + ", " + $P{forYear}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUN DATE:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="1625" y="0" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1580" y="15" width="45" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PAGE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="65" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT CODE:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1625" y="15" width="50" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="15" width="150" height="15"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{reportId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="65" height="30"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[BR/UNIT NAME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="100" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DATE
+BOOKED]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="90" width="250" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CLIENT
+NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1175" y="90" width="100" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OVER
+360 DAYS -
+3 YEARS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1475" y="90" width="100" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OVER
+15
+YEARS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="90" width="125" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[REFERENCE
+NUMBER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="975" y="90" width="100" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OVER
+90-180
+DAYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1275" y="90" width="100" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OVER
+3-5
+YEARS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="475" y="90" width="200" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[PARTICULARS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="675" y="90" width="100" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[UP TO 30
+DAYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1575" y="90" width="100" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1375" y="90" width="100" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OVER
+5-15
+YEARS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="775" y="90" width="100" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OVER
+30-60
+DAYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1075" y="90" width="100" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OVER
+180-360
+DAYS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="875" y="90" width="100" height="30"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OVER
+60-90
+DAYS]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATEBOOKED}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="0" width="250" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{clientName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="475" y="0" width="200" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PARTICULARS}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="975" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OVER90_180DAYS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="775" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OVER30_60DAYS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="875" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OVER60_90DAYS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="1275" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OVER3_5YEARS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="0" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REFERENCENUMBERS}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="1175" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OVER360DAYS_3YEARS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="1075" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OVER180_360DAYS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="1575" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="1475" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OVER15YEARS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="675" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UPTO30DAYS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="1375" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OVER5_15YEARS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

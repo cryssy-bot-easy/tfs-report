@@ -1,0 +1,1465 @@
+data/src/java/net/ipc/utils/JsonUtil.java.i
+data/src/groovy/org/codehaus/groovy/grails/plugins/jasper/JasperExportFormat.groovy.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_G.jasper.i
+data/web-app/reports/FXLC/FXLC UA Loan Settlement/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/DMLC/DMLC Negotiaiton/Credit_Memo.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Rebates_from_Corres_Bank_Data_Entry_Dbf.jasper.i
+data/web-app/reports/FXLC/FXLC Opening/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Cancellation/Debit_Memo.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_10_Text.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_subreport1.jrxml.i
+data/web-app/reports/NON LC/IMPORT - FX Non-LC Settlement/Debit_Memo.jrxml.i
+data/web-app/reports/DMLC/DMLC DUA Loan Settlement/Debit_Memo.jrxml.i
+data/web-app/reports/DSLC Reports/Ps_10.jrxml.i
+data/web-app/reports/DSLC Reports/Bidding_Security_I.jrxml.i
+data/src/groovy/com/incuventure/dto/TradeServiceDTO.groovy.i
+data/web-app/reports/BATCHES/FXLC/Year_End_Report_on_Foreign_LCS_Opened_per_AdvisingBank_Subreport.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Bank_Guaranty.jasper.d
+data/web-app/reports/FXLC/FXLC Negotiation/Daily_Funding_Report.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Bank_Guaranty.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_N.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Bank_Guaranty_Grand_Total.jrxml.i
+data/web-app/reports/DSLC Reports/Fp_3.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Daily_Exception_Report_of_Accounting_Entries.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Waived_Trade_Income.jrxml.i
+data/grails-app/services/ucpb/tfs/reports/spad/ImportPaymentsService.groovy.i
+data/web-app/reports/EXPORTS OTHERS/Payment of Other Export Charges/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/DSLC Reports/Retention_6.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Bank_Guaranty_46_60_Days.jasper.i
+data/grails-app/services/ucbp/tfs/reports/fxform1/FxForm1Schedule5Service.groovy.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_4_Text.jasper.i
+data/lib/derbytools.jar.d
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Sight_LCs_per_Currency.jasper.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Sight_LCs_per_Currency.jasper.d
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies_subreport4.jasper.i
+data/lib/derbytools.jar.i
+data/web-app/reports/FXLC/FXLC Opening/Debit_Memo.jrxml.i
+data/grails-app/services/ucbp/tfs/reports/fxform1/FxForm1Schedule9Service.groovy.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Financial.jasper.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD_Subreport_Importer _Other.jasper.i
+data/web-app/reports/EXPORTS/DBC-OLB LC Settlement/Credit_Memo.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_4_Report.jasper.i
+data/web-app/reports/EXPORTS OTHERS/Payment of Other Export Charges/Payment_Summary.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Weekly_Report_on_Maturing_Usance_LCs_Subreport.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Import Advance Payment/Payment_Summary.jrxml.i
+data/web-app/reports/NON LC/IMPORT - FX Non-LC Settlement/Billing_Statement.jrxml.i
+data/web-app/reports/FXLC/BG Cancellation/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_2_2.jrxml.i
+data/batchFiles/TFS_0305_AR_Others.pdf.i
+data/web-app/reports/EXPORTS OTHERS/Processing of Export Advance Proceeds/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/DSLC Reports/Warranty_Bond.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Credex_Exception_Report.jasper.i
+data/web-app/reports/BATCHES/FXLC/Daily_Foreign_Cash_LCs_Opened.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Usance_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Performance_Security_1.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Daily_Report_on_Deposits_Collected_2.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Cash_LCs_per_Currency.jasper.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Cash_LCs_per_Currency.jasper.d
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_5_Text.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_D.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Warranty_Bond.jrxml.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Subreport.jrxml.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Settlement/Billing_Statement.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/MD Collection/Debit_Memo.jrxml.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_A.jasper.i
+data/web-app/reports/BATCHES/Non-LC/Dm_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Other_Local_Bank_Subreport_LocalBank.jasper.i
+data/web-app/reports/Debit_Memo_Cdt_Refund.jasper.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Sight_LCs_Per_Importer - Copy.jrxml.i
+data/web-app/reports/img/speech_bubble.jpg.i
+data/web-app/reports/Manual_Reports_for_SPAD/Export_Proceeds.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Usance_LCs_Per_Importer.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Usance_LCs_Per_Importer.jasper.d
+data/web-app/reports/Export_Negotiation_Advice_subreport.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Import_Processing_Fees_2.jasper.d
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Import_Processing_Fees_2.jasper.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_N.JPG.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD.jasper.d
+data/web-app/reports/Daily_Master_GL_Summary.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_11_Report.jasper.i
+data/web-app/reports/Debit_Memo_Cdt_Refund.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_A.JPG.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Payment_Guarranty_3.jpeg.i
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies_subreport1.jasper.i
+data/src/java/report/enums/BatchReport.java.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_3_subreport.jrxml.i
+data/web-app/reports/Letter_of_Transfer.jasper.i
+data/web-app/reports/Debit_Memo_Cdt_Payment.jasper.i
+data/web-app/reports/BATCHES/Non-LC/Dm_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Other_Local_Bank_Subreport_Importer.jasper.i
+data/web-app/reports/Debit_Memo_Cdt_Payment.jasper.d
+data/web-app/reports/FXLC/FXLC Amendment/Daily_Outstanding_FXLCs_Treasury_Report.jrxml.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Negotiation/Export_Negotiation_Advice_for_Issuing_Collecting_Bank.jrxml.i
+data/web-app/images/skin/shadow.jpg.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Standby_LCs_Per_Importer.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_6.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Standby_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Sight_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/FXLC/FXLC Opening/Payment_Summary.jrxml.i
+data/web-app/reports/DMLC/DMLC Negotiaiton/PDDTS_Report.jrxml.i
+data/test/unit/ucpb/tfs/reports/spad/ImportedLcsOpenedAndNonLcImportAvailmentsAndExtensionsServiceTests.groovy.i
+data/web-app/reports/BATCHES/Other Trade/Trade_Services_AMLA_Reported_Transactions.jrxml.i
+data/web-app/reports/DSLC Reports/Bidding_Security_B.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_7_Report.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Payment_Guarranty_4.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_B.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_5.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Export_Proceeds_Bills_Collected_Subreport.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Import Advance Refund/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Settlement/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Settlement/Payment_Summary.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Daily_Report_on_Deposits_Collected_subreport_2.jasper.i
+data/web-app/reports/IMPORTS OTHERS/MD Application/Credit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_3_subreport.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Collected_2%_CWT_108.jrxml.i
+data/web-app/reports/DSLC Reports/Fp_7.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Usance_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_4.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_TR.xls.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Others_Standby_3_Caltex.jpeg.i
+data/web-app/reports/Payment_Summary_Charges_Mode_Of_Payment.jrxml.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Inward_Bills.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_CLS.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/PS_8.jrxml.i
+data/web-app/reports/FXLC/FXLC Negotiation/Daily_Funding_Report.jrxml.i
+data/grails-app/i18n/messages_it.properties.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_7.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Import_Advance_and_Refund_Dbf.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Import_Processing_Fees_subreport.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_subreport_2.jasper.i
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Local_Bank_in_PHP_Subreport_Advising_Bank.jrxml.i
+data/web-app/reports/Debit_Memo_Cdt.jasper.i
+data/grails-app/services/com/incuventure/utilities/BatchGeneratorService.groovy.i
+data/web-app/reports/DMLC/DMLC Negotiaiton/Billing_Statement.jrxml.i
+data/web-app/reports/EXPORTS/DBP-OLB LC Settlement/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/test/unit/ucpb/tfs/reports/spad/OtherForeignExchangeAcquisitionsDispositionsServiceTests.groovy.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Standby_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/DSLC Reports/Bidding_Security_D.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Daily_Foreign_LC_Negotiations.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Ps_2.jrxml.i
+data/web-app/reports/Credit_Memo_Cdt_Refund.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Sight_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Foreign_LCs_Opened_for_the_Month.jasper.i
+data/web-app/reports/IMPORTS OTHERS/MD Collection/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/EXPORTS/DBP-OLB LC Negotiation/PDDTS_Report.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Foreign_LCs_Opened_for_the_Month.jasper.d
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Imports.jrxml.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Cancellation/Payment_Summary.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Daily_Report_on_Deposits_Collected_2.jasper.d
+data/web-app/reports/Tfs_Mco_Report_bak.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/PS_4.png.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps.xls.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Bank_Guaranty_Grand_Total.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report.jasper.i
+data/web-app/reports/FXLC/FXLC Amendment/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_4.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/PS_8.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Ps_7.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Rebates_from_Corres_Bank_Data_Entry.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Ps_7.jpeg.i
+data/web-app/reports/DSLC Reports/Bidding_Security_M.jasper.i
+data/src/groovy/com/ucpb/tfs/report/mco/enums/Duration.groovy.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_108.jrxml.i
+data/web-app/reports/DSLC Reports/Fp_Standard_Format_2.jasper.i
+data/web-app/reports/DSLC Reports/Bidding_Security_K.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Release_Retention.jpeg.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Others_Standby_3_Caltex.jasper.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Opening/Billing_Statement.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Remittance of CDT (TO BSP)/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Payment_Guarranty.jasper.i
+data/web-app/reports/EXPORTS OTHERS/Export Advance Refund/Debit_Memo.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Inward_Bills_for_Collection_DMLC_per_Currency_subreport2_grandtotal.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_K.jasper.i
+data/web-app/reports/DSLC Reports/Bidding_Security_H.jasper.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Standby_LCs_Per_Importer.jrxml.i
+data/web-app/reports/DMLC/DMLC DUA Loan Settlement/Daily_Funding_Report.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Usance_LCs_Per_Importer.jasper.i
+data/web-app/reports/DSLC Reports/Ps_4.jasper.i
+data/web-app/reports/FXLC/FXLC UA Loan Settlement/Debit_Memo.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Year_End_Report_on_Foreign_LCS_Opened_per_AdvisingBank_Subreport.jasper.i
+data/web-app/reports/PDDTS_Report.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies_subreport1.jrxml.i
+data/grails-app/conf/ApplicationResources.groovy.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/PS_9.jrxml.i
+data/web-app/reports/Charges_SubReport.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_3_Report.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/EXPOSURE_UPLOAD_TFS.jasper.i
+data/web-app/reports/DSLC Reports/Warranty_Bond.jasper.i
+data/web-app/reports/DSLC Reports/Others.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule4Exception-sub-report.jasper.i
+data/web-app/reports/DSLC Reports/Surety_Bond_3.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_108.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Export_Proceeds.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_108.jasper.d
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Settlement/Debit_Memo.jrxml.i
+data/web-app/images/speech_bubble.jpg.i
+data/web-app/reports/IMPORTS OTHERS/Refund CDT/Credit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank_TEST.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Outstanding_Inward_Bills_For_Collection_Dm_Dp_Per_Currency.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Daily_Report_on_Deposits_Collected_subreport.jasper.i
+data/grails-app/services/ucbp/tfs/reports/fxform1/FxForm1Schedule7Service.groovy.i
+data/web-app/reports/Export_Negotiation_Advice_subreport.jasper.i
+data/web-app/reports/BATCHES/Non-LC/Outstanding_Inward_Bills_For_Collection_Fx_Da_Dp_Oa_Dr_Per_Currency.jasper.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Sight_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Outstanding_Inward_Bills_For_Collection_Fx_Da_Dp_Oa_Dr_Per_Currency.jasper.d
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Release_Retention.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule3-sub-report.jasper.i
+data/web-app/reports/IMPORTS OTHERS/Collection of CDT/Daily_Report_on_Process_Refund.jrxml.i
+data/web-app/reports/Daily_Master_GL_Summary.jasper.i
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Settlement/Debit_Memo.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Warranty_Bond_2.jrxml.i
+data/web-app/reports/DSLC Reports/Bidding_Security_E.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_2.jrxml.i
+data/web-app/images/favicon.ico.i
+data/web-app/reports/DSLC Reports/Ps_3.jrxml.i
+data/web-app/reports/LC_Confirmation_Amendment.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Payment_Guarranty_5.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_9_Report.jrxml.i
+data/web-app/reports/FXLC/FXLC Amendment/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Outstanding_Acceptance.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Daily_Report_on_Deposits_Collected_subreport_2.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Standby_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule3_Exception.jasper.i
+data/web-app/reports/NON LC/DM Non-LC Settlement/Daily_Funding_Report.jrxml.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Opening/Payment_Summary.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Export_Advance_Dbf.jrxml.i
+data/web-app/reports/DSLC Reports/Retention.jasper.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Sight_LCs_Per_Importer - Copy.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Import_Advance_and_Refund_Dbf.jrxml.i
+data/web-app/reports/DMLC/DMLC Amendment/LC_Confirmation_Amendment_Regular_Cash.jrxml.i
+data/web-app/reports/EXPORTS/DBP-OLB LC Negotiation/Billing_Statement.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Dm_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Other_Local_Bank.jasper.d
+data/web-app/reports/BATCHES/Non-LC/Dm_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Other_Local_Bank.jasper.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Settlement/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Export_Bank_Commission.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_I.jasper.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Negotiation/EBC-FX LC Non-LC Negotiation - Export Negotiation Advice.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Volumetrics_Report.jrxml.i
+data/web-app/reports/Payment_Summary_Without_Cash.jasper.d
+data/web-app/reports/Manual_Reports_for_SPAD/EXPOSURE_UPLOAD_TF.jrxml.i
+data/web-app/reports/Payment_Summary_Without_Cash.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Marginal_Deposits.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/FP_4_Standard_Format.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Others.jrxml.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_D.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_F.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Profitability_Monitoring_Exception_Report.jasper.i
+data/lib/db2jcc_license_cu-1.jar.i
+data/web-app/reports/BATCHES/Export/Outstanding_Export_Negotiations_Foreign.jasper.i
+data/web-app/reports/BATCHES/FXLC/Schedule2Exception-sub-report.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Daily_Summary_of_Accounting_Entries.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_2.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/EXPOSURE_UPLOAD_TFS.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Daily_Summary_of_Accounting_Entries.jasper.d
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Cash_LCs_Per_Currency.jrxml.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Report_bak_old.jrxml.i
+data/web-app/reports/DSLC Reports/Payment_Guaranty_3.jasper.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Cancellation/Billing_Statement.jrxml.i
+data/web-app/reports/BATCHES/Export/Outstanding_Export_Negotiations_Domestic.jrxml.i
+data/web-app/reports/DSLC Reports/Fp_6.jrxml.i
+data/web-app/images/grails_logo.png.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_H.JPG.i
+data/web-app/reports/FXLC/FXLC Opening/Daily_Outstanding_FXLCs_Treasury_Report.jrxml.i
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened.jasper.d
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened.jasper.i
+data/web-app/reports/IMPORTS OTHERS/Remittance of CDT (TO BSP)/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_subreport2.jrxml.i
+data/web-app/reports/DSLC Reports/Others.jasper.i
+data/web-app/reports/DSLC Reports/Faithful_Performance_Advance_Payment.jasper.i
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Local_Bank_in_PHP.jasper.d
+data/web-app/reports/BATCHES/Other Imports/Daily_Report_On_Processed_CDT_Collections_Total_Per_Payment_Type.jasper.i
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Local_Bank_in_PHP.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Inward_Bills_for_Collection_DMLC_per_Currency.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Collected_2%_CWT.pdf.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/PS_8.JPG.i
+data/web-app/reports/BATCHES/Other Imports/Daily_Report_on_Process_Refund.jasper.i
+data/web-app/reports/EXPORTS OTHERS/Export Advance Refund/Payment_Summary.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Inward_Bills_for_Collection_FXLC_per_Currency_subreport2_grandtotal.jrxml.i
+data/web-app/reports/DSLC Reports/Advance_Payment.jasper.i
+data/web-app/reports/FXLC/FXLC Adjustment/Daily_Outstanding_LCs_CCBD_Report.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Remittance of CDT (TO BSP)/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule2Exception.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Warranty_Bond.jpeg.i
+data/web-app/reports/DSLC Reports/Bidding_Security_F.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_7_Report.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/PS_10.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Actual_Corres_Charges_Data_Entry.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Retention_Money_3.jpeg.i
+data/web-app/reports/Credit_Memo.jasper.i
+data/web-app/reports/BATCHES/FXLC/Schedule2_Exception.jasper.i
+data/web-app/reports/Credit_Memo.jasper.d
+data/web-app/reports/DSLC Reports/Bidding_Security_E.jasper.i
+data/web-app/reports/DSLC Reports/Bidding_Security_B.jasper.i
+data/web-app/reports/Debit_Memo_Cdt_Remittance.jrxml.i
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Negotiation/Billing_Statement.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/List of Transactions With No CIF Number.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Retention_2_2.jpeg.i
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/List of Transactions With No CIF Number.jasper.d
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_8.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_E.JPG.i
+data/web-app/reports/FXLC/BG Cancellation/Debit_Memo.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Usance_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Advance_Payment_2.jasper.i
+data/grails-app/i18n/messages_ru.properties.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_A.jasper.i
+data/web-app/reports/DMLC/DMLC Adjustment/Debit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_3.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/List_of_LC_Commissions.jasper.i
+data/web-app/reports/EXPORTS/DBP-OLB LC Negotiation/Debit_Memo.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Retention.jpeg.i
+data/web-app/reports/DMLC/DMLC DUA Loan Settlement/Billing_Statement.jrxml.i
+data/web-app/reports/DSLC Reports/Fp_3.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Ps_3.jasper.i
+data/web-app/reports/FXLC/FXLC Adjustment/Billing_Statement.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Remittance of CDT (TO BSP)/Consolidated_Daily_Report_on_Deposits_Collected.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Cash_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/BATCHES/Non-LC/Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank_Subreport_Importer_GRANDTOTAL.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule3_Exception.jrxml.i
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened_Subreport.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_3_Report.jrxml.i
+data/src/groovy/com/incuventure/dto/RateDefinition.groovy.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_8.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Rebates_from_Corres_Bank_Data_Entry.jasper.i
+data/interfaceFiles/CREDEXFORM4/FORM4.xls.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Import_Processing_Fees.jrxml.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_E.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Cash_LCs_Per_Importer.jrxml.i
+data/web-app/reports/Billing_Statement.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/TFS_CASA_Posting_Report_All.jasper.d
+data/web-app/reports/BATCHES/Other Trade/TFS_CASA_Posting_Report_All.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Bank_Guaranty.jrxml.i
+data/web-app/reports/FXLC/FXLC Amendment/Debit_Memo.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Warranty_Security.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Settlement of Actual Corres Charges/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/img/ucpb_report_logo.jpg.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD_Subreport_Importer _Other _Total.jrxml.i
+data/web-app/reports/Credit_Memo_Cdt.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Payment_Guarranty_3.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_L.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Fees_and_Commissions_per_Product.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_2.jasper.i
+data/grails-app/domain/com/incuventure/report/Rate.groovy.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_2.jasper.d
+data/web-app/reports/BATCHES/Other Imports/TRAMS.jrxml.i
+data/web-app/reports/DSLC Reports/Others_Standby.jasper.i
+data/web-app/reports/Payment_Summary_Charges_Mode_Of_Payment.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/FORM4.jrxml.i
+data/web-app/reports/Billing_Statement.jasper.d
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Cancellation/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/Billing_Statement.jasper.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Standby_LCs_Per_Importer_subreport.jasper.i
+data/grails-app/i18n/messages_sv.properties.i
+data/web-app/reports/BATCHES/FXLC/Schedule4_Exception.jasper.i
+data/web-app/reports/Performance_Security_1.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Import Advance Payment/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_5.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Payment_Guarranty.jpeg.i
+data/web-app/reports/BATCHES/FXLC/Daily_Foreign_Regular_LCs_Opened.jrxml.i
+data/web-app/reports/Payment_Summary.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Ps_4.jasper.i
+data/web-app/reports/Performance_Security_1.jasper.i
+data/web-app/reports/FXLC/BGBE Issuance/Debit_Memo.jrxml.i
+data/web-app/reports/EXPORTS OTHERS/Processing of Export Advance Proceeds/Payment_Summary.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/MD Collection/Billing_Statement.jrxml.i
+data/web-app/reports/DSLC Reports/Retention_5.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_115.xls.i
+data/web-app/reports/IMPORTS OTHERS/Remittance of CDT (TO BSP)/Consolidated_Daily_Report_on_Deposits_Collected.jasper.i
+data/src/groovy/com/incuventure/dto/InstructionsDTO.groovy.i
+data/web-app/reports/DSLC Reports/Others_Standby_3.jrxml.i
+data/web-app/images/skin/house.png.i
+data/web-app/reports/BATCHES/FXLC/Schedule4Exception-sub-report.jrxml.i
+data/web-app/reports/DSLC Reports/Retention_4.jrxml.i
+data/web-app/reports/DSLC Reports/Others_Standby_3.jasper.i
+data/web-app/reports/FXLC/FXLC Opening/Daily_Cash_FXLCs_Opened_Treasury_Report.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Weekly_Report_on_Maturing_Usance_LCs.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Credex_Text.jasper.i
+data/src/groovy/com/incuventure/repository/RatesRepository.groovy.i
+data/web-app/reports/IMPORTS OTHERS/AR Monitoring/Credit_Memo.jrxml.i
+data/stacktrace.log.i
+data/web-app/reports/Credit_Memo_Cdt_Refund.jasper.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Standby_LCs_Per_Currency.jrxml.i
+data/web-app/reports/Daily Report on Processed CDT Collections.jasper.i
+data/web-app/reports/BATCHES/FXLC/Schedule3Exception-sub-report.jrxml.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Foreign_Sight.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_M.JPG.i
+data/web-app/reports/BATCHES/FXLC/Schedule3-sub-report.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Daily_Foreign_LC_Negotiations.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Import_Processing_Fees.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Credex_Report.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Import_Processing_Fees.jasper.d
+data/web-app/reports/Manual_Reports_for_SPAD/Actual_Corres_Charges_Data_Entry_Dbf.jasper.i
+data/web-app/reports/DSLC Reports/Payment_Guaranty_2.jrxml.i
+data/src/groovy/com/ucpb/tfs/report/mco/BucketEntry.groovy.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD.jrxml.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Cash_Lc.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Sight_LCs_Per_Importer - Copy.jasper.i
+data/web-app/reports/DSLC Reports/LC_Confirmation_Standby_Opening.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_11_Report.jrxml.i
+data/grails-app/services/com/incuventure/utilities/ReportDataQueryService.groovy.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Advance_Payment.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees.jasper.i
+data/web-app/images/skin/database_save.png.i
+data/web-app/reports/BATCHES/Other Imports/Tfs_Mco_Report.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Faithful_Performance_Advance_Payment.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees.jasper.d
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_2.jasper.d
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_2.jasper.i
+data/web-app/reports/Daily_Report_on_Process_Refund.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Imported_Letters_of_Credit_(LCs)_Opened_and_DA-OA_Import_Availments_and_Extensions.jasper.i
+data/web-app/reports/DSLC Reports/Bidding_Security_D.jasper.i
+data/grails-app/services/com/incuventure/utilities/GenericReportsQueryService.groovy.i
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Negotiation/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank.jrxml.i
+data/grails-app/conf/spring/integration.xml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_3_Text.jasper.i
+data/web-app/reports/EXPORTS/DBP-OLB LC Settlement/Billing_Statement.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Foreign_LCs_Opened_for_the_Month_Subreport.jasper.i
+data/web-app/reports/Payment_Summary_Charges_Payment_Breakdown.jrxml.i
+data/web-app/reports/DSLC Reports/Advance_Payment_2.jasper.i
+data/grails-app/services/ucpb/tfs/reports/spad/FxForm1Schedule5Service.groovy.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_subreport_2.jrxml.i
+data/web-app/reports/NON LC/IMPORT - FX Non-LC Settlement/Bank_Certification.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Inward_Bills_for_Collection_FXLC_per_Currency_subreport2_grandtotal.jasper.i
+data/web-app/images/skin/database_delete.png.i
+data/web-app/reports/Manual_Reports_for_SPAD/FORM4.jasper.i
+data/web-app/reports/BATCHES/Other Trade/YTD_Transaction_Count_Import_and_Export.jrxml.i
+data/grails-app/services/ucpb/tfs/reports/spad/ActualCorresChargeService.groovy.i
+data/test/unit/ucpb/tfs/reports/spad/ActualCorresChargeServiceTests.groovy.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Standby_LCs_Per_Importer_subreport.jasper.i
+data/grails-app/i18n/messages_de.properties.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Cash_LCs_Per_Importer.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Daily_Funding_Subreport.jrxml.i
+data/web-app/reports/Daily Report on Processed CDT Collections.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Cash_LCs_Per_Currency.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Import_Payments.jasper.d
+data/web-app/reports/LC_Confirmation_Opening.jasper.d
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_6.jasper.i
+data/web-app/reports/LC_Confirmation_Opening.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Statement_of_Earnings_and_Expenses.jasper.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Inward_Bills_for_Collection_FXLC_per_Currency.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_subreport.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Quarterly_Report_on_Foreign_Standby_LCs_Opened_subreport.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_6.jrxml.i
+data/web-app/reports/Export_Negotiation_Advice.jrxml.i
+data/web-app/reports/DSLC Reports/Bidding_Security_M.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Remittance of CDT (TO BSP)/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_subreport1.jrxml.i
+data/web-app/reports/Export_Negotiation_Advice.jasper.d
+data/web-app/reports/EXPORTS/DBC-OLB LC Settlement/Debit_Memo.jrxml.i
+data/lib/saxon-xpath-8.7.jar.i
+data/grails-app/services/com/incuventure/utilities/TfsMcoReportService.groovy.i
+data/web-app/reports/DSLC Reports/Ps_4.jrxml.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD_Subreport_Importer _Other.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Profitability_Monitoring_Report.jasper.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Sight_LCs_Per_Importer_subreport.jasper.i
+data/grails-app/i18n/messages_es.properties.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened.jasper.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened.jasper.d
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Negotiation/Export_Negotiation_Advice_for_Reimbursing_Bank.jrxml.i
+data/web-app/reports/Payment_Details_MD_SubReport.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_3.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_3.jasper.d
+data/web-app/reports/DSLC Reports/Fp_5.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Usance_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/Letter_of_Advise.jasper.d
+data/web-app/reports/Letter_of_Advise.jasper.i
+data/web-app/reports/Bank_Certification.jasper.i
+data/web-app/reports/FXLC/FXLC Negotiation/Bank_Certification.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/AP Monitoring/Credit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank_Subreport_Importer.jasper.i
+data/web-app/reports/DSLC Reports/Ps_8.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_3.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_subreport.jasper.d
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_9_Report.jasper.d
+data/grails-app/services/ucbp/tfs/reports/fxform1/FxForm1DbfExceptionService.groovy.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Non-Financial.jasper.i
+data/web-app/reports/BATCHES/FXLC/Year_End_Report_on_Foreign_LCS_Opened_subreport.jrxml.i
+data/grails-app/i18n/messages_fr.properties.i
+data/web-app/reports/BATCHES/FXLC/Consolidated_Report_on_Foreign_LCs_Opened_for_the_Month.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Bank_Guaranty_Over_60_Days.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Surety_Bond.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Settlement of Actual Corres Charges/Debit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Import_Processing_Fees_subreport_2.jrxml.i
+data/web-app/reports/Daily_Foreign_LCs_Opened_Report_with_CDT_Details.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention.jrxml.i
+data/web-app/reports/Payment_Summary_Principal_Payment_Breakdown.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Export_Advance.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Standby_LCs_Per_Importer.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Faithful_Performance_Advance_Payment.jasper.i
+data/grails-app/controllers/com/incuventure/utilities/GenericReportsController.groovy.d
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_K.jrxml.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Cash_Lc.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/FP_Standard_Format_2.jasper.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Domestic_Usance.jasper.i
+data/web-app/reports/Payment_Summary_Other_Imports.jasper.d
+data/web-app/reports/Payment_Summary_Other_Imports.jasper.i
+data/web-app/reports/BATCHES/FXLC/Year_End_Report_on_Foreign_LCS_Opened_per_ConfirmingBank_Subreport.jasper.i
+data/web-app/reports/Transmittal_Letter.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule3Exception.jrxml.i
+data/batchFiles/TFS_0305_CREDEX_Report.pdf.i
+data/web-app/reports/BATCHES/Non-LC/Dm_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Other_Local_Bank_Subreport_Importer_Others.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Daily_Summary_of_Accounting_Entries.jrxml.i
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Settlement/Payment_Summary.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_M.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Dm_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Other_Local_Bank_Subreport_Importer_Total.jrxml.i
+data/grails-app/services/ucbp/tfs/reports/fxform1/FxForm1Schedule11Service.groovy.i
+data/web-app/reports/IMPORTS OTHERS/Payment of Other Import Charges/Debit_Memo.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Inward_Bills_for_Collection_FXLC_per_Currency_subreport.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Foreign_Domestic_LCs_Opened.jrxml.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Report.jasper.i
+data/web-app/reports/DSLC Reports/Faithful_Performance_Advance_Payment.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Product_Availments_Report.jrxml.i
+data/web-app/images/leftnav_btm.png.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_11_Text.jrxml.i
+data/web-app/reports/FXLC/BG Cancellation/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Cancellation/Export_Negotiation_Advice_EBP_FX_LC_Non_LC_Negotiation.jrxml.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Cancellation/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/images/skin/exclamation.png.i
+data/web-app/reports/FXLC/FXLC Adjustment/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/DSLC Reports/Surety_Bond.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Export_Advance_Dbf.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_subreport4.jasper.i
+data/web-app/reports/DSLC Reports/Payment_Guaranty_3.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Usance_LCs_Per_Currency.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Collected_2%_CWT.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/PS_2.png.i
+data/web-app/reports/BATCHES/Export/Bank_Certification_Export.jrxml.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD_Subreport_Importer.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule4Exception.jrxml.i
+data/web-app/reports/EXPORTS/DBP-OLB LC Negotiation/Daily_Funding_Report.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/DW_Exception_Report.jasper.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Cash_LCs_Per_Importer.jasper.i
+data/web-app/reports/EXPORTS/DBP-OLB LC Negotiation/Credit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Inward_Bills.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Import_Processing_Fees_subreport_2.jasper.i
+data/web-app/reports/IMPORTS OTHERS/Import Advance Payment/Daily_Funding_Report.jrxml.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD_Subreport_Total.jrxml.i
+data/src/java/com/ucpb/tfs/report/mco/LogRecord.java.i
+data/web-app/reports/FXLC/Daily_Outstanding_LCs_CCBD_Report.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Import_Processing_Fees_subreport.jrxml.i
+data/web-app/reports/DSLC Reports/Performance_Security_2.jrxml.i
+data/web-app/images/skin/database_add.png.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Sight_LCs_Per_Importer - Copy.jrxml.i
+data/web-app/reports/Payment_Summary_Without_Charges.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Accounts_Total.jasper.i
+data/web-app/reports/DSLC Reports/Bidding_Security_G.jrxml.i
+data/web-app/reports/FXLC/FXLC Opening/Daily_FXLCs_Opened_Treasury_Report.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Thumbs.db.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Opening/Letter_of_Advise_Addressed_to_Client_2nd_Advising_Bank.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_of_Marginal_Deposit.jrxml.i
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Settlement/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/DSLC Reports/Performance_Security_1.jasper.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Cash_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Daily_Report_on_Processed_CDT_Collections.jasper.i
+data/web-app/reports/Debit_Memo.jasper.d
+data/web-app/reports/BATCHES/Other Trade/YTD_Transaction_Count_Import_and_Export.jasper.d
+data/web-app/WEB-INF/tld/spring.tld.i
+data/web-app/reports/BATCHES/Other Trade/YTD_Transaction_Count_Import_and_Export.jasper.i
+data/web-app/reports/Debit_Memo.jasper.i
+data/web-app/reports/BATCHES/FXLC/Daily_Funding_Subreport.jasper.d
+data/web-app/reports/Payment_Summary_Without_Cash.jrxml.i
+data/web-app/reports/NON LC/IMPORT - FX Non-LC Settlement/Daily_Funding_Report.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Daily_Funding_Subreport.jasper.i
+data/web-app/images/skin/sorted_desc.gif.i
+data/web-app/reports/Documents_Check_List.jasper.d
+data/web-app/reports/FXLC/BGBE Issuance/Payment_Summary.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Dm_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Other_Local_Bank_Subreport_Importer_Others.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Other_Foreign_Exchange_Acquisitions_Dispositions_Dbf.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Standby_LCs_per_Importer.jasper.i
+data/web-app/reports/BATCHES/Non-LC/Outstanding_Inward_Bills_For_Collection_Dm_Da_Dp_Per_Currency.jasper.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Standby_LCs_per_Importer.jasper.d
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Cash_LCs_Per_Importer.jasper.d
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Cash_LCs_Per_Importer.jasper.i
+data/web-app/reports/BATCHES/Other Trade/YTD_Transaction_Count_Import_and_Export_Subreport_Imports.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Product_Availments_Exception_Report.jrxml.i
+data/web-app/reports/Payment_Summary.jasper.d
+data/web-app/reports/Payment_Summary.jasper.i
+data/web-app/reports/Payment_Summary_Charges_Payment_Breakdown.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Advance_Payment_2.jrxml.i
+data/web-app/reports/DSLC Reports/Retention_Money_3.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Dm_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Other_Local_Bank_Subreport_LocalBank.jrxml.i
+data/web-app/reports/DMLC/DMLC DUA Loan Settlement/Transmittal_Letter.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_9_Text.jasper.i
+data/web-app/reports/Payment_Summary_Without_Charges.jasper.d
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Usance_LCs_Per_Currency.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Usance_LCs_Per_Currency.jasper.d
+data/web-app/reports/Payment_Summary_Without_Charges.jasper.i
+data/web-app/reports/BATCHES/FXLC/Schedule2-sub-report.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/FP_7.jpeg.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Outstanding_Acceptance.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Sight_LCs_Per_Importer.jrxml.i
+data/web-app/reports/BATCHES/Export/Export_Payments_for_the_Month_per_Client.jasper.d
+data/web-app/reports/BATCHES/Export/Export_Payments_for_the_Month_per_Client.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Import_Payments_Dbf.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_H.jrxml.i
+data/web-app/reports/DSLC Reports/Ps_3.jasper.i
+data/web-app/images/grails_logo.jpg.i
+data/web-app/reports/FXLC/FXLC Negotiation/Payment_Summary.jrxml.i
+data/web-app/reports/DSLC Reports/Ps_7.jasper.i
+data/web-app/reports/BATCHES/DMLC/Domestic_LCs_Opened_for_the_Month_Subreport.jrxml.i
+data/web-app/reports/DMLC/DMLC Adjustment/Debit_Memo.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_2_1.jasper.i
+data/src/groovy/com/incuventure/dto/Rate.groovy.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_E.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_5_Report.jasper.i
+data/grails-app/services/ucbp/tfs/reports/fxform1/FxForm1Schedule3Service.groovy.i
+data/web-app/reports/Manual_Reports_for_SPAD/Rebates_from_Corres_Bank_Data_Entry_Dbf.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Cash_LCs_Per_Importer_subreport.jrxml.i
+data/batchFiles/TFS_0305_Quarterly_Report_on_Foreign_Standby_LCs_Opened.pdf.i
+data/web-app/reports/Documents_Check_List.jrxml.i
+data/web-app/reports/LC_Confirmation_Opening.jrxml.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Amendment/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_5.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_10_Report.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Consolidated_Report_on_Domestic_LCs_Opened_for_the_Month.jasper.i
+data/web-app/reports/BATCHES/DMLC/Consolidated_Report_on_Domestic_LCs_Opened_for_the_Month.jasper.d
+data/web-app/reports/NON LC/DM Non-LC Settlement/Credit_Memo.jrxml.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_F.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Performance_Security_2.jrxml.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_B.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Advance_Payment_3.jasper.i
+data/grails-app/services/com/incuventure/utilities/DebitMemoReportDataService.groovy.i
+data/web-app/reports/BATCHES/Other Imports/YTD_Customs_Duties_And_Taxes_And_Other_Levies.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Standby_LCs_Per_Importer.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Standby_LCs_Per_Importer.jasper.d
+data/web-app/reports/Manual_Reports_for_SPAD/Other_Foreign_Exchange_Acquisitions_Dispositions_Dbf.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_4.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule3Exception.jasper.i
+data/web-app/reports/BATCHES/FXLC/Year_End_Report_on_Foreign_LCS_Opened_per_Advising_Bank.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_A.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/AP_Others.jrxml.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Domestic_Sight.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Clients_Total.jrxml.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Opening/Debit_Memo.jrxml.i
+data/web-app/reports/FXLC/FXLC Opening/Transmittal_Letter.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Sight_LCs_per_Importer.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Collection of CDT/Daily_Foreign_LCs_Opened_Report_with_CDT_Details.jrxml.i
+data/web-app/reports/Bidding_Security_A.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/FP_Standard_Format_2.jpeg.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_4.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_G.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Dm_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Other_Local_Bank_Subreport_Importer.jrxml.i
+data/src/groovy/com/ucpb/tfs/report/mco/Transaction.groovy.i
+data/web-app/reports/BATCHES/FXLC/Consolidated_Rerport_on_Foreign_LCs_Opened_for_the_Month.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Payment_Guaranty_2.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/FP_3.jasper.i
+data/lib/jcc4-4.13.127.jar.d
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Negotiation/PDDTS_Report.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/Payment_Summary.jrxml.i
+data/web-app/reports/DSLC Reports/Fp_5.jasper.i
+data/web-app/reports/Outgoing_MTs.jasper.i
+data/lib/jcc4-4.13.127.jar.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Usance_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/FP_3.jrxml.i
+data/web-app/reports/DSLC Reports/Fp_4_Standard_Format.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Surety_Bond_2.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Daily_Summary_of_Accounting_Entries_Total_Subreport.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Year_End_Report_on_Foreign_LCS_Opened_subreport.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Ps_4.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Settlement of Actual Corres Charges/Billing_Statement.jrxml.i
+data/web-app/reports/FXLC/FXLC UA Loan Settlement/Billing_Statement.jrxml.i
+data/web-app/images/apple-touch-icon.png.i
+data/web-app/reports/BATCHES/Other Trade/AP_Others.jasper.i
+data/web-app/reports/DSLC Reports/Warranty_Security.jasper.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Inward_Bills_for_Collection_FXLC_per_Currency_subreport.jrxml.i
+data/web-app/reports/Credit_Memo_Cdt.jasper.i
+data/web-app/reports/Other_Documents_Instructions.jasper.d
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Daily_Report_on_Deposits_Collected_subreport.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/AP_Others.jasper.d
+data/interfaceFiles/CREDEXFORM4_BACKUP/TFS_0305_FORM4.xls.i
+data/web-app/reports/BATCHES/Non-LC/Outstanding_Inward_Bills_For_Collection_Dm_Da_Dp_Per_Currency.jrxml.i
+data/lib/gson-2.2.2.jar.i
+data/web-app/reports/IMPORTS OTHERS/Remittance of CDT (TO BSP)/Consolidated_Report_on_Daily_Collections_of_Import_Processing_Fees.jrxml.i
+data/web-app/reports/Certification.jasper.i
+data/web-app/reports/NON LC/DM Non-LC Settlement/PDDTS_Report.jrxml.i
+data/grails-app/conf/UrlMappings.groovy.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Surety_Bond_2.jasper.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_G.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/AP Monitoring/AP Aging Report.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Import Advance Payment/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/LC_Confirmation_Standby_Opening.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/FP_5.jrxml.i
+data/web-app/reports/FXLC/FXLC Adjustment/Payment_Summary.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Cash_LCs_Per_Currency.jrxml.i
+data/web-app/reports/DSLC Reports/Ps_7.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Daily_Report_on_Deposits_Collected.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Weekly_Report_on_Maturing_Usance_LCs.jasper.i
+data/web-app/reports/IMPORTS OTHERS/Import Advance Refund/Credit_Memo.jrxml.i
+data/web-app/reports/Charges_SubReport.jrxml.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Cancellation/Billing_Statement.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Collection of CDT/Credit_Memo.jrxml.i
+data/web-app/reports/DSLC Reports/Retention_2.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Collected_2%_CWT_TR.jasper.i
+data/test/unit/net/ipc/utils/DateUtilsTest.groovy.i
+data/web-app/reports/DSLC Reports/Bidding_Security_H.jrxml.i
+data/web-app/reports/FXLC/FXLC Amendment/Daily_Outstanding_LCs_CCBD_Report.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Collected_2%_CWT_108.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Release_Retention.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Clients_Total.jasper.i
+data/grails-app/views/index.gsp.i
+data/web-app/reports/BATCHES/FXLC/Schedule2-sub-report.jasper.i
+data/web-app/reports/IMPORTS OTHERS/Import Advance Payment/Billing_Statement.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_subreport4.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_TR.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_3.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_TR.jasper.d
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Cash_LCs_per_Importer2.jasper.d
+data/web-app/reports/Other_Documents_Instructions.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Cash_LCs_per_Importer2.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/PS_9.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_7_Text.jasper.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Daily_Funding.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Sight_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/DSLC Reports/Warranty_Security.jrxml.i
+data/test/unit/com/incuventure/utilities/GenericReportsQueryServiceTests.groovy.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Ps_6.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_TR.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule4.jrxml.i
+data/web-app/reports/Daily_Outstanding_LCs_CCBD_Report.jasper.i
+data/src/java/report/utils/ReportUtility.java.i
+data/web-app/reports/Billing_Statement_For_Marginal_Deposit.jrxml.i
+data/web-app/reports/Daily_Outstanding_LCs_CCBD_Report.jasper.d
+data/test/unit/com/incuventure/utilities/ReportDbServiceTests.groovy.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Others_Standby.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_M.jasper.i
+data/grails-app/services/ucbp/tfs/reports/fxform1/FxForm1Schedule4Service.groovy.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_2_2.jasper.i
+data/web-app/reports/Credit_Memo_Cdt_Send_To_Boc.jasper.i
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened_Subreport.jrxml.i
+data/web-app/reports/DSLC Reports/Payment_Guaranty_4.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Cash_LCs_per_Importer2.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_G.jasper.i
+data/web-app/reports/DMLC/DMLC Negotiaiton/Daily_Funding_Report.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Others.jasper.i
+data/web-app/reports/Billing_Statement_For_Cash.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_4_Text.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Consolidated_Report_on_Domestic_LCs_Opened_for_the_Month_subreport.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies_subreport3.jrxml.i
+data/web-app/reports/DSLC Reports/Payment_Guaranty.jrxml.i
+data/web-app/reports/BATCHES/Export/Export_Negotiations_for_the_Month_per_Client.jasper.i
+data/web-app/reports/IMPORTS OTHERS/Import Advance Refund/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule3.jasper.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Sight_LCs_per_Currency.jrxml.i
+data/web-app/reports/DSLC Reports/Retention_3.jrxml.i
+data/web-app/reports/Payment_Summary_With_Proceeds.jasper.i
+data/web-app/reports/IMPORTS OTHERS/Import Advance Refund/Debit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Product_Availments_Report.jasper.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Amendment/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Payment_Guarranty_4.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Profitability_Monitoring_Report.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Performance_Bond.jrxml.i
+data/web-app/reports/img/Thumbs.db.i
+data/web-app/reports/BATCHES/Other Trade/Product_Availments_Report.jasper.d
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Local_Bank_in_PHP_Subreport_Advising_Bank.jasper.i
+data/web-app/reports/BATCHES/DMLC/Domestic_LCs_Opened_for_the_Month.jasper.i
+data/batchFiles/TFS_0305_AP_Others.pdf.i
+data/web-app/reports/BATCHES/DMLC/Domestic_LCs_Opened_for_the_Month.jasper.d
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_3.jrxml.i
+data/application.properties.i
+data/web-app/reports/Bidding_Security_A.jrxml.i
+data/web-app/reports/EXPORTS OTHERS/Processing of Export Advance Proceeds/Debit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps.jrxml.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_D.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_Money_3.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Import_Advance_and_Refund.jasper.i
+data/grails-app/services/ucbp/tfs/reports/fxform1/FxForm1DbfWriterService.groovy.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Import_Processing_Fees_2.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_N.jrxml.i
+data/web-app/reports/Debit_Memo_Cdt.jrxml.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Domestic_Usance.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Year_End_Report_on_Foreign_LCS_Opened_per_Confirming_Bank.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Standby_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Daily_Report_on_Deposits_Collected_2.jasper.i
+data/web-app/reports/Tfs_Mco_Report.jrxml.i
+data/web-app/reports/EXPORTS/DBC-OLB LC Settlement/Daily_Funding_Report.jrxml.i
+data/web-app/reports/FXLC/FXLC UA Loan Maturity Adjustment/Debit_Memo.jrxml.i
+data/web-app/reports/FXLC/FXLC Adjustment/Debit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Non-Financial.jrxml.i
+data/test/unit/com/incuventure/utilities/TfsMcoReportServiceTests.groovy.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_7_Text.jrxml.i
+data/web-app/reports/FXLC/FXLC Opening/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/DSLC Reports/Advance_Payment_3.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Imported_Letters_of_Credit_(LCs)_Opened_and_DA-OA_Import_Availments_and_Extensions.txt.i
+data/web-app/reports/BATCHES/Export/Outstanding_Export_Negotiations_Domestic.jasper.i
+data/web-app/reports/BATCHES/FXLC/Consolidated_Report_on_Foreign_LCs_Opened_for_the_Month.jasper.d
+data/web-app/reports/DSLC Reports/Payment_Guaranty_4.jasper.i
+data/web-app/reports/DSLC Reports/Performance_Security_1.jrxml.i
+data/web-app/reports/BATCHES/Export/Export_Negotiations_per_Collecting_Bank.jrxml.i
+data/web-app/reports/FXLC/FXLC Opening/Billing_Statement.jrxml.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD_Subreport_Importer _Other _Total.jasper.i
+data/web-app/reports/DSLC Reports/Performance_Bond.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Consolidated_Report_on_Domestic_LCs_Opened_for_the_Month_subreport.jasper.i
+data/web-app/reports/DMLC/DMLC Negotiaiton/Debit_Memo.jrxml.i
+data/grails-app/services/com/incuventure/utilities/BatchDebitMemoService.groovy.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Transactions_Total.jrxml.i
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Local_Bank_in_PHP_Subreport_Others.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/RAS_Extraction_Exception_Report.jasper.i
+data/web-app/images/spinner.gif.i
+data/web-app/reports/BATCHES/Other Trade/AR_Others.jasper.d
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Ps_2.jasper.i
+data/web-app/reports/FXLC/BGBE Issuance/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/EXPORTS OTHERS/Export Advance Refund/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/AR_Others.jasper.i
+data/grails-app/services/ucpb/tfs/reports/utilities/CryptoService.groovy.i
+data/web-app/reports/DSLC Reports/Retention_Money_3.jasper.i
+data/web-app/reports/FXLC/FXLC Amendment/Billing_Statement.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Foreign_Domestic_LCs_Opened.jasper.i
+data/web-app/reports/BATCHES/DMLC/Grand_Total_LCs_Opened.jasper.i
+data/grails-app/controllers/com/incuventure/utilities/DslcReportsController.groovy.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Foreign_Domestic_LCs_Opened.jasper.d
+data/web-app/reports/FXLC/FXLC Opening/Daily_Outstanding_LCs_CCBD_Report.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Payment_Guarranty.jrxml.i
+data/web-app/js/application.js.i
+data/web-app/reports/BATCHES/Other Trade/Collected_2%_CWT_TR.jrxml.i
+data/web-app/reports/DSLC Reports/Bidding_Security_C.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_L.JPG.i
+data/src/groovy/org/codehaus/groovy/grails/plugins/jasper/JasperReportDef.groovy.i
+data/web-app/reports/Manual_Reports_for_SPAD/Imported_Letters_of_Credit_(LCs)_Opened_and_DA-OA_Import_Availments_and_Extensions_Dbf.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_10_Report.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_10_Report.jasper.d
+data/grails-app/services/com/incuventure/utilities/ReportDbService.groovy.i
+data/web-app/reports/Payment_Summary_Payment_Breakdown.jasper.i
+data/web-app/reports/Billing_Statement_For_Nego_Amount.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Remittance of CDT (TO BSP)/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Usance_LCs_per_Currency.jasper.d
+data/web-app/reports/Discrepancy_Letter.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_115.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Usance_LCs_per_Currency.jasper.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Standby_LCs_Per_Currency.jasper.i
+data/web-app/images/apple-touch-icon-retina.png.i
+data/web-app/reports/BATCHES/FXLC/Schedule3Exception-sub-report.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Faithful_Performance_2.jpeg.i
+data/web-app/reports/BATCHES/Other Imports/Daily_Foreign_LCs_Opened_Report_with_CDT_Details.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies_subreport5.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_B.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Consolidated_Report_on_Foreign_LCs_Opened_for_the_Month_subreport.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Retention_3.jpeg.i
+data/lib/http-builder-0.5.2.jar.d
+data/lib/http-builder-0.5.2.jar.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD_Subreport_Importer.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_C.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_3.jasper.i
+data/web-app/reports/NON LC/DM Non-LC Settlement/Debit_Memo.jrxml.i
+data/grails-app/services/com/incuventure/utilities/SilverlakeService.groovy.i
+data/web-app/reports/Settlement_Amount_Total_SubReport.jrxml.i
+data/web-app/images/leftnav_midstretch.png.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_H.jasper.i
+data/web-app/reports/DSLC Reports/Bidding_Security_C.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Standby_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/BATCHES/FXLC/Consolidated_Rerport_on_Foreign_LCs_Opened_for_the_Month.jrxml.i
+data/lib/derby.jar.d
+data/lib/derby.jar.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Others_5.jpeg.i
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies_subreport5.jasper.i
+data/web-app/reports/BATCHES/FXLC/Consolidated_Report_on_Foreign_LCs_Opened_for_the_Month_subreport.jasper.i
+data/grails-app/controllers/com/incuventure/utilities/DirectoryOperationsController.groovy.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Ps_7.jrxml.i
+data/web-app/reports/DSLC Reports/Surety_Bond_2.jasper.i
+data/web-app/reports/EXPORTS OTHERS/Export Advance Refund/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/List of Transactions With No CIF Number.jrxml.i
+data/web-app/reports/DSLC Reports/Others_Standby.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Daily_Foreign_Cash_LCs_Opened.jasper.i
+data/web-app/reports/Documents_Check_List.jasper.i
+data/web-app/reports/Export_Negotiation_Advice_DM.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Daily_Foreign_Cash_LCs_Opened.jasper.d
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Performance_Security_1.jpeg.i
+data/web-app/css/main.css.i
+data/web-app/reports/BATCHES/Other Imports/Daily_Foreign_LCs_Opened_Report_with_CDT_Details.jasper.d
+data/web-app/reports/BATCHES/FXLC/Quarterly_Report_on_Foreign_Standby_LCs_Opened.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Daily_Foreign_LCs_Opened_Report_with_CDT_Details.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Cash_LCs_Per_Currency.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_F.jrxml.i
+data/grails-app/services/com/incuventure/utilities/IncuventureJasperService.groovy.i
+data/web-app/reports/Manual_Reports_for_SPAD/Actual_Corres_Charges_Data_Entry_Dbf.jrxml.i
+data/web-app/reports/Billing_Statement_For_Cash.jasper.d
+data/web-app/reports/IMPORTS OTHERS/MD Collection/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Consolidated_Report_on_Foreign_LCs_Opened_for_the_Month.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Other_Foreign_Exchange_Acquisitions_Dispositions.jasper.i
+data/web-app/reports/Billing_Statement_For_Cash.jasper.i
+data/web-app/reports/DSLC Reports/Surety_Bond_2.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_I.JPG.i
+data/web-app/reports/DMLC/DMLC Opening/Billing_Statement.jrxml.i
+data/web-app/reports/DSLC Reports/Bidding_Security_N.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Sight_LCs_Per_Importer.jasper.i
+data/web-app/reports/DSLC Reports/Advance_Payment_3.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank.jasper.d
+data/web-app/reports/FXLC/FXLC Negotiation/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Usance_LCs_per_Importer.jasper.d
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Usance_LCs_per_Importer.jasper.i
+data/web-app/reports/BATCHES/Non-LC/Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank.jasper.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Cash_LCs_Per_Currency.jrxml.i
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Negotiation/Payment_Summary.jrxml.i
+data/lib/icu4j-4.6.jar.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Payment_Guaranty_2.jasper.i
+data/lib/icu4j-4.6.jar.d
+data/web-app/reports/DSLC Reports/Warranty_Bond_2.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Daily_Report_On_Processed_CDT_Collections_Total_Per_Payment_Type.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Ps_3.jrxml.i
+data/web-app/reports/Grand_Total_SubReport.jrxml.i
+data/web-app/reports/EXPORTS OTHERS/Refund of Export Charges/Credit_Memo.jrxml.i
+data/web-app/reports/Payment_Summary_Principal_Mode_Of_Payment.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Advance_Payment.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Cash_LCs_Per_Importer.jasper.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Cash_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/Transmittal_Letter.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Product_Availments_Exception_Report.jasper.d
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_10_Text.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Product_Availments_Exception_Report.jasper.i
+data/src/groovy/com/ucpb/tfs/report/mco/Bucket.groovy.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_CLS.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Non-CLS.jrxml.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Cancellation/Payment_Summary.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Profitability_Monitoring_Exception_Report.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_J.JPG.i
+data/test/unit/ucpb/tfs/reports/mco/McoReportLoggerServiceTests.groovy.i
+data/web-app/WEB-INF/sitemesh.xml.i
+data/web-app/reports/BATCHES/Non-LC/Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank_Subreport_Importer_Others.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Remittance of CDT (TO BSP)/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_subreport1.jrxml.i
+data/src/java/net/ipc/utils/DateUtils.groovy.i
+data/web-app/reports/Manual_Reports_for_SPAD/Imported_Letters_of_Credit_(LCs)_Opened_and_DA-OA_Import_Availments_and_Extensions.jrxml.i
+data/web-app/reports/DMLC/DMLC Adjustment/Billing_Statement.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Sight_LCs_Per_Importer.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/AR_Others.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/FP_6.jrxml.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Amendment/Letter_of_Advise_Addressed_to_Client_2nd_Advising_Bank.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Credex_Report.jrxml.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Amendment/Debit_Memo.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/FP_5.jpeg.i
+data/web-app/reports/BATCHES/Other Trade/Trade_Services_AMLA_Reported_Transactions.jasper.i
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Negotiation/Export_Negotiation_Advice_EBP_FX_LC_Non_LC_Negotiation.jrxml.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_C.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule4-sub-report.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule2Exception-sub-report.jasper.i
+data/web-app/reports/IMPORTS OTHERS/Remittance of CDT (TO BSP)/Consolidated_Report_on_Daily_Collections_of_Import_Processing_Fees.jasper.i
+data/web-app/reports/Transmittal_Letter.jasper.i
+data/grails-app/services/ucbp/tfs/reports/fxform1/CredexService.groovy.i
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened.jrxml.i
+data/web-app/reports/Transmittal_Letter.jasper.d
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Retention_6.jpeg.i
+data/web-app/WEB-INF/applicationContext.xml.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_L.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_J.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_F.JPG.i
+data/web-app/reports/DMLC/DMLC Negotiaiton/Transmittal_Letter_Clients_Docs.jrxml.i
+data/web-app/reports/Tfs_Mco_Report.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Inward_Bills_for_Collection_DMLC_per_Currency_subreport.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_subreport_2.jrxml.i
+data/web-app/reports/EXPORTS/DBC-OLB LC Settlement/Billing_Statement.jrxml.i
+data/web-app/reports/DSLC Reports/Bidding_Security_L.jasper.i
+data/web-app/reports/DSLC Reports/Retention_3.jasper.i
+data/web-app/css/mobile.css.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD_Subreport_Advising_Bank.jrxml.i
+data/web-app/reports/EXPORTS/DBC-OLB LC Settlement/PDDTS_Report.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/ADB_of_Bureau_of_Customs_Collection.jrxml.i
+data/web-app/reports/Debit_Memo_Cdt_Payment.jrxml.i
+data/web-app/reports/Letter_of_Transfer.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Daily_Report_on_Processed_Refund_2.jrxml.i
+data/grails-app/conf/DataSource.groovy.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Cancellation/Debit_Memo.jrxml.i
+data/src/groovy/com/incuventure/utilities/ReportDirectory.groovy.i
+data/web-app/reports/Daily_Report_On_Processed_CDT_Collections_Total_Per_Payment_Type.jasper.i
+data/web-app/reports/Payment_Details_MD_SubReport.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/PS_8.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_113.jasper.i
+data/web-app/reports/BATCHES/Other Trade/TFS_CASA_Posting_Report_All.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_5.jasper.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Usance_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/DSLC Reports/Fp_4_Standard_Format.jasper.i
+data/web-app/reports/EXPORTS OTHERS/Processing of Export Advance Proceeds/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Performance_Bond.jpeg.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Standby_LCs_Per_Currency.jasper.i
+data/grails-app/services/ucbp/tfs/reports/fxform1/FxForm1DataQueryService.groovy.i
+data/web-app/reports/FXLC/FXLC Cancellation/Daily_Outstanding_LCs_CCBD_Report.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Bank_Guaranty_31_45_Days.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Retention_5.jpeg.i
+data/web-app/reports/EXPORTS OTHERS/Processing of Export Advance Proceeds/Credit_Memo.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Payment_Guarranty_5.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Others_Standby.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_subreport.jasper.i
+data/.hgignore.i
+data/grails-app/services/ucpb/tfs/reports/spad/OtherForeignExchangeAcquisitionsDispositionsService.groovy.i
+data/web-app/reports/Payment_Details_Charges_SubReport.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Others_Standby.jpeg.i
+data/web-app/reports/FXLC/FXLC Negotiation/Billing_Statement.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Transactions_Total.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_2_1.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/EXPOSURE_UPLOAD_TF.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Performance_Security_2.jasper.i
+data/web-app/reports/FXLC/FXLC Amendment/Transmittal Letter (advice only; no documents list).jrxml.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Settlement/PDDTS_Report.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Advance_Payment_2.jpeg.i
+data/web-app/reports/Manual_Reports_for_SPAD/ADB_of_Bureau_of_Customs_Collection.jasper.i
+data/web-app/reports/Discrepancy_Letter.jasper.i
+data/web-app/reports/Discrepancy_Letter.jasper.d
+data/web-app/reports/DSLC Reports/Release_Retention.jasper.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Cash_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/Certification.jrxml.i
+data/web-app/reports/Daily_Report_On_Processed_CDT_Collections_Total_Per_Payment_Type.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule3.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_E.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_D.JPG.i
+data/web-app/reports/Letter_of_Advise.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Usance_LCs_per_Currency.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_subreport2.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Thumbs.db.i
+data/web-app/WEB-INF/jboss-deployment-structure.xml.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Cancellation/Export_Negotiation_Advice_EBC_FX_LC_Non_LC_Negotiation.jrxml.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Amendment/Billing_Statement.jrxml.i
+data/grails-app/conf/spring/resources.groovy.i
+data/web-app/reports/Payment_Summary_Principal_Payment_Breakdown.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Bank_Guaranty_30_Days.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Collected_2%_CWT.csv.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_G.JPG.i
+data/web-app/reports/DSLC Reports/Others_5.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_4_subreport.jasper.i
+data/web-app/reports/BATCHES/DMLC/Domestic_LCs_Opened_for_the_Month_Subreport.jasper.i
+data/web-app/images/skin/information.png.i
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Negotiation/Export_Negotiation_Advice_for_Issuing_Collecting_Bank.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Year_End_Report_on_Foreign_LCS_Opened_per_Country.jrxml.i
+data/web-app/reports/DSLC Reports/Advance_Payment_2.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Sight_LCs_Per_Currency.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Inward_Bills_for_Collection_DMLC_per_Currency.jasper.i
+data/grails-app/domain/com/incuventure/report/RatesRepository.groovy.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Negotiation/Export_Negotiation_Advice_for_Reimbursing_Bank.jrxml.i
+data/web-app/reports/EXPORTS/DBP-OLB LC Settlement/Payment_Summary.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Computations_of_Commissions_and_Fees.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies_subreport3.jasper.i
+data/web-app/reports/Other_Documents_Instructions.jasper.i
+data/web-app/reports/FXLC/FXLC UA Loan Settlement/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Advance_Payment.jpeg.i
+data/web-app/reports/BATCHES/Non-LC/Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank_Subreport_Importer.jrxml.i
+data/web-app/reports/FXLC/FXLC Negotiation/Document_Check_List.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_4_Report.jrxml.i
+data/web-app/reports/DSLC Reports/Surety_Bond_3.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_5_subreport.jasper.i
+data/grails-app/services/ucpb/tfs/reports/spad/ImportedLcsOpenedAndNonLcImportAvailmentsAndExtensionsService.groovy.i
+data/web-app/reports/FXLC/FXLC Negotiation/Debit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_subreport2.jasper.i
+data/web-app/reports/DSLC Reports/Ps_8.jrxml.i
+data/web-app/reports/Daily_Foreign_LCs_Opened_Report_with_CDT_Details.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/PS_6.png.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_4.jasper.i
+data/web-app/reports/DSLC Reports/Retention_4.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_I.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Cash_LCs_per_Importer.jrxml.i
+data/lib/gson-2.2.2.jar.d
+data/web-app/reports/BATCHES/Export/Outstanding_Export_Negotiations_Foreign.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule2.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/TFS_APA_Extraction_Exception_Report.jasper.i
+data/web-app/reports/Debit_Memo_Batch.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Payment_Guarranty_3.jasper.i
+data/lib/report-utility-1.0.jar.i
+data/grails-app/i18n/messages_da.properties.i
+data/web-app/reports/FXLC/Daily_Outstanding_FXLCs_Treasury_Report.jrxml.i
+data/web-app/reports/Daily_Outstanding_LCs_CCBD_Report.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Bank_Guaranty_30_Days.jasper.i
+data/web-app/reports/DSLC Reports/Retention_5.jasper.i
+data/test/unit/com/incuventure/utilities/WebAPIServiceTests.groovy.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_subreport1.jasper.i
+data/grails-app/controllers/com/incuventure/utilities/GenericReportsController.groovy.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Amendment/Payment_Summary.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/LC_Confirmation_Opening _Regular_Cash.jrxml.i
+data/grails-app/services/com/incuventure/utilities/TfsMcoReportData_BACKUPService.groovy.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_C.jasper.i
+data/web-app/reports/DSLC Reports/Ps_2.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule4Exception.jasper.i
+data/web-app/reports/Credit_Memo.jrxml.i
+data/web-app/reports/FXLC/FXLC Amendment/Payment_Summary.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_7.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Daily_Report_on_Deposits_Collected.jasper.i
+data/web-app/images/skin/database_edit.png.i
+data/web-app/reports/EXPORTS/DBP-OLB LC Settlement/Debit_Memo.jrxml.i
+data/web-app/reports/DSLC Reports/Ps_6.jrxml.i
+data/web-app/WEB-INF/tld/fmt.tld.i
+data/web-app/reports/BATCHES/Other Trade/Trade_Transactions_Without_SIBS_CIF_NO.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_108.xls.i
+data/web-app/reports/Manual_Reports_for_SPAD/Export_Proceeds_Bills_Purchased_Subreport.jrxml.i
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Local_Bank_in_PHP_Subreport_Total.jasper.i
+data/web-app/reports/BATCHES/Non-LC/Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank_Subreport_Remitter.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_K.JPG.i
+data/web-app/reports/BATCHES/Other Imports/Daily_Report_on_Processed_Refund.jrxml.i
+data/web-app/reports/DSLC Reports/Faithful_Performance_2.jasper.i
+data/web-app/reports/NON LC/IMPORT - FX Non-LC Negotiation/Document_Check_List.jrxml.i
+data/web-app/reports/DSLC Reports/Bidding_Security_F.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Warranty_Security.jasper.i
+data/web-app/reports/Billing_Statement_For_Nego_Amount.jasper.d
+data/web-app/images/skin/sorted_asc.gif.i
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies_subreport2.jrxml.i
+data/web-app/reports/Billing_Statement_For_Nego_Amount.jasper.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Foreign_Sight.jrxml.i
+data/web-app/css/errors.css.i
+data/web-app/reports/Manual_Reports_for_SPAD/Export_Advance.jrxml.i
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Negotiation/Debit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Daily_Report_on_Processed_Refund.jasper.d
+data/web-app/reports/BATCHES/FXLC/Schedule4_Exception.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Daily_Report_on_Processed_Refund.jasper.i
+data/web-app/reports/DSLC Reports/Payment_Guaranty.jasper.i
+data/web-app/reports/BATCHES/Non-LC/Outstanding_Inward_Bills_For_Collection_Fx_Da_Dp_Oa_Dr_Per_Currency.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_E.jrxml.i
+data/web-app/reports/DSLC Reports/Surety_Bond.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/First_Data_Corp_Format.jpeg.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_5_Report.jrxml.i
+data/grails-app/conf/tfs-report.properties.i
+data/web-app/reports/IMPORTS OTHERS/Settlement of Actual Corres Charges/Payment_Summary.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_5_Text.jasper.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Cash_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/DSLC Reports/Advance_Payment.jrxml.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Foreign_LCs_Opened_for_the_Month_Subreport.jrxml.i
+data/web-app/reports/DSLC Reports/Performance_Bond.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Exports.jrxml.i
+data/web-app/reports/BATCHES/Export/Export_Negotiations_per_Collecting_Bank.jasper.d
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Standby_LCs_per_Importer.jrxml.i
+data/web-app/reports/BATCHES/Export/Export_Negotiations_per_Collecting_Bank.jasper.i
+data/web-app/reports/Debit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank_Subreport_Remitter.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Inward_Bills_for_Collection_FXLC_per_Currency.jasper.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Inward_Bills_for_Collection_FXLC_per_Currency.jasper.d
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Cash_LCs_per_Importer.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Import_Payments.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Non-CLS.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Retention_4.jpeg.i
+data/web-app/reports/DSLC Reports/Bidding_Security_G.jasper.i
+data/web-app/reports/DSLC Reports/Bidding_Security_J.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_D.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Ps_6.jasper.i
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Local_Bank_in_PHP.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Export_Proceeds_Dbf.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Exports.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Usance_LCs_Per_Currency.jrxml.i
+data/web-app/reports/NON LC/IMPORT - FX Non-LC Cancellation/Letter_of_Transfer.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Accounts_Total.jrxml.i
+data/web-app/reports/DSLC Reports/Warranty_Bond_2.jrxml.i
+data/web-app/reports/DSLC Reports/Retention_6.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Bank_Guaranty_31_45_Days.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Usance_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/Export_Negotiation_Advice_DM.jasper.i
+data/web-app/reports/BATCHES/FXLC/Daily_Outstanding_Foreign_LCs.jrxml.i
+data/web-app/reports/BATCHES/Export/Export_Payments_for_the_Month_per_Client.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Imports.jasper.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Sight_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/PS_9.JPG.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report_Financial.jrxml.i
+data/grails-app/services/ucbp/tfs/reports/fxform1/FxForm1Schedule10Service.groovy.i
+data/web-app/reports/BATCHES/FXLC/Daily_Funding.jasper.d
+data/web-app/reports/EXPORTS/DBC-OLB LC Negotiation/DBC_Negotiation_Advice_to_Issuing_Bank.jrxml.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Foreign_Usance.jasper.i
+data/web-app/reports/BATCHES/FXLC/Daily_Funding.jasper.i
+data/web-app/reports/IMPORTS OTHERS/Remittance of CDT (TO BSP)/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_subreport2.jrxml.i
+data/web-app/reports/DSLC Reports/Ps_6.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_5_subreport.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/PS_10.jasper.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Report_bak.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Daily_Summary_of_Accounting_Entries_Total_Subreport.jasper.i
+data/lib/saxon-dom-8.7.jar.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Daily_Report_on_Deposits_Collected.jasper.d
+data/web-app/reports/DMLC/DMLC Opening/Debit_Memo.jrxml.i
+data/grails-app/i18n/messages_pt_PT.properties.i
+data/web-app/reports/BATCHES/FXLC/Year_End_Report_on_Foreign_LCS_Opened_per_Confirming_Bank.jasper.i
+data/grails-app/i18n/messages.properties.i
+data/web-app/reports/BATCHES/Other Trade/TFS_CASA_Posting_Report.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Cash_LCs_Per_Importer.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Domestic_LCs_Opened_for_the_Month.jrxml.i
+data/web-app/reports/EXPORTS OTHERS/Export Advance Refund/Daily_Funding_Report.jrxml.i
+data/web-app/reports/Export_Negotiation_Advice.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_Money_3.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Year_End_Report_on_Foreign_LCS_Opened_per_ConfirmingBank_Subreport.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Faithful_Performance_Advance_Payment.jpeg.i
+data/web-app/reports/BATCHES/FXLC/Year_End_Report_on_Foreign_LCS_Opened_per_Advising_Bank.jrxml.i
+data/web-app/reports/DSLC Reports/Bidding_Security_A.jasper.i
+data/web-app/reports/Payment_Details_LC_SubReport.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Daily_Report_on_Process_Refund.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Performance_Bond.jasper.i
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Negotiation/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_B.jrxml.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_C.jasper.i
+data/web-app/reports/BATCHES/FXLC/Schedule2Exception.jasper.i
+data/web-app/reports/Bank_Certification.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Inward_Bills_for_Collection_DMLC_per_Currency_subreport2_grandtotal.jasper.i
+data/web-app/reports/EXPORTS/DBP-OLB LC Settlement/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Settlement/Daily_Funding_Report.jrxml.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Opening/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Consolidated_Report_on_Domestic_LCs_Opened_for_the_Month.jrxml.i
+data/lib/derbyclient.jar.i
+data/src/groovy/com/incuventure/dto/DocumentsEnclosedDTO.groovy.i
+data/lib/derbyclient.jar.d
+data/web-app/reports/BATCHES/Other Trade/Collected_2%_CWT_108.pdf.i
+data/web-app/reports/DSLC Reports/Retention.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Daily_Funding_ImportAdvance_Subreport.jrxml.i
+data/web-app/images/leftnav_top.png.i
+data/web-app/reports/Settlement_Amount_Total_SubReport.jasper.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_F.jrxml.i
+data/grails-app/services/com/incuventure/utilities/ReportIdService.groovy.i
+data/web-app/reports/FXLC/FXLC Cancellation/Daily_Outstanding_FXLCs_Treasury_Report.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Weekly_Report_on_Maturing_Usance_LCs_Subreport.jasper.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Standby_LCs_Per_Currency.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Foreign_LCs_Opened_for_the_Month.jrxml.i
+data/web-app/reports/DSLC Reports/Ps_10.jasper.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Subreport.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Standby_LCs_Per_Currency.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/FP_7.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Performance_Security_1.jrxml.i
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Negotiation/Daily_Funding_Report.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_LCs_Per_Importer_subreport.jrxml.i
+data/test/unit/ucpb/tfs/reports/spad/ImportPaymentsServiceTests.groovy.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Profitability_Monitoring_Report.jasper.d
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/FP_4_Standard_Format.jpeg.i
+data/web-app/WEB-INF/jboss-web.xml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Cash_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule2.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Collected_2%_CWT_TR.csv.i
+data/web-app/reports/IMPORTS OTHERS/Remittance of CDT (TO BSP)/Debit_Memo.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Credex_Exception_Report.jrxml.i
+data/web-app/reports/Debit_Memo_Cdt_Remittance.jasper.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD_Subreport_Advising_Bank.jasper.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Settlement/Credit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Domestic_Sight.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Cash_LCs_per_Currency.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Export_Proceeds_Dbf.jasper.i
+data/web-app/reports/IMPORTS OTHERS/Settlement of Actual Corres Charges/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Import Advance Refund/Payment_Summary.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/PS_9.jasper.i
+data/web-app/reports/FXLC/FXLC UA Loan Settlement/Payment_Summary.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Payment_Guarranty_4.jpeg.i
+data/web-app/reports/BATCHES/Other Trade/Daily_Computation_of_Commissions_and_Fees.jasper.i
+data/web-app/images/skin/database_table.png.i
+data/web-app/reports/BATCHES/Non-LC/Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank_TEST.jasper.i
+data/web-app/reports/DSLC Reports/Release_Retention.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_4.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies_subreport2.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Payment_Guaranty_2.jpeg.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/FP_7.jrxml.i
+data/web-app/reports/DSLC Reports/Fp_Standard_Format_2.jrxml.i
+data/grails-app/services/ucpb/tfs/reports/mco/McoReportLoggerService.groovy.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Usance_LCs_per_Importer.jrxml.i
+data/web-app/images/ucpb_report_logo.jpg.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Sight_LCs_Per_Currency.jrxml.i
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Negotiation/Credit_Memo.jrxml.i
+data/web-app/reports/Outgoing_MTs.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report.jasper.d
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Daily_Report_on_Deposits_Collected_subreport.jasper.d
+data/web-app/reports/DSLC Reports/Fp_7.jrxml.i
+data/web-app/reports/EXPORTS OTHERS/Processing of Export Advance Proceeds/PDDTS_Report.jrxml.i
+data/web-app/reports/Payment_Summary_Principal_Mode_Of_Payment.jasper.i
+data/web-app/reports/IMPORTS OTHERS/Refund of Cash LC & Charges/Credit_Memo.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/TFS_CASA_Posting_Report.jasper.d
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Others_5.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Cash_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/FXLC/Daily_FXLCs_Opened_Treasury_Report.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Other_Foreign_Exchange_Acquisitions_Dispositions.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/TFS_CASA_Posting_Report.jasper.i
+data/web-app/reports/Daily_Report_on_Process_Refund.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Faithful_Performance_2.jrxml.i
+data/grails-app/views/error.gsp.i
+data/web-app/reports/FXLC/FXLC Negotiation/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Daily_Outstanding_Foreign_LCs.jasper.d
+data/web-app/reports/BATCHES/FXLC/Daily_Outstanding_Foreign_LCs.jasper.i
+data/web-app/reports/DMLC/DMLC Amendment/Debit_Memo.jrxml.i
+data/web-app/images/springsource.png.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Usance_LCs_Per_Importer.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Schedule4.jasper.i
+data/web-app/reports/BATCHES/FXLC/Daily_Funding_ImportAdvance_Subreport.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_108.csv.i
+data/grails-app/i18n/messages_th.properties.i
+data/web-app/reports/BATCHES/FXLC/Year_End_Report_on_Foreign_LCS_Opened_per_Country.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Daily_Report_on_Processed_Refund_2.jasper.i
+data/web-app/reports/BATCHES/Non-LC/Dm_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Other_Local_Bank_Subreport_Importer_Total.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Warranty_Bond_2.jpeg.i
+data/web-app/reports/IMPORTS OTHERS/AR Monitoring/Quarterly Aging Report.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_6.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Others_Standby_3_Caltex.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count.jasper.d
+data/grails-app/i18n/messages_cs_CZ.properties.i
+data/web-app/reports/BATCHES/Other Trade/Volumetrics_Report.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count.jasper.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Report.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank_Subreport_Importer_GRANDTOTAL.jasper.i
+data/grails-app/i18n/messages_ja.properties.i
+data/web-app/images/skin/Thumbs.db.i
+data/web-app/reports/EXPORTS/DBC-OLB LC Settlement/Payment_Summary.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Daily_Report_on_Processed_CDT_Collections.jrxml.i
+data/grails-app/i18n/messages_zh_CN.properties.i
+data/grails-app/conf/BootStrap.groovy.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Surety_Bond.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Cash_LCs_Per_Currency.jasper.d
+data/web-app/reports/FXLC/FXLC Adjustment/Daily_Outstanding_FXLCs_Treasury_Report.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Cash_LCs_Per_Currency.jasper.i
+data/web-app/reports/DSLC Reports/Bidding_Security_N.jasper.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Sight_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Statement_of_Condition.jasper.i
+data/web-app/reports/DMLC/DSLC Bidding/Bidding_Security_J.jrxml.i
+data/web-app/reports/Mt_Message.jasper.i
+data/web-app/reports/EXPORTS/EBC-FX LC Non-LC Cancellation/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_subreport.jasper.i
+data/web-app/reports/FXLC/FXLC UA Loan Settlement/Transmittal_Letter.jrxml.i
+data/web-app/reports/Daily_Master_GL_DailyBalance_Summary.jasper.i
+data/web-app/reports/FXLC/Daily_Cash_FXLCs_Opened_Treasury_Report.jrxml.i
+data/grails-app/i18n/messages_pt_BR.properties.i
+data/grails-app/i18n/messages_nl.properties.i
+data/web-app/reports/DSLC Reports/Payment_Guaranty_2.jasper.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Opening/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Advance_Payment_3.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Sight_LCs_Per_Currency.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Usance_LCs_Per_Currency.jasper.i
+data/web-app/reports/DSLC Reports/Bidding_Security_A.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies_subreport6.jrxml.i
+data/web-app/reports/EXPORTS OTHERS/Payment of Other Export Charges/Debit_Memo.jrxml.i
+data/web-app/reports/DSLC Reports/Others_5.jrxml.i
+data/web-app/reports/EXPORTS/DBP-OLB LC Negotiation/DBP_ Negotiation_Advice_to_Issuing_Bank.jrxml.i
+data/web-app/reports/Mt_Message.jrxml.i
+data/web-app/WEB-INF/tld/c.tld.i
+data/grails-app/services/com/incuventure/utilities/WebAPIService.groovy.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Usance_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/LC_Confirmation_Amendment.jasper.d
+data/web-app/reports/LC_Confirmation_Amendment.jasper.i
+data/web-app/reports/LC_Confirmation_Standby_Opening.jasper.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Standby_LCs_Per_Importer.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Collected_2%_CWT_115.jasper.i
+data/web-app/reports/BATCHES/FXLC/Quarterly_Report_on_Foreign_Standby_LCs_Opened.jasper.i
+data/web-app/images/Thumbs.db.i
+data/web-app/reports/BATCHES/FXLC/YTD_Report_on_Foreign_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Bank_in_USD_Subreport_Other.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Quarterly_Report_on_Foreign_Standby_LCs_Opened.jasper.d
+data/web-app/reports/BATCHES/FXLC/Schedule2_Exception.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Credex_Text.jrxml.i
+data/web-app/reports/DSLC Reports/Bidding_Security_K.jasper.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_LCs_Per_Importer_subreport.jasper.i
+data/web-app/reports/Debit_Memo_Batch.jasper.i
+data/web-app/reports/DSLC Reports/Bidding_Security_L.jrxml.i
+data/web-app/reports/BATCHES/Export/Export_Negotiations_for_the_Month_per_Client.jrxml.i
+data/web-app/reports/Billing_Statement_For_Marginal_Deposit.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_113.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/Retention_5.jasper.i
+data/web-app/reports/IMPORTS OTHERS/Collection of CDT/Debit_Memo.jrxml.i
+data/web-app/reports/FXLC/BGBE Issuance/Billing_Statement.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Fx_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Remitting_Bank_Subreport_Importer_Others.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Imported_Letters_of_Credit_(LCs)_Opened_and_DA-OA_Import_Availments_and_Extensions_Dbf.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_subreport.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/FP_6.jpeg.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_9_Text.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps.jasper.i
+data/web-app/reports/BATCHES/FXLC/Quarterly_Report_on_Foreign_Standby_LCs_Opened_subreport.jasper.i
+data/web-app/reports/BATCHES/FXLC/Daily_Foreign_Regular_LCs_Opened.jasper.d
+data/web-app/reports/BATCHES/FXLC/Daily_Foreign_Regular_LCs_Opened.jasper.i
+data/web-app/reports/Payment_Summary_Other_Imports.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Marginal_Deposits.jasper.d
+data/web-app/reports/Manual_Reports_for_SPAD/Import_Advance_and_Refund.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Marginal_Deposits.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Outstanding_Bank_Guaranty_46_60_Days.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Standby_LCs_Per_Importer_subreport.jrxml.i
+data/grails-app/views/layouts/main.gsp.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Advance_Payment_3.jpeg.i
+data/web-app/reports/DSLC Reports/Fp_6.jasper.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Sight_LCs_Per_Importer_subreport.jrxml.i
+data/web-app/reports/Payment_Details_LC_SubReport.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_2.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Actual_Corres_Charges_Data_Entry.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Sight_LCs_Per_Importer.jasper.d
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Sight_LCs_Per_Importer.jasper.i
+data/web-app/reports/Manual_Reports_for_SPAD/Import_Payments_Dbf.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Collected_2%_CWT.jasper.i
+data/web-app/reports/IMPORTS OTHERS/MD Collection/Payment_Summary.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Collected_2%_CWT.jasper.d
+data/web-app/reports/BATCHES/Other Trade/DW_Exception_Report.jrxml.i
+data/web-app/reports/DMLC/DMLC Amendment/Billing_Statement.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Tfs_Mco_Report.jrxml.i
+data/web-app/WEB-INF/tld/grails.tld.i
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies_subreport6.jasper.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Standby_LCs_per_Currency.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Standby_LCs_per_Currency.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies.jasper.d
+data/web-app/reports/EXPORTS/DBC-OLB LC Settlement/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/grails-app/conf/BuildConfig.groovy.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Standby_LCs_per_Currency.jasper.d
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Weekly_Schedule_of_Doc_Stamps_115.jasper.i
+data/web-app/reports/Grand_Total_SubReport.jasper.i
+data/web-app/reports/Payment_Summary_Payment_Detail.jasper.i
+data/web-app/reports/BATCHES/Other Imports/Customs_Duties_And_Taxes_And_Other_Levies_subreport4.jrxml.i
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Local_Bank_in_PHP_Subreport_Others.jasper.i
+data/web-app/reports/DSLC Reports/Bidding_Security_I.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/PS_3.png.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Standby_LCs_Per_Currency.jasper.d
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Standby_LCs_Per_Currency.jasper.i
+data/web-app/reports/DSLC Reports/Bidding_Security_J.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Inward_Bills_for_Collection_DMLC_per_Currency_subreport.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Monthly_Transaction_Count_2.jrxml.i
+data/grails-app/services/com/incuventure/utilities/TfsMcoReportDataService.groovy.i
+data/test/integration/com/incuventure/utilities/SilverlakeServiceTest.groovy.i
+data/web-app/reports/IMPORTS OTHERS/Import Advance Payment/Debit_Memo.jrxml.i
+data/web-app/reports/FXLC/BGBE Issuance/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/DSLC Reports/Performance_Security_2.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Others.jpeg.i
+data/web-app/reports/FXLC/BG Cancellation/Payment_Summary.jrxml.i
+data/web-app/reports/PDDTS_Report.jasper.i
+data/web-app/reports/Payment_Summary_With_Proceeds.jrxml.i
+data/web-app/reports/BATCHES/Non-LC/Dm_Non_Lcs_Negotiated_For_The_Year_Classified_By_Top_30_Importer_And_Other_Local_Bank.jrxml.i
+data/web-app/reports/IMPORTS OTHERS/Collection of CDT/Daily Report on Processed CDT Collections.jrxml.i
+data/web-app/reports/DMLC/DMLC Negotiaiton/Discrepancy_Letter.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Sight_LCs_Per_Currency.jasper.i
+data/web-app/reports/EXPORTS OTHERS/Payment of Other Export Charges/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Outstanding_Domestic_Sight_LCs_Per_Currency.jasper.d
+data/web-app/reports/Daily_Master_GL_DailyBalance_Summary.jrxml.i
+data/web-app/reports/EXPORTS/Advise on Export - FXLC Cancellation/Payment_Summary_SubReport_Mode_ of_Payment.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Export_Bank_Commission.jrxml.i
+data/web-app/reports/BATCHES/Export/Outstanding_Export_Negotiations_Foreign.jasper.d
+data/web-app/reports/BATCHES/FXLC/Schedule4-sub-report.jasper.i
+data/web-app/reports/Credit_Memo_Cdt_Send_To_Boc.jrxml.i
+data/web-app/reports/BATCHES/Other Trade/Trade_Services_AMLA_Reported_Transactions.jasper.d
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_11_Text.jasper.i
+data/web-app/reports/DSLC Reports/LC_Confirmation_Standby_Opening.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_3_Text.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Oustanding_Foreign_Standby_LCs_Per_Importer.jasper.i
+data/lib/saxon-8.7.jar.i
+data/web-app/reports/BATCHES/Non-LC/Outstanding_Inward_Bills_For_Collection_Dm_Dp_Per_Currency.jrxml.i
+data/lib/saxon-8.7.jar.d
+data/web-app/reports/BATCHES/Other Trade/Waived_Trade_Income.jasper.i
+data/web-app/reports/DSLC Reports/Faithful_Performance_2.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Payment_Guarranty_5.jpeg.i
+data/web-app/reports/DSLC Bidding/Bidding_Security_A.jrxml.i
+data/web-app/reports/FXLC/FXLC Adjustment/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/EXPORTS/DBC-OLB LC Settlement/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/DSLC Reports/Retention_2.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_5.jasper.i
+data/web-app/reports/BATCHES/Other Trade/YTD_Transaction_Count_Import_and_Export_Subreport_Exports.jrxml.i
+data/web-app/reports/FXLC/FXLC UA Loan Maturity Adjustment/Billing_Statement.jrxml.i
+data/grails-app/conf/Config.groovy.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_9_Report.jasper.i
+data/web-app/reports/BATCHES/DMLC/YTD_Report_on_Domestic_LCs_Opened_Classified_by_top_30_Importer_and_Advising_Local_Bank_in_PHP_Subreport_Total.jrxml.i
+data/test/unit/com/incuventure/report/RatesRepositoryTest.java.i
+data/web-app/reports/Manual_Reports_for_SPAD/Schedule_of_Marginal_Deposit.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Performance_Security_2.jpeg.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/FP_3.jpeg.i
+data/web-app/reports/BATCHES/Other Trade/Daily_Exception_Report_of_Accounting_Entries.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_On_Daily_Collections_Of_Export_Documentary_Stamp_Fees_subreport_2.jasper.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/DSLC Performance Screenshots/Retention_2_1.jpeg.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/First_Data_Corp_Format.jrxml.i
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Sight_LCs_per_Importer.jasper.d
+data/web-app/reports/Payment_Details_Charges_SubReport.jasper.i
+data/web-app/reports/BATCHES/Export/Export_Negotiations_for_the_Month_per_Client.jasper.d
+data/web-app/reports/BATCHES/FXLC/Outstanding_Foreign_Sight_LCs_per_Importer.jasper.i
+data/web-app/reports/DSLC Reports/Ps_2.jasper.i
+data/web-app/reports/BATCHES/Other Trade/Collected_2%_CWT_115.jrxml.i
+data/web-app/reports/BATCHES/DMLC/Oustanding_Domestic_Usance_LCs_Per_Importer.jrxml.i
+data/web-app/reports/EXPORTS OTHERS/Processing of Export Advance Proceeds/Daily_Funding_Report.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/YTD_Customs_Duties_And_Taxes_And_Other_Levies.jrxml.i
+data/web-app/reports/EXPORTS/EBP-FX LC Non-LC Settlement/Payment_Summary_SubReport_Payment_Breakdown.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_4_subreport.jrxml.i
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_C.JPG.i
+data/web-app/reports/BATCHES/Other Imports/TRAMS.jasper.i
+data/web-app/reports/BATCHES/Mco/Tfs_Mco_Foreign_Usance.jrxml.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies.jasper.d
+data/web-app/reports/DMLC/DSLC Bidding/DSLC Bidding Screenshots/Bidding_Security_B.JPG.i
+data/web-app/reports/BATCHES/Other Imports/Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies.jasper.i
+data/web-app/reports/FXLC/FXLC Negotiation/Discrepancy_Letter_IC.jrxml.i
+data/web-app/reports/Manual_Reports_for_SPAD/Import_Payments.jrxml.i
+data/web-app/reports/DMLC/DMLC Opening/DSLC Performance/FP_Standard_Format_2.jrxml.i

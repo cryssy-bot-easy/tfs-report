@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Outstanding_Bank_Guaranty_30_Days" language="groovy" pageWidth="572" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="processingUnitCode" class="java.lang.String"/>
+	<parameter name="onlineReportDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[--OUTSTANDING BANK GUARANTY 30 DAYS
+SELECT bg.REFERENCENUMBER AS referencenumber,
+	  bg.INDEMNITYNUMBER AS lcnumber,
+	  TP.CIFNAME AS importer,
+	  bg.indemnityissuedate AS bgissuedate,
+	  {fn TIMESTAMPDIFF(SQL_TSI_DAY, current_timestamp, bg.indemnityissuedate)} AS age,
+	  bg.shipmentcurrency AS bgCurrency,
+	  bg.shipmentamount AS osbgamount,
+	  TP.STATUS,
+	  bg.indemnityissuedate,
+	  bg.INDEMNITYTYPE
+
+FROM indemnity bg
+
+INNER JOIN TRADEPRODUCT AS TP
+ON TP.DOCUMENTNUMBER = bg.INDEMNITYNUMBER
+
+WHERE {fn TIMESTAMPDIFF(SQL_TSI_DAY, current_timestamp, bg.indemnityissuedate)} <= 30
+AND {fn TIMESTAMPDIFF(SQL_TSI_DAY, current_timestamp, bg.indemnityissuedate)} > 0
+AND bg.shipmentamount > 0
+AND bg.INDEMNITYTYPE = 'BG'
+AND TP.STATUS = 'OPEN'
+
+ORDER BY bg.shipmentcurrency]]>
+	</queryString>
+	<field name="REFERENCENUMBER" class="java.lang.String"/>
+	<field name="LCNUMBER" class="java.lang.String"/>
+	<field name="IMPORTER" class="java.lang.String"/>
+	<field name="BGISSUEDATE" class="java.sql.Timestamp"/>
+	<field name="AGE" class="java.lang.Integer"/>
+	<field name="BGCURRENCY" class="java.lang.String"/>
+	<field name="OSBGAMOUNT" class="java.math.BigDecimal"/>
+	<field name="STATUS" class="java.lang.String"/>
+	<field name="INDEMNITYISSUEDATE" class="java.sql.Timestamp"/>
+	<field name="INDEMNITYTYPE" class="java.lang.String"/>
+	<variable name="total" class="java.math.BigDecimal" resetType="Group" resetGroup="bgCurrency" calculation="Sum">
+		<variableExpression><![CDATA[$F{OSBGAMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{OSBGAMOUNT}]]></initialValueExpression>
+	</variable>
+	<group name="bgCurrency">
+		<groupExpression><![CDATA[$F{BGCURRENCY}]]></groupExpression>
+		<groupHeader>
+			<band height="15">
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="100" height="15"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA["LC CURRENCY: " + ($F{BGCURRENCY}==null ? "" : $F{BGCURRENCY})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="472" y="0" width="100" height="15"/>
+					<box leftPadding="3" rightPadding="3">
+						<topPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="422" y="0" width="50" height="15"/>
+					<box leftPadding="3" rightPadding="3">
+						<topPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{BGCURRENCY}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="382" y="0" width="40" height="15"/>
+					<box leftPadding="3" rightPadding="3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[TOTAL]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[IV. 30 DAYS OR LESS]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="0" width="125" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IMPORTER}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="472" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OSBGAMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="422" y="0" width="50" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BGCURRENCY}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="325" y="0" width="57" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BGISSUEDATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REFERENCENUMBER}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="382" y="0" width="40" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AGE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="0" width="100" height="15"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LCNUMBER}.toUpperCase().replaceAll("-", "")]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

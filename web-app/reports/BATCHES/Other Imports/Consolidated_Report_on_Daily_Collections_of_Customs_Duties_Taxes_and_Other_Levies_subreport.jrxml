@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Consolidated_Report_on_Daily_Collections_of_Customs_Duties_Taxes_and_Other_Levies_subreport" language="groovy" pageWidth="752" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dateOfRemittancePopup" class="java.lang.String"/>
+	<parameter name="authorizedSignatory1" class="java.lang.String"/>
+	<parameter name="authorizedSignatory1Position" class="java.lang.String"/>
+	<parameter name="authorizedSignatory2" class="java.lang.String"/>
+	<parameter name="authorizedSignatory2Position" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--CONSOLIDATED REPORT ON DAILY COLLECTIONS OF CUSTOMS DUTIES, TAXES AND OTHER LEVIES (FINAL) _SUBREPORT
+SELECT
+	SUM(FINAL3.TOTALAMOUNT) AS TOTALAMOUNT_SUM, SUM(FINAL3.FINALCHARGES) AS FINALCHARGES_SUM,
+	SUM(FINAL3.FINALDUTYAMT) AS FINALDUTYAMT_SUM, SUM(FINAL3.FINALSTOTAL) AS FINALSTOTAL_SUM,
+	SUM(FINAL3.IPFAMOUNT) AS IPFAMOUNT_SUM,	SUM(FINAL3.EXPORTAMOUNT) AS EXPORTAMOUNT_SUM,
+	FINAL3.TRANSACTIONCODE, FINAL3.REMITTANCEDATE, FINAL3.DATE_SENT
+FROM
+(
+	SELECT
+		SUM(CDP.FINALDUTYAMT + CDP.FINALCHARGES + CDP.IPF) AS TOTALAMOUNT,
+		SUM(CDP.FINALCHARGES) AS FINALCHARGES, SUM(CDP.FINALDUTYAMT) AS FINALDUTYAMT,
+		SUM(CDP.FINALDUTYAMT + CDP.FINALCHARGES) AS FINALSTOTAL,
+		SUM(CDP.IPF) AS IPFAMOUNT, 0 AS EXPORTAMOUNT, CDR.TRANSACTIONCODE,
+		DATE(CDR.REMITTANCEDATE) AS REMITTANCEDATE, DATE(CDP.DATE_SENT) AS DATE_SENT
+	FROM CDTREMITTANCE AS CDR
+	LEFT JOIN CDTPAYMENTREQUEST AS CDP ON DATE(CDP.DATE_SENT) BETWEEN CDR.COLLECTIONFROM AND CDR.COLLECTIONTO
+	WHERE
+		DATE(CDR.REMITTANCEDATE) = $P{dateOfRemittancePopup}
+		AND (CDP.FINALCHARGES > 0 OR CDP.FINALDUTYAMT > 0)
+	GROUP BY
+		DATE(CDP.DATE_SENT), CDR.TRANSACTIONCODE, DATE(CDR.REMITTANCEDATE)
+
+	UNION ALL
+
+	SELECT
+		SUM(CDP.AMOUNT) AS TOTALAMOUNT, 0 AS FINALCHARGES, 0 AS FINALDUTYAMT,
+		0 AS FINALSTOTAL, 0 AS IPFAMOUNT, SUM(CDP.AMOUNT) AS EXPORTAMOUNT,
+		CDR.TRANSACTIONCODE, DATE(CDR.REMITTANCEDATE) AS REMITTANCEDATE, DATE(CDP.DATE_SENT) AS DATE_SENT
+	FROM CDTREMITTANCE AS CDR
+	LEFT JOIN CDTPAYMENTREQUEST AS CDP ON DATE(CDP.DATE_SENT) BETWEEN CDR.COLLECTIONFROM AND CDR.COLLECTIONTO
+	WHERE
+		DATE(CDR.REMITTANCEDATE) = $P{dateOfRemittancePopup} AND CDP.REQ_TYPE = 'EXPORT'
+	GROUP BY
+		DATE(CDP.DATE_SENT), CDR.TRANSACTIONCODE, DATE(CDR.REMITTANCEDATE)
+) AS FINAL3
+
+GROUP BY
+	FINAL3.DATE_SENT,
+	FINAL3.TRANSACTIONCODE,
+	FINAL3.REMITTANCEDATE
+
+ORDER BY
+	FINAL3.DATE_SENT]]>
+	</queryString>
+	<field name="TOTALAMOUNT_SUM" class="java.math.BigDecimal"/>
+	<field name="FINALCHARGES_SUM" class="java.math.BigDecimal"/>
+	<field name="FINALDUTYAMT_SUM" class="java.math.BigDecimal"/>
+	<field name="FINALSTOTAL_SUM" class="java.math.BigDecimal"/>
+	<field name="IPFAMOUNT_SUM" class="java.math.BigDecimal"/>
+	<field name="EXPORTAMOUNT_SUM" class="java.math.BigDecimal"/>
+	<field name="TRANSACTIONCODE" class="java.lang.String"/>
+	<field name="REMITTANCEDATE" class="java.sql.Date"/>
+	<field name="DATE_SENT" class="java.sql.Date"/>
+	<variable name="finalTotalSum_grand" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{FINALSTOTAL_SUM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{FINALSTOTAL_SUM}]]></initialValueExpression>
+	</variable>
+	<variable name="ipfAmountSum_grand" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{IPFAMOUNT_SUM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{IPFAMOUNT_SUM}]]></initialValueExpression>
+	</variable>
+	<variable name="exportAmountSum_grand" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{EXPORTAMOUNT_SUM}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{EXPORTAMOUNT_SUM}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="176" y="10" width="100" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CDTOL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="376" y="10" width="100" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[EDS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="10" width="100" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[IPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="476" y="10" width="100" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TRANSACTION
+CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="76" y="10" width="100" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DATE COLLECTED]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="576" y="10" width="100" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[REMITTANCE DATE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="576" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REMITTANCEDATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="476" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TRANSACTIONCODE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+				<reportElement x="76" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATE_SENT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="176" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FINALSTOTAL_SUM}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="276" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IPFAMOUNT_SUM}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="376" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EXPORTAMOUNT_SUM}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="176" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{finalTotalSum_grand}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="276" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ipfAmountSum_grand}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="376" y="0" width="100" height="20"/>
+				<box leftPadding="3" rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{exportAmountSum_grand}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="100" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="426" y="55" width="200" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom" markup="none">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignatory2}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="126" y="55" width="200" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom" markup="none">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignatory1}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="326" y="55" width="100" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom" markup="none">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="126" y="70" width="200" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="html">
+					<font size="8" isBold="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignatory1Position}.toUpperCase() + "<br/>" + "TRADE SERVICES DEPARTMENT"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="426" y="70" width="200" height="30"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="html">
+					<font size="8" isBold="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorizedSignatory2Position}.toUpperCase() + "<br/>" + "TRADE SERVICES DEPARTMENT"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

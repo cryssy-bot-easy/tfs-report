@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Schedule_7_Text" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="792" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.text.page.width" value="84"/>
+	<!--<property name="net.sf.jasperreports.export.text.page.height" value="1"/>
+	<property name="net.sf.jasperreports.export.text.character.width" value="7"/>-->
+	<property name="net.sf.jasperreports.export.text.character.height" value="15"/>
+	<parameter name="reportId" class="java.lang.String"/>
+	<parameter name="currentDate" class="java.lang.String"/>
+	<parameter name="brUnitCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA["909"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	'000470' AS BANKCDE,
+	REPLACE(DATE(TS.PROCESSDATE), '-', '') AS REFDATE,
+	'TRD07' AS FORMNO,
+	'200' AS TRANCDE,
+	RPAD(('FXLC CASH ' || TS.SERVICETYPE), 40, ' ') AS DESC40,
+	TP.CURRENCY AS CURRCDE,
+	LPAD(REPLACE(RIGHT(LC.BSPCOUNTRYCODE, 3), ' ', ''), 3, '0') AS CTRYCDE,
+	'1' AS BOOKCDE,
+	CASE
+		WHEN TP.CURRENCY='USD' THEN TP.AMOUNT
+		WHEN TP.CURRENCY='PHP' THEN TP.AMOUNT / TS.SPECIALRATEURR
+		ELSE TP.AMOUNT * TS.SPECIALRATETHIRDTOUSD
+	END AS AMTDOLR
+FROM LETTEROFCREDIT LC
+LEFT JOIN TRADEPRODUCT TP ON LC.DOCUMENTNUMBER=TP.DOCUMENTNUMBER
+LEFT JOIN TRADESERVICE TS ON LC.DOCUMENTNUMBER=TS.TRADEPRODUCTNUMBER
+WHERE
+	TS.DOCUMENTTYPE='FOREIGN' AND TS.DOCUMENTCLASS='LC' AND TS.DOCUMENTSUBTYPE1='CASH'
+	AND TS.SERVICETYPE IN ('OPENING', 'ADJUSTMENT', 'AMENDMENT', 'CANCELLATION')
+	AND TS.STATUS IN ('APPROVED', 'POST_APPROVED', 'POSTED')
+	AND DATE(TS.PROCESSDATE)=$P{currentDate}]]>
+	</queryString>
+	<field name="BANKCDE" class="java.lang.String"/>
+	<field name="REFDATE" class="java.lang.String"/>
+	<field name="FORMNO" class="java.lang.String"/>
+	<field name="TRANCDE" class="java.lang.String"/>
+	<field name="DESC40" class="java.lang.String"/>
+	<field name="CURRCDE" class="java.lang.String"/>
+	<field name="CTRYCDE" class="java.lang.String"/>
+	<field name="BOOKCDE" class="java.lang.String"/>
+	<field name="AMTDOLR" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="792" height="15"/>
+				<box leftPadding="0" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BANKCDE} +
+$F{REFDATE} +
+$F{FORMNO} +
+$F{TRANCDE} +
+$F{DESC40} +
+"USD" +
+(($F{CTRYCDE}==null || $F{CTRYCDE}=="") ? "000" : $F{CTRYCDE}) +
+$F{BOOKCDE} +
+new DecimalFormat("000000000000.00").format($F{AMTDOLR}==null ? 0 : $F{AMTDOLR})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

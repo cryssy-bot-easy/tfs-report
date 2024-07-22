@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Year_End_Report_on_Foreign_LCS_Opened_subreport" language="groovy" pageWidth="600" pageHeight="100" whenNoDataType="AllSectionsNoDetail" columnWidth="600" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dateNow" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy").format(new Date())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="brUnitCode" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--YEAR END REPORT ON FOREIGN LCs OPENED PER ADVISING BANK _SUBREPORT
+SELECT tab.currency AS originalLcCurrency ,
+	  SUM(tab.amount) AS originalLcAmount
+
+FROM (SELECT lc.destinationbank,
+		   tp.amount,
+		   tp.currency
+
+	 FROM tradeproduct tp,
+	 	 letterofcredit lc,
+	 	 tradeservice ts
+
+	 WHERE tp.producttype = 'LC'
+	 AND tp.status = 'OPEN'
+	 AND lc.documenttype = 'FOREIGN'
+	 AND YEAR(lc.processdate)= $P{dateNow}
+	 AND ts.processingunitcode = $P{brUnitCode}
+	 AND tp.documentnumber = lc.documentnumber
+	 AND tp.documentnumber = ts.documentnumber
+	 AND ts.servicetype = 'OPENING'
+	 AND ts.STATUS IN ('APPROVED', 'POST_APPROVED', 'POSTED')
+
+	 ORDER BY destinationbank
+
+	) AS tab
+
+GROUP BY tab.currency]]>
+	</queryString>
+	<field name="ORIGINALLCCURRENCY" class="java.lang.String"/>
+	<field name="ORIGINALLCAMOUNT" class="java.math.BigDecimal"/>
+	<variable name="totalLcAmount" class="java.math.BigDecimal" resetType="Group" resetGroup="ORIGINALLCCURRENCY" calculation="Sum">
+		<variableExpression><![CDATA[$F{ORIGINALLCAMOUNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{ORIGINALLCAMOUNT}]]></initialValueExpression>
+	</variable>
+	<group name="ORIGINALLCCURRENCY">
+		<groupExpression><![CDATA[$F{ORIGINALLCCURRENCY}]]></groupExpression>
+		<groupFooter>
+			<band height="15">
+				<textField isBlankWhenNull="true">
+					<reportElement x="300" y="0" width="150" height="15"/>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ORIGINALLCCURRENCY}.toUpperCase()]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="450" y="0" width="150" height="15"/>
+					<box leftPadding="5" rightPadding="5"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalLcAmount}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="600" height="15"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+</jasperReport>
